@@ -31,10 +31,6 @@ const double ALPHA = atan((1+FS)/(2*FR*FS));
 // Vertical growth density (fronds/meter)
 const double RHO = 10;
 
-// Index of refraction of water
-const double N_REFRACT = 3.0/4.0;
-
-
 ////////////////
 // PROTOTYPES //
 ////////////////
@@ -85,7 +81,6 @@ inline double P_theta_f(double xx,double v_w,double theta_w);
 inline double L_min_shade(double theta_p,double r_p,double theta_f);
 inline double theta_min_shade(double theta_p,double r_p,double LL);
 inline double theta_max_shade(double theta_p,double r_p,double LL);
-double N_shade_3d(double theta_p,double r_p,double z_p,double v_w,double theta_w,double phi_s,double theta_s,int nLBin,double* LBin_vals,int nzBin,double dzBin,double zBin_min,double zBin_max,double* zBin_vals,double** P_L);
 double P_shade_2d(double theta_p,double r_p,double v_w,double theta_w,int nLBin,double* LBin_vals,double* P_L);
 double availableLight(double theta_p,double r_p,double z_p,double v_w,double theta_w,double phi_s,double theta_s,int nLBin,double* LBin_vals,int nzBin,double dzBin,double zBin_min,double zBin_max,double* zBin_vals,double** P_L,double E_d0,double attenuationCoef,double a_k);
 inline void frondTransform(double ss,double tt,double &xx,double &yy,double theta_f,double LL);
@@ -372,51 +367,30 @@ int main()
     outFile << "P_L = zeros([" << nTimeSteps+1 << "," << nzBin << "," << nLBin << "])" << endl;
     write2d(P_L,nzBin,nLBin,"P_L",0,outFile);
 
-
-    ////////////////////////////
-    // Test vsf interpolation //
-    ////////////////////////////
-    /*
-    const int nvsftest = 10000;
-    double dxtest = PI/nvsftest;
-    double vsf_x[nvsftest];
-    double vsf_y[nvsftest];
-    for(int ii=0;ii<nvsftest;ii++)
-        vsf_x[ii] = (ii+1)*dxtest;
-    for(int ii=0;ii<nvsftest;ii++)
-    {
-        vsf_y[ii] = vsf(vsf_x[ii],vsf_th,vsf_vals,nVSF);
-    }
-
-    print1d(vsf_x,nvsftest,"vsf_x");
-    print1d(vsf_y,nvsftest,"vsf_y");
-    print1d(vsf_th,nvsftest,"vsf_th");
-    print1d(vsf_vals,nvsftest,"vsf_vals");
-    */
-
-
     //////////////////////////////////
     // VISUALIZE LIGHT AVAILABILITY //
     //////////////////////////////////
-    /*
 
     // Allocate 3d arrays
     double*** xx_3d = new double**[nx];
     double*** yy_3d = new double**[nx];
     double*** zz_3d = new double**[nx];
     double*** PP_3d = new double**[nx];
+    double*** Pk_3d = new double**[nx];
     for(int ii=0;ii<nx;ii++)
     {
         xx_3d[ii] = new double*[ny];
         yy_3d[ii] = new double*[ny];
         zz_3d[ii] = new double*[ny];
         PP_3d[ii] = new double*[ny];
+        Pk_3d[ii] = new double*[ny];
         for(int jj=0;jj<ny;jj++)
         {
             xx_3d[ii][jj] = new double[nzBin];
             yy_3d[ii][jj] = new double[nzBin];
             zz_3d[ii][jj] = new double[nzBin];
             PP_3d[ii][jj] = new double[nzBin];
+            Pk_3d[ii][jj] = new double[nzBin];
         }
     }
 
@@ -441,6 +415,7 @@ int main()
                 yy_3d[ii][jj][kk] = yy[jj];
                 zz_3d[ii][jj][kk] = z_p;
                 //PP_3d[ii][jj][kk] = N_shade_3d(theta_p,r_p,zBin_vals[kk],v_w,theta_w,phi_s,theta_s,nLBin,LBin_vals,nzBin,dzBin,zBin_min,zBin_max,zBin_vals,P_L);
+				Pk_3d[ii][jj][kk] = P_shade_2d(theta_p,r_p,v_w,theta_w,nLBin,LBin_vals,P_L[depthLayer]);
                 // Amount of light NOT available - use reverse colormap
                 PP_3d[ii][jj][kk] = E_d0 - availableLight(theta_p,r_p,z_p,v_w,theta_w,phi_s,theta_s,nLBin,LBin_vals,nzBin,dzBin,zBin_min,zBin_max,zBin_vals,P_L,E_d0,attenuationCoef,a_k);
             }
@@ -464,7 +439,6 @@ int main()
     outFile << "volume(xlim,ylim,zlim,PP_3d,clim)" << endl;
 
 
-    */
     ////////////////////////
     // SOLVE RADIANCE PDE //
     ////////////////////////
@@ -1270,41 +1244,6 @@ inline double theta_min_shade(double theta_p,double r_p,double LL)
     // Rotate point to theta_p
     return unshifted + theta_p - PI/2;
 }
-
-// Expected number of fronds shading a point in 3d space
-// considering only incident light (not diffuse)
-// Integrate P_shade_2d over z, shifting theta_p and r_p towards the sun appropriately
-double N_shade_3d(double theta_p,double r_p,double z_p,double v_w,double theta_w,double phi_s,double theta_s,int nLBin,double* LBin_vals,int nzBin,double dzBin,double zBin_min,double zBin_max,double* zBin_vals,double** P_L)
-{
-    // Probability of shading
-    double PP = 0;
-
-    // Shifted polar coordinates
-    double theta_hat,r_hat;
-
-    // Current depth
-    double z_f;
-
-    // Index of z bin containing point
-    int k_p = findBin(zBin_min,zBin_max,nzBin,z_p);
-
-    // Loop over depths from surface to z_p, inclusive
-    for(int kk=0;kk<k_p;kk++)
-    {
-        z_f = zBin_vals[kk];
-        polar_shift(theta_p,r_p,z_p-z_f,phi_s,theta_s,theta_hat,r_hat);
-        PP += RHO/dzBin * P_shade_2d(theta_hat,r_hat,v_w,theta_w,nLBin,LBin_vals,P_L[kk]);
-    }
-
-    /*
-    print1d(z_f,nz,"z_f");
-    print1d(PP_z,nz,"PP_z");
-    cout << "plot(z_f,PP_z)" << endl;
-    */
-
-    return PP;
-}
-
 double P_shade_2d(double theta_p,double r_p,double v_w,double theta_w,int nLBin,double* LBin_vals,double* P_L)
 {
     // Recalculate information about dLBin_vals
@@ -1402,15 +1341,6 @@ double P_shade_2d(double theta_p,double r_p,double v_w,double theta_w,int nLBin,
 
     return P_total;
 }
-
-// Calculate available light at a given 3d point
-// Not considering ambient light
-double availableLight(double theta_p,double r_p,double z_p,double v_w,double theta_w,double phi_s,double theta_s,int nLBin,double* LBin_vals,int nzBin,double dzBin,double zBin_min,double zBin_max,double* zBin_vals,double** P_L,double E_d0,double attenuationCoef,double a_k)
-{
-    double nShade = N_shade_3d(theta_p,r_p,z_p,v_w,theta_w,phi_s,theta_s,nLBin,LBin_vals,nzBin,dzBin,zBin_min,zBin_max,zBin_vals,P_L);
-    double absorptionFactor = pow((1-a_k),nShade);
-    double attenuationFactor = exp(-attenuationCoef*z_p);
-
     return E_d0 * absorptionFactor * attenuationFactor;
 }
 
