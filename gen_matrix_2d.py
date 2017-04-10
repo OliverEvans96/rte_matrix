@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon Apr 10, 2017 | 02:26pm EDT
+# Last Modified: Mon Apr 10, 2017 | 03:06pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -168,9 +168,21 @@ class KelpScenario(object):
                             if(ll == kk):
                                 continue
 
+                            # Theta prime - integration variable
+                            thp = self._theta[ll]
+
+                            # Shortest distance in periodic var.
+                            # See: http://stackoverflow.com/questions/9505862/shortest-distance-between-two-degree-marks-on-a-circle
+                            angle_diff = np.pi - np.abs(np.abs(
+                                th - thp) - np.pi)
+
+                            # Take minimum distance when comparing
+                            # thp and the image of thp in
+                            # [2pi,4pi) and [-2pi,0)
                             mat[row,indx(ii,jj,ll)] = (
                                   self._sct_coef 
-                                * self._vsf(abs(th - self._theta[ll])))
+                                * self._dth
+                                * self._vsf(angle_diff))
 
         self._rte_matrix = sparse.csr_matrix(mat)
         self._rte_rhs = sparse.csr_matrix(rhs)
