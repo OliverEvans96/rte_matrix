@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon Apr 10, 2017 | 10:14am EDT
+# Last Modified: Mon Apr 10, 2017 | 02:26pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -53,17 +53,15 @@ class KelpScenario(object):
         self._nx = int(np.floor(1/dx))
         self._ny = int(np.floor(1/dy))
         self._nth = int(np.floor(2*np.pi/dth))
-        self._var_lengths = np.array([self._nx,self._ny,self._nth-1],
+        self._var_lengths = np.array([self._nx,self._ny,self._nth],
                 dtype=int)
         self._n_vars = len(self._var_lengths)
 
-
         # Define x, y and theta arrays
-        # theta is periodic, so should not contain last element
-        self._xx = np.linspace(0,1,self._nx)
+        # x and theta periodic, so should not contain last element
+        self._xx = np.linspace(0,1,self._nx+1)[:-1]
         self._yy = np.linspace(0,1,self._ny)
-        self._theta = np.linspace(0,1,self._nth)[:-1]
-        self._nth -= 1
+        self._theta = np.linspace(0,2*np.pi,self._nth+1)[:-1]
 
         # Center of x variable
         self._xx_center = 0.5
@@ -136,6 +134,7 @@ class KelpScenario(object):
                     kk = inds[var_order.index(2)]
                     th = self._theta[kk]
                     row = indx(ii,jj,kk)
+                    #print("(ii,jj,kk) = ({},{},{})".format(ii,jj,kk))
 
                     # Surface BC affects downwelling radiance
                     # theta < pi (use kk <= nth/2 since theta[nth/2] < pi)
@@ -156,10 +155,11 @@ class KelpScenario(object):
 
                         # x derivative
                         mat[row,indx(ip1,jj,kk)] = np.cos(th)/(2*self._dx)
-                        mat[row,indx(im1,jj,kk)] = -np.sin(th)/(2*self._dx)
+                        mat[row,indx(im1,jj,kk)] = -np.cos(th)/(2*self._dx)
                         # y derivative
-                        mat[row,indx(ii,jj+1,kk)] = np.cos(th)/(2*self._dy)
+                        mat[row,indx(ii,jj+1,kk)] = np.sin(th)/(2*self._dy)
                         mat[row,indx(ii,jj-1,kk)] = -np.sin(th)/(2*self._dy)
+
                         # attenuation
                         mat[row,row] = self._atn_coef
                         # scattering
@@ -167,13 +167,10 @@ class KelpScenario(object):
                             # Only consider ll != kk
                             if(ll == kk):
                                 continue
-                            try:
-                                mat[row,indx(ii,jj,ll)] = (
-                                      self._sct_coef 
-                                    * self._vsf(abs(th - self._theta[ll])))
-                            except:
-                                print("ERROR")
-                                pass
+
+                            mat[row,indx(ii,jj,ll)] = (
+                                  self._sct_coef 
+                                * self._vsf(abs(th - self._theta[ll])))
 
         self._rte_matrix = sparse.csr_matrix(mat)
         self._rte_rhs = sparse.csr_matrix(rhs)
@@ -186,7 +183,7 @@ class KelpScenario(object):
         index = 0
         for nn in range(self._n_vars):
             index += (indices[var_order[nn]]
-                   * np.prod(self._var_lengths[nn+1:]))
+                   * np.prod(self._var_lengths[[var_order[nn+1:]]]))
 
         return int(index)
 
@@ -200,6 +197,14 @@ class KelpScenario(object):
         mat = self._rte_matrix
         mat_scaled = mat / abs(mat).max()
         mat_int = 256-abs(mat_scaled * 256).floor().astype(int).toarray()
+        misc.imsave(imgfile,mat_int)
+
+    # Like write_rte_matrix_png, but only black/white.
+    # No gray to represent magnitude.
+    def write_int_matrix_png(self,imgfile):
+        mat = sparse.csr_matrix(self._rte_matrix)
+        mat[self._rte_matrix.nonzero()] = 256
+        mat_int = 256-abs(mat).floor().astype(int).toarray()
         misc.imsave(imgfile,mat_int)
 
     def write_rte_matrix_txt(self,out_file):

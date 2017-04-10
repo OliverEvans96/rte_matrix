@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Mon Apr 10, 2017 | 10:12am EDT
+# Last Modified: Mon Apr 10, 2017 | 02:05pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -36,7 +36,7 @@ def vsf(th):
 
 dx = 1e-1
 dy = 1e-1
-dth = np.pi/5
+dth = np.pi/8
 mesh = [dx,dy,dth]
 
 nx = int(np.floor(1/dx))
@@ -57,4 +57,5 @@ for ii,var_order in enumerate(it.permutations(range(3))):
     print("ii={}: {}".format(ii,var_order))
     scenario.calculate_rte_matrix(var_order)
     scenario.write_rte_matrix_png('img/rte2d_{}{}{}.png'.format(*var_order))
+    scenario.write_int_matrix_png('img/int2d_{}{}{}.png'.format(*var_order))
     scenario.plot_rte_matrix('img/spy2d_{}{}{}.png'.format(*var_order))
