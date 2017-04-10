@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon Apr 10, 2017 | 09:17am EDT
+# Last Modified: Mon Apr 10, 2017 | 10:14am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -42,7 +42,6 @@ class KelpScenario(object):
         self.set_iops(*iops)
 
         self.calculate_pk()
-        self.calculate_rte_matrix([0,1,2])
 
     def set_spatial_mesh(self,dx,dy,dth):
         # Set grid size
@@ -119,16 +118,14 @@ class KelpScenario(object):
                             "Prob. dist. on lengths not supported.")
 
     def calculate_rte_matrix(self,var_order):
-        # RTE matrix coordinate list
-        # N x 3 array, where N is number of nonzero elements
-        # col 1: row #
-        # col 2: col #
-        # col 3: value
+        # RTE matrix in linked list format
         mat = sparse.lil_matrix((*[np.prod(self._var_lengths)]*2,))
+        rhs = sparse.lil_matrix((np.prod(self._var_lengths),1))
         
         # Alias for index function
         indx = lambda ii,jj,kk: self._matrix_index(var_order,(ii,jj,kk))
 
+        # Loop through i, j and k in specified order
         for ind1 in range(self._var_lengths[var_order[0]]):
             for ind2 in range(self._var_lengths[var_order[1]]):
                 for ind3 in range(self._var_lengths[var_order[2]]):
@@ -138,38 +135,48 @@ class KelpScenario(object):
                     jj = inds[var_order.index(1)]
                     kk = inds[var_order.index(2)]
                     th = self._theta[kk]
-                    #print("(i,j,k) = ({},{},{})".format(ii,jj,kk))
                     row = indx(ii,jj,kk)
-                    #print("row = {}".format(row))
 
-                    # Modulus for periodic x and y BCs
-                    ip1 = np.mod(ii+1,self._nx)
-                    im1 = np.mod(ii-1,self._nx)
-                    jp1 = np.mod(jj+1,self._nx)
-                    jm1 = np.mod(jj-1,self._nx)
+                    # Surface BC affects downwelling radiance
+                    # theta < pi (use kk <= nth/2 since theta[nth/2] < pi)
+                    if jj == 0:
+                        if kk <= self._nth/2:
+                            mat[row,row] = 1
+                            rhs[row] = self._surf_bc_fun(self._theta[kk])
+                    # Bottom BC: no upwelling radiance
+                    # theta >= pi
+                    elif jj == self._ny-1:
+                        if kk > self._nth/2:
+                            mat[row,row] = 1
+                            rhs[row] = 0
+                    else:
+                        # Modulus for periodic x BC
+                        ip1 = np.mod(ii+1,self._nx)
+                        im1 = np.mod(ii-1,self._nx)
 
-                    # x derivative
-                    mat[row,indx(ip1,jj,kk)] = np.cos(th)/(2*self._dx)
-                    mat[row,indx(im1,jj,kk)] = -np.sin(th)/(2*self._dx)
-                    # y derivative
-                    mat[row,indx(ii,jp1,kk)] = np.cos(th)/(2*self._dy)
-                    mat[row,indx(ii,jm1,kk)] = -np.sin(th)/(2*self._dy)
-                    # attenuation
-                    mat[row,row] = self._atn_coef
-                    # scattering
-                    for ll in range(self._nth):
-                        # Only consider ll != kk
-                        if(ll == kk):
-                            continue
-                        try:
-                            mat[row,indx(ii,jj,ll)] = (
-                                  self._sct_coef 
-                                * self._vsf(abs(th - self._theta[ll])))
-                        except:
-                            print("ERROR")
-                            pass
+                        # x derivative
+                        mat[row,indx(ip1,jj,kk)] = np.cos(th)/(2*self._dx)
+                        mat[row,indx(im1,jj,kk)] = -np.sin(th)/(2*self._dx)
+                        # y derivative
+                        mat[row,indx(ii,jj+1,kk)] = np.cos(th)/(2*self._dy)
+                        mat[row,indx(ii,jj-1,kk)] = -np.sin(th)/(2*self._dy)
+                        # attenuation
+                        mat[row,row] = self._atn_coef
+                        # scattering
+                        for ll in range(self._nth):
+                            # Only consider ll != kk
+                            if(ll == kk):
+                                continue
+                            try:
+                                mat[row,indx(ii,jj,ll)] = (
+                                      self._sct_coef 
+                                    * self._vsf(abs(th - self._theta[ll])))
+                            except:
+                                print("ERROR")
+                                pass
 
         self._rte_matrix = sparse.csr_matrix(mat)
+        self._rte_rhs = sparse.csr_matrix(rhs)
 
     # Given the order of variables in the matrix from outer to inner,
     # convert ii, jj, kk to matrix row/column #.
@@ -184,6 +191,7 @@ class KelpScenario(object):
         return int(index)
 
     def plot_rte_matrix(self,imgfile=None):
+        plt.clf()
         plt.spy(self._rte_matrix,precision=0.001,markersize=.1)
         if imgfile != None:
             plt.savefig(imgfile)
