@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Sun Apr 09, 2017 | 08:11pm EDT
+# Last Modified: Mon Apr 10, 2017 | 09:17am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -24,15 +24,25 @@
 #                                                                      #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
-from numpy import *
-from matplotlib.pyplot import *
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import sparse, misc
+import IPython
 
 # Assume space is in rescaled dimensions
 # x \in [0,1), y \in [0,1)
 # Kelp grows on the rope at x = 0.5 evenly in both directions
 class KelpScenario(object):
-    def __init__(self):
-        pass
+    def __init__(self,mesh,kelp_lengths,ind,surf_bc_fun,iops):
+        self.set_spatial_mesh(*mesh)
+        self.set_ind(ind)
+        self.set_kelp_lengths(kelp_lengths)
+        self.set_kelp_sigma(0)
+        self.set_surf_bc_fun(surf_bc_fun)
+        self.set_iops(*iops)
+
+        self.calculate_pk()
+        self.calculate_rte_matrix([0,1,2])
 
     def set_spatial_mesh(self,dx,dy,dth):
         # Set grid size
@@ -41,14 +51,20 @@ class KelpScenario(object):
         self._dth = dth
 
         # Calculate number of grid points
-        self._nx = 1/dx
-        self._ny = 1/dy
-        self._nth = 1/dth
+        self._nx = int(np.floor(1/dx))
+        self._ny = int(np.floor(1/dy))
+        self._nth = int(np.floor(2*np.pi/dth))
+        self._var_lengths = np.array([self._nx,self._ny,self._nth-1],
+                dtype=int)
+        self._n_vars = len(self._var_lengths)
+
 
         # Define x, y and theta arrays
-        self._xx = linspace(0,1,self._nx)
-        self._yy = linspace(0,1,self._ny)
-        self._theta = linspace(0,1,self._nth)
+        # theta is periodic, so should not contain last element
+        self._xx = np.linspace(0,1,self._nx)
+        self._yy = np.linspace(0,1,self._ny)
+        self._theta = np.linspace(0,1,self._nth)[:-1]
+        self._nth -= 1
 
         # Center of x variable
         self._xx_center = 0.5
@@ -61,7 +77,7 @@ class KelpScenario(object):
     def set_kelp_lengths(self,kelp_lengths):
         self._kelp_lengths = kelp_lengths
 
-    def set_kelp_sigma(srlf,kelp_sigma):
+    def set_kelp_sigma(self,kelp_sigma):
         self._kelp_sigma = kelp_sigma
 
     # Callable function of 1 variable (angle)
@@ -69,19 +85,23 @@ class KelpScenario(object):
         self._surf_bc_fun = surf_bc_fun
 
     # Set Inherent optical properties (IOPs)
-    # volume scattering function (vsf) - normalized
+    # volume scattering function (vsf)
     # absorption coefficient (abs_coef)
     # scattering coefficient (sct_coef)
+    # total attenuation coefficient (atn_coef)
     def set_iops(self,vsf,abs_coef,sct_coef):
         self._vsf = vsf
         self._abs_coef = abs_coef
         self._sct_coef = sct_coef
+        self._atn_coef = abs_coef + sct_coef
 
     # Generate 2D array of kelp density over space
     # Assume all individuals are identical. Kelp density is either ind(j)/2 or 0
     # Probability of kelp is defined as
     # P_k(i,j) = {ind(j)/2, abs(x_j - .5) <= L(j); 0, otherwise}
     def calculate_pk(self):
+        self._p_k = np.zeros([self._nx,self._ny])
+
         # Loop over depths
         for jj in range(self._ny):
             # Loop over length
@@ -89,18 +109,90 @@ class KelpScenario(object):
                 # If we're in the situation with no probability distribution
                 if(self._kelp_sigma == 0):
                     # Nonzero only closer to center than kelp length
-                    if abs(self._xx[ii] - self._xx_center) <= kelp_lengths(jj):
-                        p_k[ii,jj] = self._ind(jj) / 2
+                    if (abs(self._xx[ii] - self._xx_center) 
+                        <= self._kelp_lengths[jj]):
+                        self._p_k[ii,jj] = self._ind[jj] / 2
                     else:
-                        p_k[ii,jj] = 0
+                        self._p_k[ii,jj] = 0
                 else:
-                    raise NotImplementedError("Prob. dist. on lengths not supported.")
+                    raise NotImplementedError(
+                            "Prob. dist. on lengths not supported.")
 
-    def calculate_rte_matrix(self):
-        pass
+    def calculate_rte_matrix(self,var_order):
+        # RTE matrix coordinate list
+        # N x 3 array, where N is number of nonzero elements
+        # col 1: row #
+        # col 2: col #
+        # col 3: value
+        mat = sparse.lil_matrix((*[np.prod(self._var_lengths)]*2,))
+        
+        # Alias for index function
+        indx = lambda ii,jj,kk: self._matrix_index(var_order,(ii,jj,kk))
+
+        for ind1 in range(self._var_lengths[var_order[0]]):
+            for ind2 in range(self._var_lengths[var_order[1]]):
+                for ind3 in range(self._var_lengths[var_order[2]]):
+                    # Extract ii, jj, and kk
+                    inds = [ind1,ind2,ind3]
+                    ii = inds[var_order.index(0)]
+                    jj = inds[var_order.index(1)]
+                    kk = inds[var_order.index(2)]
+                    th = self._theta[kk]
+                    #print("(i,j,k) = ({},{},{})".format(ii,jj,kk))
+                    row = indx(ii,jj,kk)
+                    #print("row = {}".format(row))
+
+                    # Modulus for periodic x and y BCs
+                    ip1 = np.mod(ii+1,self._nx)
+                    im1 = np.mod(ii-1,self._nx)
+                    jp1 = np.mod(jj+1,self._nx)
+                    jm1 = np.mod(jj-1,self._nx)
+
+                    # x derivative
+                    mat[row,indx(ip1,jj,kk)] = np.cos(th)/(2*self._dx)
+                    mat[row,indx(im1,jj,kk)] = -np.sin(th)/(2*self._dx)
+                    # y derivative
+                    mat[row,indx(ii,jp1,kk)] = np.cos(th)/(2*self._dy)
+                    mat[row,indx(ii,jm1,kk)] = -np.sin(th)/(2*self._dy)
+                    # attenuation
+                    mat[row,row] = self._atn_coef
+                    # scattering
+                    for ll in range(self._nth):
+                        # Only consider ll != kk
+                        if(ll == kk):
+                            continue
+                        try:
+                            mat[row,indx(ii,jj,ll)] = (
+                                  self._sct_coef 
+                                * self._vsf(abs(th - self._theta[ll])))
+                        except:
+                            print("ERROR")
+                            pass
+
+        self._rte_matrix = sparse.csr_matrix(mat)
+
+    # Given the order of variables in the matrix from outer to inner,
+    # convert ii, jj, kk to matrix row/column #.
+    # var_order is a permutation of [0,1,2] indicating the order of variables
+    # 0 = xx, 1 = yy, 2 = theta
+    def _matrix_index(self,var_order,indices):
+        index = 0
+        for nn in range(self._n_vars):
+            index += (indices[var_order[nn]]
+                   * np.prod(self._var_lengths[nn+1:]))
+
+        return int(index)
 
     def plot_rte_matrix(self,imgfile=None):
-        pass
+        plt.spy(self._rte_matrix,precision=0.001,markersize=.1)
+        if imgfile != None:
+            plt.savefig(imgfile)
+
+    def write_rte_matrix_png(self,imgfile):
+        mat = self._rte_matrix
+        mat_scaled = mat / abs(mat).max()
+        mat_int = 256-abs(mat_scaled * 256).floor().astype(int).toarray()
+        misc.imsave(imgfile,mat_int)
 
     def write_rte_matrix_txt(self,out_file):
         pass
