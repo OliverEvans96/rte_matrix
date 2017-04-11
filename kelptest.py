@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Mon Apr 10, 2017 | 03:08pm EDT
+# Last Modified: Tue Apr 11, 2017 | 06:14pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -34,16 +34,16 @@ def surf_bc_fun(th):
 def vsf(th):
     return np.exp(-th/2)
 
-dx = 1e-1
-dy = 1e-1
-dth = np.pi/8
+dx = 1e-2
+dy = 1e-2
+dth = np.pi/4
 mesh = [dx,dy,dth]
 
 nx = int(np.floor(1/dx))
 ny = int(np.floor(1/dy))
 nth = int(np.floor(2*np.pi/dth))
 
-kelp_lengths = np.ones(ny)
+kelp_lengths = np.exp(-1-np.arange(ny)/10)
 ind = np.ones(ny)
 
 abs_coef = 1
@@ -52,10 +52,27 @@ iops = [vsf,abs_coef,sct_coef]
 
 scenario = gm2.KelpScenario(mesh,kelp_lengths,ind,surf_bc_fun,iops)
 
-# Loop through all possible variable orderings
-for ii,var_order in enumerate(it.permutations(range(3))):
-    print("ii={}: {}".format(ii,var_order))
-    scenario.calculate_rte_matrix(var_order)
-    scenario.write_rte_matrix_png('img/rte2d_{}{}{}.png'.format(*var_order))
-    scenario.write_int_matrix_png('img/int2d_{}{}{}.png'.format(*var_order))
-    scenario.plot_rte_matrix('img/spy2d_{}{}{}.png'.format(*var_order))
+# What to do
+gen_sparsity_plots = False
+plot_irrad = True
+
+if gen_sparsity_plots:
+    # Loop through all possible variable orderings
+    for ii,var_order in enumerate(it.permutations(range(3))):
+        print("ii={}: {}".format(ii,var_order))
+        scenario.calculate_rte_matrix(var_order)
+        scenario.write_rte_matrix_png('img/rte2d_{}{}{}.png'.format(*var_order))
+        scenario.write_int_matrix_png('img/int2d_{}{}{}.png'.format(*var_order))
+        scenario.plot_rte_matrix('img/spy2d_{}{}{}.png'.format(*var_order))
+
+if plot_irrad:
+    print("Creating matrix")
+    scenario.calculate_rte_matrix()
+    #scenario.write_int_matrix_png('solve/sparsity.png')
+    print("Solving system")
+    scenario.solve_system()
+    print("Calculating irradiance")
+    scenario.calc_irrad()
+    scenario.plot_irrad('solve/irrad.png')
+    print("Done!")
+

@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon Apr 10, 2017 | 03:06pm EDT
+# Last Modified: Tue Apr 11, 2017 | 06:12pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -115,10 +115,11 @@ class KelpScenario(object):
                     raise NotImplementedError(
                             "Prob. dist. on lengths not supported.")
 
-    def calculate_rte_matrix(self,var_order):
+    def calculate_rte_matrix(self,var_order=[0,1,2]):
         # RTE matrix in linked list format
         mat = sparse.lil_matrix((*[np.prod(self._var_lengths)]*2,))
         rhs = sparse.lil_matrix((np.prod(self._var_lengths),1))
+        self._var_order = var_order
         
         # Alias for index function
         indx = lambda ii,jj,kk: self._matrix_index(var_order,(ii,jj,kk))
@@ -134,20 +135,40 @@ class KelpScenario(object):
                     kk = inds[var_order.index(2)]
                     th = self._theta[kk]
                     row = indx(ii,jj,kk)
-                    #print("(ii,jj,kk) = ({},{},{})".format(ii,jj,kk))
+
+                    ## Cases for y derivative ##
 
                     # Surface BC affects downwelling radiance
                     # theta < pi (use kk <= nth/2 since theta[nth/2] < pi)
                     if jj == 0:
+                        # Surface boundary condition
                         if kk <= self._nth/2:
                             mat[row,row] = 1
                             rhs[row] = self._surf_bc_fun(self._theta[kk])
+                            pde_flag = False
+                        else:
+                            # FD2 for 1st derivative in y
+                            mat[row,indx(ii,jj,kk)] = -3*np.sin(th)/(2*self._dy)
+                            mat[row,indx(ii,jj+1,kk)] = 2*np.sin(th)/(self._dy)
+                            mat[row,indx(ii,jj+2,kk)] = -np.sin(th)/(2*self._dy)
+                            pde_flag = True
                     # Bottom BC: no upwelling radiance
                     # theta >= pi
                     elif jj == self._ny-1:
                         if kk > self._nth/2:
+                            # Bottom BC
                             mat[row,row] = 1
                             rhs[row] = 0
+                            pde_flag = False
+                        else:
+                            # BD2 for 1st derivative in y
+                            mat[row,indx(ii,jj-2,kk)] = np.sin(th)/(2*self._dy)
+                            mat[row,indx(ii,jj-1,kk)] = -2*np.sin(th)/(self._dy)
+                            mat[row,indx(ii,jj,kk)] = 3*np.sin(th)/(2*self._dy)
+                            pde_flag = True
+
+                    # Interior of domain
+                    # CD2 for y derivative
                     else:
                         # Modulus for periodic x BC
                         ip1 = np.mod(ii+1,self._nx)
@@ -160,6 +181,11 @@ class KelpScenario(object):
                         mat[row,indx(ii,jj+1,kk)] = np.sin(th)/(2*self._dy)
                         mat[row,indx(ii,jj-1,kk)] = -np.sin(th)/(2*self._dy)
 
+                        pde_flag = True
+
+                    # Apply PDE when appropriate
+                    # atten. & x derivative & scattering
+                    if pde_flag:
                         # attenuation
                         mat[row,row] = self._atn_coef
                         # scattering
@@ -213,14 +239,78 @@ class KelpScenario(object):
 
     # Like write_rte_matrix_png, but only black/white.
     # No gray to represent magnitude.
-    def write_int_matrix_png(self,imgfile):
+    def write_int_matrix_png(self,imgfile,guides=True):
         mat = sparse.csr_matrix(self._rte_matrix)
         mat[self._rte_matrix.nonzero()] = 256
-        mat_int = 256-abs(mat).floor().astype(int).toarray()
-        misc.imsave(imgfile,mat_int)
+
+        mat_int = abs(mat).floor().astype(int).toarray()
+
+        if guides:
+            mat_int = self._add_guides(mat_int,256)
+
+        # Reverse colors black - white
+        mat_rev = 256 - mat_int
+
+        misc.imsave(imgfile,mat_rev)
+
+    # Add horizontal & vertical lines of .5 & .25 of maxval at grid & subgrid
+    # Grid occupies 2 pixels, subgrid occupies 1 pixel
+    # Guides are added on first row & column of each block
+    # (ii=1 & ii=1, jj=0 & jj=1 for grid) (ii=0,jj=0 for subgrid)
+    # Only fill empty (=0) entries
+    def _add_guides(self,mat,maxval=1):
+        var_lengths = self._var_lengths[[self._var_order]]
+
+        for ii in range(var_lengths[0]):
+            # Grid
+            ind1 = ii * np.prod(var_lengths[1:])
+            # Vertical
+            mat[mat[:,ind1]==0,ind1] = 0.5 * maxval
+            mat[mat[:,ind1+1]==0,ind1+1] = 0.5 * maxval
+            # Horizontal
+            mat[ind1,mat[ind1,:]==0] = 0.5 * maxval
+            mat[ind1+1,mat[ind1+1,:]==0] = 0.5 * maxval
+
+            # Subgrid
+            for jj in range(var_lengths[1]):
+                ind2 = ind1 + jj * var_lengths[2]
+                # Vertical
+                mat[mat[:,ind2]==0,ind2] = 0.25 * maxval
+                # Horizontal
+                mat[ind2,mat[ind2,:]==0] = 0.25 * maxval
+
+        return mat
 
     def write_rte_matrix_txt(self,out_file):
         pass
 
     def write_rte_matrix_hdf(self,out_file):
         pass
+
+    def write_rte_rhs_mat(self,out_file):
+        pass
+
+    # Solve matrix equation using scipy's sparse solver.
+    def solve_system(self):
+        # Solve
+        sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
+
+        # Convert to 3D array, maintaining var order
+        sol3d = sol.reshape(self._var_lengths[[self._var_order]])
+
+        # Swap axes to order axes as [xx,yy,theta]
+        self._rad = sol3d.transpose(np.argsort(self._var_order))
+
+    # Integrate radiance over angles to get irradiance
+    def calc_irrad(self):
+        self._irrad = self._dth * self._rad.sum(axis=2)
+
+    # Plot irradiance
+    def plot_irrad(self,imgfile=None):
+        plt.imshow(self._irrad.T)
+        plt.colorbar()
+
+        if imgfile != None:
+            plt.savefig(imgfile)
+
+
