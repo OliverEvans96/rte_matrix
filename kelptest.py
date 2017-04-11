@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Mon Apr 10, 2017 | 02:46pm EDT
+# Last Modified: Mon Apr 10, 2017 | 03:08pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -32,7 +32,7 @@ def surf_bc_fun(th):
     return np.sin(th)
 
 def vsf(th):
-    return np.exp(-th)
+    return np.exp(-th/2)
 
 dx = 1e-1
 dy = 1e-1
