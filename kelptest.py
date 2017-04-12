@@ -38,9 +38,9 @@ def surf_bc_fun(th):
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 1e-2
-dy = 1e-2
-dth = np.pi/12
+dx = 5e-2
+dy = 5e-2
+dth = np.pi/6
 mesh = [dx,dy,dth]
 
 nx = int(np.floor(1/dx))
