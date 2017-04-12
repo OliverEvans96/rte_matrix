@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Tue Apr 11, 2017 | 10:43pm EDT
+# Last Modified: Tue Apr 11, 2017 | 10:57pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -325,7 +325,7 @@ class KelpScenario(object):
 
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
-        plt.imshow(self._irrad.T)
+        plt.imshow(self._irrad.T,extent=[0,1,0,1])
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Irradiance')
