@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed Apr 12, 2017 | 09:07am EDT
+# Last Modified: Wed Apr 12, 2017 | 12:33pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -25,6 +25,8 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 import numpy as np
+import matplotlib
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from scipy import sparse, misc, io
 import IPython
@@ -312,6 +314,11 @@ class KelpScenario(object):
         io.savemat(out_file,
                 {'A':self._rte_matrix,
                  'b':self._rte_rhs})
+    
+    def load_rte_system_mat(self,in_file):
+        dct = io.loadmat(in_file)
+        self._rte_matrix = dct['A']
+        self._rte_rhs = dct['b']
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
