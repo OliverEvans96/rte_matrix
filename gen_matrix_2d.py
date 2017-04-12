@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Tue Apr 11, 2017 | 06:12pm EDT
+# Last Modified: Tue Apr 11, 2017 | 08:00pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -83,14 +83,17 @@ class KelpScenario(object):
 
     # Set Inherent optical properties (IOPs)
     # volume scattering function (vsf)
-    # absorption coefficient (abs_coef)
-    # scattering coefficient (sct_coef)
-    # total attenuation coefficient (atn_coef)
-    def set_iops(self,vsf,abs_coef,sct_coef):
+    # absorption coefficient (abs_water/abs_kelp)
+    # scattering coefficient (sct_water/abs_kelp)
+    # total attenuation coefficient (atn_water/kelp)
+    def set_iops(self,vsf,abs_water,sct_water,abs_kelp,sct_kelp):
         self._vsf = vsf
-        self._abs_coef = abs_coef
-        self._sct_coef = sct_coef
-        self._atn_coef = abs_coef + sct_coef
+        self._abs_water = abs_water
+        self._sct_water = sct_water
+        self._abs_kelp = abs_kelp
+        self._sct_kelp = sct_kelp
+        self._atn_water = abs_water + sct_water
+        self._atn_kelp = abs_kelp + sct_kelp
 
     # Generate 2D array of kelp density over space
     # Assume all individuals are identical. Kelp density is either ind(j)/2 or 0
@@ -186,8 +189,12 @@ class KelpScenario(object):
                     # Apply PDE when appropriate
                     # atten. & x derivative & scattering
                     if pde_flag:
+                        atn_coef = (self._atn_kelp * self._p_k[ii,jj]
+                                + self._atn_water * (1 - self._p_k[ii,jj]))
+                        sct_coef = (self._sct_kelp * self._p_k[ii,jj]
+                                + self._sct_water * (1 - self._p_k[ii,jj]))
                         # attenuation
-                        mat[row,row] = self._atn_coef
+                        mat[row,row] = atn_coef
                         # scattering
                         for ll in range(self._nth):
                             # Only consider ll != kk
@@ -206,7 +213,7 @@ class KelpScenario(object):
                             # thp and the image of thp in
                             # [2pi,4pi) and [-2pi,0)
                             mat[row,indx(ii,jj,ll)] = (
-                                  self._sct_coef 
+                                  sct_coef 
                                 * self._dth
                                 * self._vsf(angle_diff))
 

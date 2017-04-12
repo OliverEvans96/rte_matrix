@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Tue Apr 11, 2017 | 06:14pm EDT
+# Last Modified: Tue Apr 11, 2017 | 08:00pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -31,11 +31,12 @@ import itertools as it
 def surf_bc_fun(th):
     return np.sin(th)
 
+# Normalized mock VSF
 def vsf(th):
-    return np.exp(-th/2)
+    return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 1e-2
-dy = 1e-2
+dx = 5e-2
+dy = 5e-2
 dth = np.pi/4
 mesh = [dx,dy,dth]
 
@@ -43,12 +44,16 @@ nx = int(np.floor(1/dx))
 ny = int(np.floor(1/dy))
 nth = int(np.floor(2*np.pi/dth))
 
-kelp_lengths = np.exp(-1-np.arange(ny)/10)
+#kelp_lengths = np.exp(-1-np.arange(ny)/10)
+kelp_lengths = np.ones(ny)
+kelp_lengths[3] = 0
 ind = np.ones(ny)
 
-abs_coef = 1
-sct_coef = 1
-iops = [vsf,abs_coef,sct_coef]
+abs_water = 1
+sct_water = 1
+abs_kelp = 2
+sct_kelp = 1
+iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
 
 scenario = gm2.KelpScenario(mesh,kelp_lengths,ind,surf_bc_fun,iops)
 
