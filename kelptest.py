@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Tue Apr 11, 2017 | 10:44pm EDT
+# Last Modified: Wed Apr 12, 2017 | 07:54am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -45,30 +45,57 @@ nx = int(np.floor(1/dx))
 ny = int(np.floor(1/dy))
 nth = int(np.floor(2*np.pi/dth))
 
-kelp_lengths = np.exp(-2+np.arange(ny)/50)
-ind = np.ones(ny)
+xx = np.linspace(0,1,nx)
+yy = np.linspace(0,1,ny)
+theta = np.linspace(0,2*np.pi,nth)
 
+# Made up shape. Little kelp on top, bulge near middle, zero at bottom.
+kelp_lengths = 5 * (1 - yy) ** 2 * np.exp(5 * yy - 4)
+# Number of individual kelps in each depth layer - more towards the top
+ind = 2 - yy
+
+# Assume that kelp and water scatter the same,
+# but kelp absorbs much more light
 abs_water = 1
 sct_water = 1
-abs_kelp = 50
+abs_kelp = 20
 sct_kelp = 1
 iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
 
 scenario = gm2.KelpScenario(mesh,kelp_lengths,ind,surf_bc_fun,iops)
 
 # What to do
-gen_sparsity_plots = False
-plot_kelp = True
-plot_irrad = True
+gen_sparsity_plots = True
+plot_kelp = False
+plot_irrad = False
 
 if gen_sparsity_plots:
     # Loop through all possible variable orderings
     for ii,var_order in enumerate(it.permutations(range(3))):
+        print()
         print("ii={}: {}".format(ii,var_order))
+
+        # Determine common name for files
+        # kelp1_[variable dimensions]_[variable order]
+        name = ('kelp1_{}x{}x{}_{}{}{}'
+                .format(nx,ny,nth,*var_order))
+
+        print("Creating matrix")
         scenario.calculate_rte_matrix(var_order)
-        scenario.write_rte_matrix_png('img/rte2d_{}{}{}.png'.format(*var_order))
-        scenario.write_int_matrix_png('img/int2d_{}{}{}.png'.format(*var_order))
-        scenario.plot_rte_matrix('img/spy2d_{}{}{}.png'.format(*var_order))
+
+        print("Saving files")
+        # Save mat file
+        scenario.write_rte_system_mat('mat'+name+'.png')
+        # Save sparsity plots - one coarse (spy) & one precise (int)
+        scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
+        scenario.plot_rte_matrix('img/sparsity/spy_'+name+'.png')
+
+        # Solve system & plot result
+        print("Solving system")
+        scenario.solve_system()
+        print("Calculating irradiance")
+        scenario.calc_irrad()
+        scenario.plot_irrad('img/irrad/rrad.png')
 
 if plot_kelp:
     print("Plotting kelp")

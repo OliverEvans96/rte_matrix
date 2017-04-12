@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Tue Apr 11, 2017 | 10:57pm EDT
+# Last Modified: Wed Apr 12, 2017 | 07:56am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -26,7 +26,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import sparse, misc
+from scipy import sparse, misc, io
 import IPython
 
 # Assume space is in rescaled dimensions
@@ -246,6 +246,9 @@ class KelpScenario(object):
     def plot_rte_matrix(self,imgfile=None):
         plt.clf()
         plt.spy(self._rte_matrix,precision=0.001,markersize=.1)
+        plt.title('Sparsity plot {}x{}x{}_{}{}{}'
+                .format(self._nx,self._ny,self._nth,*var_order))
+
         if imgfile != None:
             plt.savefig(imgfile)
 
@@ -305,8 +308,9 @@ class KelpScenario(object):
     def write_rte_matrix_hdf(self,out_file):
         raise NotImplementedError
 
-    def write_rte_rhs_mat(self,out_file):
-        raise NotImplementedError
+    def write_rte_system_mat(self,out_file):
+        io.savemat({'A':self._rte_matrix,
+                    'b':self._rte_rhs})
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
