@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed Apr 12, 2017 | 08:05am EDT
+# Last Modified: Wed Apr 12, 2017 | 09:07am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -309,7 +309,7 @@ class KelpScenario(object):
         raise NotImplementedError
 
     def write_rte_system_mat(self,out_file):
-        io.savemat(outfile,
+        io.savemat(out_file,
                 {'A':self._rte_matrix,
                  'b':self._rte_rhs})
 
