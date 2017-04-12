@@ -38,9 +38,9 @@ def surf_bc_fun(th):
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 5e-2
-dy = 5e-2
-dth = np.pi/6
+dx = 1e-1
+dy = 1e-1
+dth = np.pi/8
 mesh = [dx,dy,dth]
 
 nx = int(np.floor(1/dx))
@@ -91,7 +91,7 @@ if gen_sparsity_plots:
         # Save mat file
         scenario.write_rte_system_mat('mat/'+name)
         # Save sparsity plots - one coarse (spy) & one precise (int)
-        #scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
+        scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
         scenario.plot_rte_matrix('img/sparsity/spy_'+name+'.png')
 
         # Solve system & plot result
