@@ -25,6 +25,8 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import gen_matrix_2d as gm2
 import itertools as it
@@ -36,9 +38,9 @@ def surf_bc_fun(th):
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 2e-2
-dy = 2e-2
-dth = np.pi/16
+dx = 1e-2
+dy = 1e-2
+dth = np.pi/12
 mesh = [dx,dy,dth]
 
 nx = int(np.floor(1/dx))
@@ -69,6 +71,8 @@ gen_sparsity_plots = True
 plot_kelp = False
 plot_irrad = False
 
+print("{}x{}x{}".format(nx,ny,nth))
+
 if gen_sparsity_plots:
     # Loop through all possible variable orderings
     for ii,var_order in enumerate(it.permutations(range(3))):
@@ -85,9 +89,9 @@ if gen_sparsity_plots:
 
         print("Saving files")
         # Save mat file
-        scenario.write_rte_system_mat('mat'+name+'.png')
+        scenario.write_rte_system_mat('mat/'+name)
         # Save sparsity plots - one coarse (spy) & one precise (int)
-        scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
+        #scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
         scenario.plot_rte_matrix('img/sparsity/spy_'+name+'.png')
 
         # Solve system & plot result
@@ -95,7 +99,7 @@ if gen_sparsity_plots:
         scenario.solve_system()
         print("Calculating irradiance")
         scenario.calc_irrad()
-        scenario.plot_irrad('img/irrad/rrad.png')
+        scenario.plot_irrad('img/irrad/irrad_'+name+'.png')
 
 if plot_kelp:
     print("Plotting kelp")

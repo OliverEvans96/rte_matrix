@@ -25,10 +25,11 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 import numpy as np
-import matplotlib
-matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from scipy import sparse, misc, io
+import scipy.sparse
+import scipy.misc
+import scipy.io
 import IPython
 
 # Assume space is in rescaled dimensions
@@ -121,7 +122,9 @@ class KelpScenario(object):
                             "Prob. dist. on lengths not supported.")
 
     def plot_kelp(self,imgfile=None):
-        plt.imshow(self._p_k.T,extent=[0,1,0,1])
+        plt.clf()
+        plt.imshow(self._p_k.T,extent=[0,1,0,1],
+                interpolation='none')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Kelp density')
@@ -249,7 +252,7 @@ class KelpScenario(object):
         plt.clf()
         plt.spy(self._rte_matrix,precision=0.001,markersize=.1)
         plt.title('Sparsity plot {}x{}x{}_{}{}{}'
-                .format(self._nx,self._ny,self._nth,*var_order))
+                .format(self._nx,self._ny,self._nth,*self._var_order))
 
         if imgfile != None:
             plt.savefig(imgfile)
@@ -337,7 +340,9 @@ class KelpScenario(object):
 
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
-        plt.imshow(self._irrad.T,extent=[0,1,0,1])
+        plt.clf()
+        plt.imshow(self._irrad.T,extent=[0,1,0,1],
+                interpolation='none')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Irradiance')
