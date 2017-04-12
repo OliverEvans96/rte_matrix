@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Tue Apr 11, 2017 | 08:00pm EDT
+# Last Modified: Tue Apr 11, 2017 | 10:43pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -110,13 +110,24 @@ class KelpScenario(object):
                 if(self._kelp_sigma == 0):
                     # Nonzero only closer to center than kelp length
                     if (abs(self._xx[ii] - self._xx_center) 
-                        <= self._kelp_lengths[jj]):
+                        < self._kelp_lengths[jj]):
                         self._p_k[ii,jj] = self._ind[jj] / 2
                     else:
                         self._p_k[ii,jj] = 0
                 else:
                     raise NotImplementedError(
                             "Prob. dist. on lengths not supported.")
+
+    def plot_kelp(self,imgfile=None):
+        plt.imshow(self._p_k.T,extent=[0,1,0,1])
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title('Kelp density')
+        plt.colorbar()
+
+        if imgfile != None:
+            plt.savefig(imgfile)
+        
 
     def calculate_rte_matrix(self,var_order=[0,1,2]):
         # RTE matrix in linked list format
@@ -289,13 +300,13 @@ class KelpScenario(object):
         return mat
 
     def write_rte_matrix_txt(self,out_file):
-        pass
+        raise NotImplementedError
 
     def write_rte_matrix_hdf(self,out_file):
-        pass
+        raise NotImplementedError
 
     def write_rte_rhs_mat(self,out_file):
-        pass
+        raise NotImplementedError
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
@@ -315,6 +326,9 @@ class KelpScenario(object):
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
         plt.imshow(self._irrad.T)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title('Irradiance')
         plt.colorbar()
 
         if imgfile != None:
