@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed Apr 12, 2017 | 01:37pm EDT
+# Last Modified: Wed Apr 12, 2017 | 04:21pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -27,6 +27,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import sparse, misc, io
+import scipy.sparse
+import scipy.misc
+import scipy.io
 import IPython
 
 # Assume space is in rescaled dimensions
@@ -123,7 +126,8 @@ class KelpScenario(object):
 
     def plot_kelp(self,imgfile=None):
         plt.clf()
-        plt.imshow(self._p_k.T,extent=[0,1,0,1])
+        plt.imshow(self._p_k.T,extent=[0,1,0,1],
+                interpolation='none')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Kelp density')
@@ -340,7 +344,8 @@ class KelpScenario(object):
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
         plt.clf()
-        plt.imshow(self._irrad.T,extent=[0,1,0,1])
+        plt.imshow(self._irrad.T,extent=[0,1,0,1],
+                interpolation='none')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Irradiance')

@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Wed Apr 12, 2017 | 01:39pm EDT
+# Last Modified: Wed Apr 12, 2017 | 04:20pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -28,6 +28,8 @@ import matplotlib
 #matplotlib.use('Qt5Agg') # interactive
 #matplotlib.use('Agg') # noninteractive
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import gen_matrix_2d as gm2
 import itertools as it
@@ -40,9 +42,9 @@ def surf_bc_fun(th):
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 5e-2
-dy = 5e-2
-dth = np.pi/16
+dx = 1e-1
+dy = 1e-1
+dth = np.pi/8
 mesh = [dx,dy,dth]
 
 nx = int(np.floor(1/dx))
@@ -73,6 +75,8 @@ gen_sparsity_plots = True
 interactive_load_mat = False
 plot_kelp = False
 plot_irrad = False
+
+print("{}x{}x{}".format(nx,ny,nth))
 
 if gen_sparsity_plots:
     # Loop through all possible variable orderings
