@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Wed Apr 12, 2017 | 07:54am EDT
+# Last Modified: Wed Apr 12, 2017 | 01:39pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -24,10 +24,14 @@
 #                                                                      #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
+import matplotlib
+#matplotlib.use('Qt5Agg') # interactive
+#matplotlib.use('Agg') # noninteractive
 import numpy as np
 import matplotlib.pyplot as plt
 import gen_matrix_2d as gm2
 import itertools as it
+import IPython
 
 def surf_bc_fun(th):
     return np.sin(th)
@@ -36,8 +40,8 @@ def surf_bc_fun(th):
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 2e-2
-dy = 2e-2
+dx = 5e-2
+dy = 5e-2
 dth = np.pi/16
 mesh = [dx,dy,dth]
 
@@ -58,7 +62,7 @@ ind = 2 - yy
 # but kelp absorbs much more light
 abs_water = 1
 sct_water = 1
-abs_kelp = 20
+abs_kelp = 5
 sct_kelp = 1
 iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
 
@@ -66,6 +70,7 @@ scenario = gm2.KelpScenario(mesh,kelp_lengths,ind,surf_bc_fun,iops)
 
 # What to do
 gen_sparsity_plots = True
+interactive_load_mat = False
 plot_kelp = False
 plot_irrad = False
 
@@ -85,7 +90,7 @@ if gen_sparsity_plots:
 
         print("Saving files")
         # Save mat file
-        scenario.write_rte_system_mat('mat'+name+'.png')
+        scenario.write_rte_system_mat('mat/'+name)
         # Save sparsity plots - one coarse (spy) & one precise (int)
         scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
         scenario.plot_rte_matrix('img/sparsity/spy_'+name+'.png')
@@ -95,7 +100,7 @@ if gen_sparsity_plots:
         scenario.solve_system()
         print("Calculating irradiance")
         scenario.calc_irrad()
-        scenario.plot_irrad('img/irrad/rrad.png')
+        scenario.plot_irrad('img/irrad/irrad_'+name+'.png')
 
 if plot_kelp:
     print("Plotting kelp")
@@ -114,3 +119,8 @@ if plot_irrad:
     scenario.plot_irrad('solve/irrad.png')
     print("Done!")
 
+if interactive_load_mat:
+    print("Loading matrix")
+    scenario.load_rte_system_mat('mat/kelp1_50x50x32_012.mat',[0,1,2])
+    print("Finished loading")
+    IPython.embed()

@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed Apr 12, 2017 | 12:33pm EDT
+# Last Modified: Wed Apr 12, 2017 | 01:37pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -25,8 +25,6 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 import numpy as np
-import matplotlib
-matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from scipy import sparse, misc, io
 import IPython
@@ -97,6 +95,9 @@ class KelpScenario(object):
         self._atn_water = abs_water + sct_water
         self._atn_kelp = abs_kelp + sct_kelp
 
+    def set_var_order(self,var_order):
+        self._var_order = var_order
+
     # Generate 2D array of kelp density over space
     # Assume all individuals are identical. Kelp density is either ind(j)/2 or 0
     # Probability of kelp is defined as
@@ -121,6 +122,7 @@ class KelpScenario(object):
                             "Prob. dist. on lengths not supported.")
 
     def plot_kelp(self,imgfile=None):
+        plt.clf()
         plt.imshow(self._p_k.T,extent=[0,1,0,1])
         plt.xlabel('x')
         plt.ylabel('y')
@@ -129,13 +131,12 @@ class KelpScenario(object):
 
         if imgfile != None:
             plt.savefig(imgfile)
-        
 
     def calculate_rte_matrix(self,var_order=[0,1,2]):
         # RTE matrix in linked list format
         mat = sparse.lil_matrix((*[np.prod(self._var_lengths)]*2,))
         rhs = sparse.lil_matrix((np.prod(self._var_lengths),1))
-        self._var_order = var_order
+        self.set_var_order(var_order)
         
         # Alias for index function
         indx = lambda ii,jj,kk: self._matrix_index(var_order,(ii,jj,kk))
@@ -249,7 +250,7 @@ class KelpScenario(object):
         plt.clf()
         plt.spy(self._rte_matrix,precision=0.001,markersize=.1)
         plt.title('Sparsity plot {}x{}x{}_{}{}{}'
-                .format(self._nx,self._ny,self._nth,*var_order))
+                .format(self._nx,self._ny,self._nth,*self._var_order))
 
         if imgfile != None:
             plt.savefig(imgfile)
@@ -315,10 +316,11 @@ class KelpScenario(object):
                 {'A':self._rte_matrix,
                  'b':self._rte_rhs})
     
-    def load_rte_system_mat(self,in_file):
+    def load_rte_system_mat(self,in_file,var_order):
         dct = io.loadmat(in_file)
         self._rte_matrix = dct['A']
         self._rte_rhs = dct['b']
+        self.set_var_order(var_order)
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
@@ -337,6 +339,7 @@ class KelpScenario(object):
 
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
+        plt.clf()
         plt.imshow(self._irrad.T,extent=[0,1,0,1])
         plt.xlabel('x')
         plt.ylabel('y')
