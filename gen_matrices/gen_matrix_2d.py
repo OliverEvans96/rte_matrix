@@ -189,7 +189,7 @@ class KelpScenario(object):
         for ind1 in range(self._var_lengths[var_order[0]]):
             # Report status
             pcnt = ind1 / self._var_lengths[var_order[0]]
-            print("ind1 = {}/{}: {:.1f}%".format(ind1,self._var_lengths[var_order[0]],pcnt))
+            print("ind1 = {}/{}: {:.1f}%".format(ind1,self._var_lengths[var_order[0]],100*pcnt))
             for ind2 in range(self._var_lengths[var_order[1]]):
                 for ind3 in range(self._var_lengths[var_order[2]]):
                     # Extract ii, jj, and kk
