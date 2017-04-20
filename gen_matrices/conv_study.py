@@ -139,6 +139,7 @@ for ii in range(nsg-1,-1,-1):
         t1 = time.time()
         scenario.solve_system()
         solve_time = time.time() - t1
+        print("dt = {:.2e}".format(solve_time))
 
         print("Calc irrad")
         scenario.calc_irrad()
@@ -161,7 +162,7 @@ for ii in range(nsg-1,-1,-1):
             tot_err[ii,jj] = np.sum(np.abs(irrad[::skip_len,::skip_len] - irrad_true))
 
         # Report error
-        print("err = {}".format(tot_err[ii,jj]))
+        print("err = {:.2e}".format(tot_err[ii,jj]))
 
         # Save system
         name = 'conv_{}x{}'.format(ns,na)
