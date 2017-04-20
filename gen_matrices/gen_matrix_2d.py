@@ -39,13 +39,13 @@ import IPython
 class KelpScenario(object):
     def __init__(self,kelp_lengths,ind,surf_bc_fun,iops):
         self._grid_defined = False
-        self.set_ind(ind)
-        self.set_kelp_lengths(kelp_lengths)
-        self.set_kelp_sigma(0)
         self.set_surf_bc_fun(surf_bc_fun)
         self.set_iops(*iops)
 
-        self.calculate_pk()
+    def set_kelp(kelp_lengths,ind
+        self.set_ind(ind)
+        self.set_kelp_lengths(kelp_lengths)
+        self.set_kelp_sigma(0)
 
     # Actually, this won't work with angular grid defined by Legendre roots
     # (non-constant dth)
@@ -355,11 +355,17 @@ class KelpScenario(object):
     def write_rte_matrix_hdf(self,out_file):
         raise NotImplementedError
 
-    def write_rte_system_mat(self,out_file):
+    # Allow for other variables to be stored via **kwargs
+    # Union of two dicts: http://stackoverflow.com/questions/38987/how-to-merge-two-python-dictionaries-in-a-single-expression
+    def write_rte_system_mat(self,out_file,**kwargs):
         io.savemat(out_file,
                 {'A':self._rte_matrix,
-                 'b':self._rte_rhs})
-    
+                 'b':self._rte_rhs,
+                 'x':self._rte_sol,
+                 'rad':self._rad,
+                 'irrad':self._irrad,
+                 **kwargs}) # This trick only works for  Python3.5 +    
+
     def load_rte_system_mat(self,in_file,var_order):
         dct = io.loadmat(in_file)
         self._rte_matrix = dct['A']
@@ -369,7 +375,7 @@ class KelpScenario(object):
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
         # Solve
-        sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
+        sef._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
 
         # Convert to 3D array, maintaining var order
         sol3d = sol.reshape(self._var_lengths[[self._var_order]])
@@ -394,4 +400,6 @@ class KelpScenario(object):
         if imgfile != None:
             plt.savefig(imgfile)
 
+    def get_irrad(self):
+        return self._irrad
 

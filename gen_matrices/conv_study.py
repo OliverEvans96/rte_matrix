@@ -29,6 +29,7 @@ import matplotlib
 #matplotlib.use('Qt5Agg') # interactive
 #matplotlib.use('Agg') # noninteractive
 import numpy as np
+from scipy import io
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -43,89 +44,111 @@ def surf_bc_fun(th):
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-dx = 1e-1
-dy = 1e-1
-dth = np.pi/8
-mesh = [dx,dy,dth]
+## CONVERGENCE STUDY ##
+# Here, we're specifying number of points, including the left endpoint, for both spatial and angular grids
+# Also, dx = dy.
 
-nx = int(np.floor(1/dx))
-ny = int(np.floor(1/dy))
-nth = int(np.floor(2*np.pi/dth))
+# Factor by which to increase number of grid points in each grid refinement.
+# Could be different for spatial vs. angular
+# Should be an integer for simplicity
+rs_ref = 2
+ra_ref = 2
 
-xx = np.linspace(0,1,nx)
-yy = np.linspace(0,1,ny)
-theta = np.linspace(0,2*np.pi,nth)
+# Number of spatial grid trials
+nsg = 5
+# Number of angular grid trials
+nag = 5
 
-# Made up shape. Little kelp on top, bulge near middle, zero at bottom.
-kelp_lengths = 5 * (1 - yy) ** 2 * np.exp(5 * yy - 4)
-# Number of individual kelps in each depth layer - more towards the top
-ind = 2 - yy
+# Minimum & Maximum grid size
+# Spatial
+ns_min = 10
+ns_max = ns_min * rs_ref ** nsg
+# Angular
+na_min = 10
+na_max = na_min * ra_ref ** nag
 
-# Assume that kelp and water scatter the same,
-# but kelp absorbs much more light
-abs_water = 1
-sct_water = 1
-abs_kelp = 5
-sct_kelp = 1
-iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
+# Array of grid sizes to loop over
+# First axis is spatial, second is angular
+spatial_grids = ns_min * rs_ref ** np.arange(nsg)
+angular_grids = na_min * ra_ref ** np.arange(nag)
 
+# Total error array (2D)
+# 1st dimension - spatial trials
+# 2nd dimension - angular trials
+tot_err = zeros([nsg,nag])
+
+# We can't compare radiance values among angular grid sizes since we define theta according to
+# the roots of the Legendre polynomials, but we can compare irradiances.
+
+# Compare at points present in coarsest resolution
+# Compare to "true solution", i.e., highest resolution,
+# So we have to calculate highest resolution grid first.
+
+# "True irradiance", from highest resolution trial
+irrad_true = np.zeros([ns_min,ns_min])
+
+# Create kelp scenario
 scenario = gm2.KelpScenario(mesh,kelp_lengths,ind,surf_bc_fun,iops)
 
-# What to do
-gen_sparsity_plots = True
-interactive_load_mat = False
-plot_kelp = False
-plot_irrad = False
+print("Convergence study\n")
 
-print("{}x{}x{}".format(nx,ny,nth))
+# Loop over spatial/angular grid sizes (highest first)
+for ii in range(nsg-1,-1,-1):
+    for jj in range(nag-1,-1,-1):
 
-if gen_sparsity_plots:
-    # Loop through all possible variable orderings
-    for ii,var_order in enumerate(it.permutations(range(3))):
-        print()
-        print("ii={}: {}".format(ii,var_order))
+        ns = spatial_grids[ii]
+        na = angular_grids[jj]
 
-        # Determine common name for files
-        # kelp1_[variable dimensions]_[variable order]
-        name = ('kelp1_{}x{}x{}_{}{}{}'
-                .format(nx,ny,nth,*var_order))
+        print("ns={} x na={}".format(ns,na))
+        
+        # Perform calculations for this trial
+        scenario.set_num_grid_points(ns,ns,na)
 
-        print("Creating matrix")
-        scenario.calculate_rte_matrix(var_order)
+        ## KELP DISTRIBUTION ##
+        yy = scenario._yy
+        # Made up shape. Little kelp on top, bulge near middle, zero at bottom.
+        kelp_lengths = 5 * (1 - yy) ** 2 * np.exp(5 * yy - 4)
+        # Number of individual kelps in each depth layer - more towards the top
+        ind = 2 - yy
+        
+        # Input the distribution to the scenario
+        scenario.set_kelp(kelp_lengths,ind)
+        # Calculate probability of kelp over 2D space
+        scenario.calculate_pk()
 
-        print("Saving files")
-        # Save mat file
-        scenario.write_rte_system_mat('mat/'+name)
-        # Save sparsity plots - one coarse (spy) & one precise (int)
-        scenario.write_int_matrix_png('img/sparsity/int_'+name+'.png')
-        scenario.plot_rte_matrix('img/sparsity/spy_'+name+'.png')
-
-        # Solve system & plot result
-        print("Solving system")
+        # Generate system & solve 
+        scenario.calculate_rte_matrix()
         scenario.solve_system()
-        print("Calculating irradiance")
         scenario.calc_irrad()
-        scenario.plot_irrad('img/irrad/irrad_'+name+'.png')
+        irrad = scenario.get_irrad()
 
-if plot_kelp:
-    print("Plotting kelp")
-    plt.figure(1)
-    scenario.plot_kelp('solve/kelp.png')
+        # Length of skips in order to only access LRGPs
+        skip_len = rs_ref ** ii
 
-if plot_irrad:
-    print("Creating matrix")
-    plt.figure(2)
-    scenario.calculate_rte_matrix()
-    #scenario.write_int_matrix_png('solve/sparsity.png')
-    print("Solving system")
-    scenario.solve_system()
-    print("Calculating irradiance")
-    scenario.calc_irrad()
-    scenario.plot_irrad('solve/irrad.png')
-    print("Done!")
+        # Save irradiance values from highest resolution spatio-angular grid
+        # Only need to save at lowest resolution grid points
+        if ( (ii == nsg-1) and (jj == nag-1) ):
+            # Save it, man!
+            irrad_true = irrad[::skip_len,::skip_len]
+            
+            # Error is zero! (since this is the "true" trial)
+            tot_err[ii,jj] = 0
 
-if interactive_load_mat:
-    print("Loading matrix")
-    scenario.load_rte_system_mat('mat/kelp1_50x50x32_012.mat',[0,1,2])
-    print("Finished loading")
-    IPython.embed()
+        # For others, we compare irradiance w/ "true" to calculate error
+        else:
+            tot_err[ii,jj] = np.sum(np.abs(irrad - irrad_true))
+
+        # Save system
+        name = 'conv_{}x{}'.format(ns,na)
+        out_file = 'mat/conv/' + name + '.mat'
+        # Save error as well (not really necessary)
+        scenario.write_rte_system_mat(out_file,err=tot_err[ii,jj])
+
+        # Save irradiance plot
+        scenario.plot_irrad('img/irrad/conv/' + name + '.png')
+
+# After all trials have been calculated, save tot_err
+io.savemat('mat/conv/tot_error.mat',{'tot_err': tot_err})
+
+print("Done!")
+
