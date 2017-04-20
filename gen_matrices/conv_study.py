@@ -66,9 +66,9 @@ rs_ref = 2
 ra_ref = 2
 
 # Number of spatial grid trials
-nsg = 3
+nsg = 2
 # Number of angular grid trials
-nag = 3
+nag = 2
 
 # Minimum & Maximum grid size
 # Spatial

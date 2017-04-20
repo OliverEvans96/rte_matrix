@@ -27,6 +27,7 @@
 import numpy as np
 import numpy.polynomial.legendre as leg
 import matplotlib.pyplot as plt
+from matplotlib import cm
 from scipy import sparse, misc, io
 import scipy.sparse
 import scipy.misc
@@ -395,7 +396,7 @@ class KelpScenario(object):
     def plot_irrad(self,imgfile=None):
         plt.clf()
         plt.imshow(self._irrad.T,extent=[0,1,0,1],
-                interpolation='none')
+                interpolation='none',cmap=cm.viridis)
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Irradiance')
