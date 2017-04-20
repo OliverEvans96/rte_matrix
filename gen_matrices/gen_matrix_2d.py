@@ -100,7 +100,7 @@ class KelpScenario(object):
 
         # Scale theta from [-1,1) to [0,2pi)
         # And scale weights by pi according to change of variables
-        self._theta = theta_unscaled * 2 * np.pi
+        self._theta = (theta_unscaled + 1) * np.pi
         self._lg_weights = weights_unscaled * np.pi
 
         # Or use evenly spaced grid
@@ -188,8 +188,8 @@ class KelpScenario(object):
         # Loop through i, j and k in specified order
         for ind1 in range(self._var_lengths[var_order[0]]):
             # Report status
-            pcnt = ind1 / self._var_lengths[var_order[0]]
-            print("ind1 = {}/{}: {:.1f}%".format(ind1,self._var_lengths[var_order[0]],100*pcnt))
+            pcnt = ind1+1 / self._var_lengths[var_order[0]]
+            print("ind1 = {}/{}: {:.1f}%".format(ind1+1,self._var_lengths[var_order[0]],100*pcnt))
             for ind2 in range(self._var_lengths[var_order[1]]):
                 for ind3 in range(self._var_lengths[var_order[2]]):
                     # Extract ii, jj, and kk
@@ -265,14 +265,14 @@ class KelpScenario(object):
                             # Theta prime - integration variable
                             thp = self._theta[ll]
 
-                            # Shortest distance in periodic var.
+                            # Take minimum distance when comparing
+                            # thp and the image of thp in
+                            # [2pi,4pi) and [-2pi,0)
                             # See: http://stackoverflow.com/questions/9505862/shortest-distance-between-two-degree-marks-on-a-circle
                             angle_diff = np.pi - np.abs(np.abs(
                                 th - thp) - np.pi)
 
-                            # Take minimum distance when comparing
-                            # thp and the image of thp in
-                            # [2pi,4pi) and [-2pi,0)
+                            # Set scattering coefficient
                             mat[row,indx(ii,jj,ll)] = (
                                   sct_coef 
                                 * self._lg_weights[ll]
