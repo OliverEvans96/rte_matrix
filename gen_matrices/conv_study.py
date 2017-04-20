@@ -29,6 +29,7 @@ import matplotlib
 #matplotlib.use('Qt5Agg') # interactive
 #matplotlib.use('Agg') # noninteractive
 import numpy as np
+import time
 from scipy import io
 import matplotlib
 matplotlib.use('Agg')
@@ -37,12 +38,22 @@ import gen_matrix_2d as gm2
 import itertools as it
 import IPython
 
+## SCENARIO PARAMETERS ##
+
 def surf_bc_fun(th):
     return np.sin(th)
 
 # Normalized mock VSF
 def vsf(th):
     return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
+
+# Assume that kelp and water scatter the same,
+# but kelp absorbs much more light
+abs_water = 1
+sct_water = 1
+abs_kelp = 5
+sct_kelp = 1
+iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
 
 ## CONVERGENCE STUDY ##
 # Here, we're specifying number of points, including the left endpoint, for both spatial and angular grids
@@ -55,9 +66,9 @@ rs_ref = 2
 ra_ref = 2
 
 # Number of spatial grid trials
-nsg = 5
+nsg = 2
 # Number of angular grid trials
-nag = 5
+nag = 2
 
 # Minimum & Maximum grid size
 # Spatial
@@ -75,7 +86,7 @@ angular_grids = na_min * ra_ref ** np.arange(nag)
 # Total error array (2D)
 # 1st dimension - spatial trials
 # 2nd dimension - angular trials
-tot_err = zeros([nsg,nag])
+tot_err = np.zeros([nsg,nag])
 
 # We can't compare radiance values among angular grid sizes since we define theta according to
 # the roots of the Legendre polynomials, but we can compare irradiances.
@@ -88,9 +99,9 @@ tot_err = zeros([nsg,nag])
 irrad_true = np.zeros([ns_min,ns_min])
 
 # Create kelp scenario
-scenario = gm2.KelpScenario(mesh,kelp_lengths,ind,surf_bc_fun,iops)
+scenario = gm2.KelpScenario(surf_bc_fun,iops)
 
-print("Convergence study\n")
+print("Convergence study")
 
 # Loop over spatial/angular grid sizes (highest first)
 for ii in range(nsg-1,-1,-1):
@@ -99,6 +110,7 @@ for ii in range(nsg-1,-1,-1):
         ns = spatial_grids[ii]
         na = angular_grids[jj]
 
+        print()
         print("ns={} x na={}".format(ns,na))
         
         # Perform calculations for this trial
@@ -112,13 +124,23 @@ for ii in range(nsg-1,-1,-1):
         ind = 2 - yy
         
         # Input the distribution to the scenario
+        print("Set kelp")
         scenario.set_kelp(kelp_lengths,ind)
         # Calculate probability of kelp over 2D space
+        print("Calculate pk")
         scenario.calculate_pk()
 
         # Generate system & solve 
+        print("Gen matrix")
         scenario.calculate_rte_matrix()
+    
+        # Solve system - save time required to solve
+        print("Solve system")
+        t1 = time.time()
         scenario.solve_system()
+        solve_time = time.time() - t1
+
+        print("Calc irrad")
         scenario.calc_irrad()
         irrad = scenario.get_irrad()
 
@@ -136,19 +158,24 @@ for ii in range(nsg-1,-1,-1):
 
         # For others, we compare irradiance w/ "true" to calculate error
         else:
-            tot_err[ii,jj] = np.sum(np.abs(irrad - irrad_true))
+            tot_err[ii,jj] = np.sum(np.abs(irrad[::skip_len,::skip_len] - irrad_true))
+
+        # Report error
+        print("err = {}".format(tot_err[ii,jj]))
 
         # Save system
         name = 'conv_{}x{}'.format(ns,na)
-        out_file = 'mat/conv/' + name + '.mat'
+        out_file = '../mat/conv/' + name + '.mat'
         # Save error as well (not really necessary)
-        scenario.write_rte_system_mat(out_file,err=tot_err[ii,jj])
+        scenario.write_rte_system_mat(out_file,
+                err=tot_err[ii,jj],
+                py_solve_time=solve_time)
 
         # Save irradiance plot
-        scenario.plot_irrad('img/irrad/conv/' + name + '.png')
+        scenario.plot_irrad('../img/irrad/conv/' + name + '.png')
 
 # After all trials have been calculated, save tot_err
-io.savemat('mat/conv/tot_error.mat',{'tot_err': tot_err})
+io.savemat('../mat/conv/tot_error.mat',{'tot_err': tot_err})
 
 print("Done!")
 

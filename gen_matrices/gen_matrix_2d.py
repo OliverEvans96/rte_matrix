@@ -37,12 +37,12 @@ import IPython
 # x \in [0,1), y \in [0,1)
 # Kelp grows on the rope at x = 0.5 evenly in both directions
 class KelpScenario(object):
-    def __init__(self,kelp_lengths,ind,surf_bc_fun,iops):
+    def __init__(self,surf_bc_fun,iops):
         self._grid_defined = False
         self.set_surf_bc_fun(surf_bc_fun)
         self.set_iops(*iops)
 
-    def set_kelp(kelp_lengths,ind
+    def set_kelp(self,kelp_lengths,ind):
         self.set_ind(ind)
         self.set_kelp_lengths(kelp_lengths)
         self.set_kelp_sigma(0)
@@ -82,7 +82,7 @@ class KelpScenario(object):
     # Calculate grid points after grid has been set
     def _calculate_grid(self):
         # Ensure grid has already been defined
-        assert(self._grid_defined,"Call set_grid_spacing or set_grid_divisions first")
+        #assert(self._grid_defined,"Call set_grid_spacing or set_grid_divisions first")
 
         # Collect variable lengths for easy access
         self._var_lengths = np.array([self._nx,self._ny,self._nth],
@@ -101,7 +101,7 @@ class KelpScenario(object):
         # Scale theta from [-1,1) to [0,2pi)
         # And scale weights by pi according to change of variables
         self._theta = theta_unscaled * 2 * np.pi
-        self._lg_weights = weights_unscaled * pi
+        self._lg_weights = weights_unscaled * np.pi
 
         # Or use evenly spaced grid
         #self._theta = np.linspace(0,2*np.pi,self._nth+1)[:-1]
@@ -375,17 +375,23 @@ class KelpScenario(object):
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
         # Solve
-        sef._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
+        self._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
 
         # Convert to 3D array, maintaining var order
-        sol3d = sol.reshape(self._var_lengths[[self._var_order]])
+        sol3d = self._rte_sol.reshape(self._var_lengths[[self._var_order]])
 
         # Swap axes to order axes as [xx,yy,theta]
         self._rad = sol3d.transpose(np.argsort(self._var_order))
 
     # Integrate radiance over angles to get irradiance
     def calc_irrad(self):
-        self._irrad = self._lg_weights * self._rad.sum(axis=2)
+        # tensordot(*,1) - multiply & sum over last dimension of radiance (theta)
+        a = self._rad
+        b = self._lg_weights
+        try:
+            self._irrad = np.tensordot(self._rad,self._lg_weights, axes=1)
+        except:
+            IPython.embed()
 
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
