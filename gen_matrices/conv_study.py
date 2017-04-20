@@ -136,7 +136,7 @@ for ii in range(nsg-1,-1,-1):
         print("Gen matrix")
         scenario.calculate_rte_matrix()
     
-        # Solve system - save time required to solve
+        # Solve system - save the amount of time required to solve
         print("Solve system")
         t1 = time.time()
         scenario.solve_system()
