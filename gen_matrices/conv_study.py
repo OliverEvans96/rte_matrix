@@ -66,9 +66,9 @@ rs_ref = 2
 ra_ref = 2
 
 # Number of spatial grid trials
-nsg = 2
+nsg = 4
 # Number of angular grid trials
-nag = 2
+nag = 4
 
 # Minimum & Maximum grid size
 # Spatial
@@ -95,7 +95,9 @@ tot_err = np.zeros([nsg,nag])
 # Compare to "true solution", i.e., highest resolution,
 # So we have to calculate highest resolution grid first.
 
-# "True irradiance", from highest resolution trial
+# "True irradiance"
+# values from highest resolution trial
+# grid points from lowest resolution trial
 irrad_true = np.zeros([ns_min,ns_min])
 
 # Create kelp scenario

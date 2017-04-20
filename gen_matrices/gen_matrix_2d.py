@@ -187,6 +187,9 @@ class KelpScenario(object):
 
         # Loop through i, j and k in specified order
         for ind1 in range(self._var_lengths[var_order[0]]):
+            # Report status
+            pcnt = ind1 / self._var_lengths[var_order[0]]
+            print("ind1 = {}/{}: {:.1f}%".format(ind1,self._var_lengths[var_order[0]],pcnt))
             for ind2 in range(self._var_lengths[var_order[1]]):
                 for ind3 in range(self._var_lengths[var_order[2]]):
                     # Extract ii, jj, and kk
@@ -384,14 +387,9 @@ class KelpScenario(object):
         self._rad = sol3d.transpose(np.argsort(self._var_order))
 
     # Integrate radiance over angles to get irradiance
+    # Note: tensordot(*,1) - multiply & sum over last dimension of radiance (theta)
     def calc_irrad(self):
-        # tensordot(*,1) - multiply & sum over last dimension of radiance (theta)
-        a = self._rad
-        b = self._lg_weights
-        try:
-            self._irrad = np.tensordot(self._rad,self._lg_weights, axes=1)
-        except:
-            IPython.embed()
+        self._irrad = np.tensordot(self._rad,self._lg_weights, axes=1)
 
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
