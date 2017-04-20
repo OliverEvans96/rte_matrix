@@ -159,7 +159,8 @@ for ii in range(nsg-1,-1,-1):
 
         # For others, we compare irradiance w/ "true" to calculate error
         else:
-            tot_err[ii,jj] = np.sum(np.abs(irrad[::skip_len,::skip_len] - irrad_true))
+            # Divide by number of points = ns_min **2 so that error is average per point
+            tot_err[ii,jj] = np.sum(np.abs(irrad[::skip_len,::skip_len] - irrad_true)) / ns_min ** 2
 
         # Report error
         print("err = {:.2e}".format(tot_err[ii,jj]))
