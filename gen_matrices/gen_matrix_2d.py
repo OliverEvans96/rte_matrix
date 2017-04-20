@@ -37,9 +37,8 @@ import IPython
 # x \in [0,1), y \in [0,1)
 # Kelp grows on the rope at x = 0.5 evenly in both directions
 class KelpScenario(object):
-    def __init__(self,mesh,kelp_lengths,ind,surf_bc_fun,iops):
+    def __init__(self,kelp_lengths,ind,surf_bc_fun,iops):
         self._grid_defined = False
-        self.set_grid_spacing(*mesh)
         self.set_ind(ind)
         self.set_kelp_lengths(kelp_lengths)
         self.set_kelp_sigma(0)
@@ -48,19 +47,23 @@ class KelpScenario(object):
 
         self.calculate_pk()
 
+    # Actually, this won't work with angular grid defined by Legendre roots
+    # (non-constant dth)
     def set_grid_spacing(self,dx,dy,dth):
-        # Set grid spacing
-        self._dx = dx
-        self._dy = dy
-        self._dth = dth
+        # # Set grid spacing
+        # self._dx = dx
+        # self._dy = dy
+        # self._dth = dth
 
-        # Calculate number of grid points
-        self._nx = int(np.floor(1/dx))
-        self._ny = int(np.floor(1/dy))
-        self._nth = int(np.floor(2*np.pi/dth))
+        # # Calculate number of grid points
+        # self._nx = int(np.floor(1/dx))
+        # self._ny = int(np.floor(1/dy))
+        # self._nth = int(np.floor(2*np.pi/dth))
 
-        # Calculate grid points
-        self._calculate_grid()
+        # # Calculate grid points
+        # self._calculate_grid()
+
+        raise NotImplementedError
 
     def set_num_grid_points(self,nx,ny,nth):
         # Set number of grid points
