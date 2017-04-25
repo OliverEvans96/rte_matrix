@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed Apr 12, 2017 | 04:21pm EDT
+# Last Modified: Mon Apr 24, 2017 | 10:07pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -204,10 +204,11 @@ class KelpScenario(object):
                     ## Cases for y derivative ##
 
                     # Surface BC affects downwelling radiance
-                    # theta < pi (use kk <= nth/2 since theta[nth/2] < pi)
+                    # theta < pi (use kk < nth/2 since first endpoint
+                    # is included, last is excluded
                     if jj == 0:
                         # Surface boundary condition
-                        if kk <= self._nth/2:
+                        if kk < self._nth/2:
                             mat[row,row] = 1
                             rhs[row] = self._surf_bc_fun(self._theta[kk])
                             pde_flag = False
@@ -370,7 +371,7 @@ class KelpScenario(object):
                  'irrad':self._irrad,
                  **kwargs}) # This trick only works for  Python3.5 +    
 
-    def load_rte_system_mat(self,in_file,var_order):
+    def load_rte_system_mat(self,in_file,var_order=[0,1,2]):
         dct = io.loadmat(in_file)
         self._rte_matrix = dct['A']
         self._rte_rhs = dct['b']
