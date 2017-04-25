@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon Apr 24, 2017 | 10:07pm EDT
+# Last Modified: Mon Apr 24, 2017 | 10:23pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -221,7 +221,7 @@ class KelpScenario(object):
                     # Bottom BC: no upwelling radiance
                     # theta >= pi
                     elif jj == self._ny-1:
-                        if kk > self._nth/2:
+                        if kk >= self._nth/2:
                             # Bottom BC
                             mat[row,row] = 1
                             rhs[row] = 0

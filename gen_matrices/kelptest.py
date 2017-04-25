@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Mon Apr 24, 2017 | 10:18pm EDT
+# Last Modified: Mon Apr 24, 2017 | 10:24pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -118,7 +118,7 @@ if plot_irrad:
     scenario.solve_system()
     print("Calculating irradiance")
     scenario.calc_irrad()
-    scenario.plot_irrad('solve/irrad.png')
+    scenario.plot_irrad('../img/solve/irrad.png')
     print("Done!")
 
 if interactive_load_mat:
