@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon Apr 24, 2017 | 10:23pm EDT
+# Last Modified: Tue Apr 25, 2017 | 07:03am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -26,6 +26,8 @@
 
 import numpy as np
 import numpy.polynomial.legendre as leg
+import matplotlib
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from scipy import sparse, misc, io
@@ -38,10 +40,10 @@ import IPython
 # x \in [0,1), y \in [0,1)
 # Kelp grows on the rope at x = 0.5 evenly in both directions
 class KelpScenario(object):
-    def __init__(self,surf_bc_fun,iops):
+    def __init__(self):
         self._grid_defined = False
-        self.set_surf_bc_fun(surf_bc_fun)
-        self.set_iops(*iops)
+        #self.set_surf_bc_fun(surf_bc_fun)
+        #self.set_iops(*iops)
 
     def set_kelp(self,kelp_lengths,ind):
         self.set_ind(ind)
