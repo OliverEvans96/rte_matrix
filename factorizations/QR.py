@@ -8,7 +8,6 @@ import time
 import numpy as np
 import scipy as spy
 import scipy.io as scio
-import IPython
 
 # start timing computations
 starttime = time.time()
@@ -33,11 +32,9 @@ def proj(ui,aj):
     denominator = np.dot(ui,ui)
     return (numerator/denominator)*ui
 
-print("loop")
 for column in np.arange(1,len(u1),1):
     projection =  proj(U[:,column-1],A[:,column].toarray())
     
-    #IPython.embed()
     U[:,column] = A[:,column].toarray()[:,0] - projection
 
 Q = np.empty([len(u1),len(u1)])
