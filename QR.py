@@ -16,14 +16,22 @@ mat_contents = scio.loadmat(sys.argv[1])
 A = mat_contents['A']
 b = mat_contents['b']
 
+<<<<<<< HEAD
 # now, the QR decomposition
+=======
+# now, the QR algorithm
+>>>>>>> c9ebb7080658eeef3c2f59db5be828f307a41ca6
 # first, we compute Q
 u1 = A[:,0]
 u1 = u1.toarray()
 U = np.empty([len(u1),len(u1)])
 
 # set the first column of U as the first column of A
+<<<<<<< HEAD
 for index in range(len(u1)):
+=======
+for index in np.arange(0,len(u1),1):
+>>>>>>> c9ebb7080658eeef3c2f59db5be828f307a41ca6
     U[index,0] = u1[index]
 
 # function to project aj onto ui
@@ -38,7 +46,11 @@ for column in np.arange(1,len(u1),1):
         U[row,column] = A[row,column] - projection[row]
 
 Q = np.empty([len(u1),len(u1)])
+<<<<<<< HEAD
 for column in range(len(u1)):
+=======
+for column in np.arange(0,len(u1),1):
+>>>>>>> c9ebb7080658eeef3c2f59db5be828f307a41ca6
     Q[:,column] = U[:,column]/np.linalg.norm(U[:,column])
 
 R = np.linalg.inv(Q)@A
