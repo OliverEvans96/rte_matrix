@@ -28,12 +28,6 @@ sigma.pop(0) # remove the trivial eval zero
 
 # create SIGMA as the diagonal matrix of the singular values of A
 SIGMA = np.diag(sigma)
-for ev in range(len(w)):
-    sigma.append(np.sqrt(ev))
-sigma.pop(0) # remove the trivial eval zero
-
-# create sigma as the diagonal matrix of the singular values of A
-Sigma = np.diag(sigma)
 
 # create V with the normalized evecs for the evals of A
 V = np.empty([len(a1),len(sigma)])
@@ -55,7 +49,6 @@ for column in range(len(sigma)-1):
 
 X1 = np.transpose(U)@b
 X2 = SIGMA@X1
-X2 = Sigma@X1
 X = V@X2
 
 print(X)
