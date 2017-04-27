@@ -8,7 +8,7 @@ function [Aprecond,bprecond] = Diagonal_Dominance(A,b,nsv)
 
 % nsv = # of singular values to use for SVDS
 tic
-m=50;
+m=16000;
 sigma=0.001;
 A1=A;
 B1=b;
