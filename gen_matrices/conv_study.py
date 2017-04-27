@@ -66,9 +66,9 @@ rs_ref = 2
 ra_ref = 2
 
 # Number of spatial grid trials
-nsg = 2
+nsg = 4
 # Number of angular grid trials
-nag = 2
+nag = 4
 
 # Minimum & Maximum grid size
 # Spatial
@@ -102,6 +102,7 @@ irrad_true = np.zeros([ns_min,ns_min])
 
 # Create kelp scenario
 scenario = gm2.KelpScenario(surf_bc_fun,iops)
+scenario.set_var_order([2,1,0])
 
 print("Convergence study")
 
@@ -134,8 +135,8 @@ for ii in range(nsg-1,-1,-1):
 
         # Generate system & solve 
         print("Gen matrix")
-        scenario.calculate_rte_matrix()
-    
+        scenario.gen_rte_matrix()
+
         # Solve system - save the amount of time required to solve
         print("Solve system")
         t1 = time.time()

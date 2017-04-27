@@ -1,0 +1,34 @@
+Convergence study
+
+ns=160 x na=160
+Set kelp
+Calculate pk
+Gen matrix
+ind1 = 1/160: 0.0%
+ind1 = 2/160: 0.6%
+ind1 = 3/160: 1.2%
+ind1 = 4/160: 1.9%
+ind1 = 5/160: 2.5%
+ind1 = 6/160: 3.1%
+ind1 = 7/160: 3.8%
+ind1 = 8/160: 4.4%
+ind1 = 9/160: 5.0%
+ind1 = 10/160: 5.6%
+ind1 = 11/160: 6.2%
+ind1 = 12/160: 6.9%
+ind1 = 13/160: 7.5%
+ind1 = 14/160: 8.1%
+ind1 = 15/160: 8.8%
+ind1 = 16/160: 9.4%
+ind1 = 17/160: 10.0%
+ind1 = 18/160: 10.6%
+ind1 = 19/160: 11.2%
+ind1 = 20/160: 11.9%
+ind1 = 21/160: 12.5%
+Traceback (most recent call last):
+  File "conv_study.py", line 137, in <module>
+  File "/home/oevans/research/rte_matrix/gen_matrices/gen_matrix_2d.py", line 280, in calculate_rte_matrix
+  File "/home/oevans/local/miniconda3/lib/python3.5/site-packages/scipy/sparse/lil.py", line 348, in __setitem__
+  File "scipy/sparse/_csparsetools.pyx", line 61, in scipy.sparse._csparsetools.lil_insert (scipy/sparse/_csparsetools.c:3334)
+  File "scipy/sparse/_csparsetools.pyx", line 105, in scipy.sparse._csparsetools.lil_insert (scipy/sparse/_csparsetools.c:3161)
+MemoryError
