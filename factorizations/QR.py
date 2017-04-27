@@ -6,7 +6,7 @@
 import sys
 import time
 import numpy as np
-import scipy as spy
+import numpy.linalg as npla
 import scipy.io as scio
 
 # start timing computations
@@ -32,13 +32,12 @@ def proj(ui,aj):
     denominator = np.dot(ui,ui)
     return (numerator/denominator)*ui
 
-for column in np.arange(1,len(u1),1):
+for column in range(1,len(u1)):
     projection =  proj(U[:,column-1],A[:,column].toarray())
-    
     U[:,column] = A[:,column].toarray()[:,0] - projection
 
 Q = np.empty([len(u1),len(u1)])
-for column in range(1,len(u1)):
+for column in range(len(u1)):
     Q[:,column] = U[:,column]/np.linalg.norm(U[:,column])
 
 R = np.linalg.inv(Q)@A
