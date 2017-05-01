@@ -6,7 +6,7 @@
 import sys
 import time
 import numpy as np
-import scipy as spy
+import numpy.linalg as npla
 import scipy.io as scio
 
 # start timing computations
@@ -16,14 +16,14 @@ mat_contents = scio.loadmat(sys.argv[1])
 A = mat_contents['A']
 b = mat_contents['b']
 
-# now, the QR algorithm
+# now, the QR decomposition
 # first, we compute Q
 u1 = A[:,0]
 u1 = u1.toarray()
 U = np.empty([len(u1),len(u1)])
 
 # set the first column of U as the first column of A
-for index in np.arange(0,len(u1),1):
+for index in range(len(u1)):
     U[index,0] = u1[index]
 
 # function to project aj onto ui
@@ -32,13 +32,12 @@ def proj(ui,aj):
     denominator = np.dot(ui,ui)
     return (numerator/denominator)*ui
 
-for column in np.arange(1,len(u1),1):
+for column in range(1,len(u1)):
     projection =  proj(U[:,column-1],A[:,column].toarray())
-    for row in np.arange(1,len(u1),1):
-        U[row,column] = A[row,column] - projection[row]
+    U[:,column] = A[:,column].toarray()[:,0] - projection
 
 Q = np.empty([len(u1),len(u1)])
-for column in np.arange(0,len(u1),1):
+for column in range(len(u1)):
     Q[:,column] = U[:,column]/np.linalg.norm(U[:,column])
 
 R = np.linalg.inv(Q)@A

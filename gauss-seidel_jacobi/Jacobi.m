@@ -20,8 +20,13 @@ for k=1:max1
       X(j)=(b(j)-A(j,[1:j-1,j+1:N])*P([1:j-1,j+1:N]))/A(j,j);
    end
    %calculate error and relative error
+<<<<<<< HEAD
    err=abs(norm(X'-P))
    relerr=err/(norm(X)+eps)
+=======
+   err=abs(norm(X'-P));
+   relerr=err/(norm(X)+eps);
+>>>>>>> origin/master
    %set new x^i
    P=X';
     %break from loop if error is within tolerance

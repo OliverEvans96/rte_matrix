@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed Apr 12, 2017 | 04:21pm EDT
+# Last Modified: Tue Apr 25, 2017 | 07:03am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -25,7 +25,11 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 import numpy as np
+import numpy.polynomial.legendre as leg
+import matplotlib
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
+from matplotlib import cm
 from scipy import sparse, misc, io
 import scipy.sparse
 import scipy.misc
@@ -36,26 +40,54 @@ import IPython
 # x \in [0,1), y \in [0,1)
 # Kelp grows on the rope at x = 0.5 evenly in both directions
 class KelpScenario(object):
-    def __init__(self,mesh,kelp_lengths,ind,surf_bc_fun,iops):
-        self.set_spatial_mesh(*mesh)
+    def __init__(self):
+        self._grid_defined = False
+        #self.set_surf_bc_fun(surf_bc_fun)
+        #self.set_iops(*iops)
+
+    def set_kelp(self,kelp_lengths,ind):
         self.set_ind(ind)
         self.set_kelp_lengths(kelp_lengths)
         self.set_kelp_sigma(0)
-        self.set_surf_bc_fun(surf_bc_fun)
-        self.set_iops(*iops)
 
-        self.calculate_pk()
+    # Actually, this won't work with angular grid defined by Legendre roots
+    # (non-constant dth)
+    def set_grid_spacing(self,dx,dy,dth):
+        # # Set grid spacing
+        # self._dx = dx
+        # self._dy = dy
+        # self._dth = dth
 
-    def set_spatial_mesh(self,dx,dy,dth):
-        # Set grid size
-        self._dx = dx
-        self._dy = dy
-        self._dth = dth
+        # # Calculate number of grid points
+        # self._nx = int(np.floor(1/dx))
+        # self._ny = int(np.floor(1/dy))
+        # self._nth = int(np.floor(2*np.pi/dth))
 
-        # Calculate number of grid points
-        self._nx = int(np.floor(1/dx))
-        self._ny = int(np.floor(1/dy))
-        self._nth = int(np.floor(2*np.pi/dth))
+        # # Calculate grid points
+        # self._calculate_grid()
+
+        raise NotImplementedError
+
+    def set_num_grid_points(self,nx,ny,nth):
+        # Set number of grid points
+        self._nx = nx
+        self._ny = ny
+        self._nth = nth
+
+        # Calculate grid spacing
+        self._dx = 1/nx
+        self._dy = 1/ny
+        self._dth = 2*np.pi/nth
+
+        # Calculate grid points
+        self._calculate_grid()
+
+    # Calculate grid points after grid has been set
+    def _calculate_grid(self):
+        # Ensure grid has already been defined
+        #assert(self._grid_defined,"Call set_grid_spacing or set_grid_divisions first")
+
+        # Collect variable lengths for easy access
         self._var_lengths = np.array([self._nx,self._ny,self._nth],
                 dtype=int)
         self._n_vars = len(self._var_lengths)
@@ -64,7 +96,18 @@ class KelpScenario(object):
         # x and theta periodic, so should not contain last element
         self._xx = np.linspace(0,1,self._nx+1)[:-1]
         self._yy = np.linspace(0,1,self._ny)
-        self._theta = np.linspace(0,2*np.pi,self._nth+1)[:-1]
+
+        # Define theta angles according to Legendre-Gauss quadrature
+        # Simulatneously define quadrature weights which will be used in scattering integral
+        theta_unscaled,weights_unscaled = leg.leggauss(self._nth)
+
+        # Scale theta from [-1,1) to [0,2pi)
+        # And scale weights by pi according to change of variables
+        self._theta = (theta_unscaled + 1) * np.pi
+        self._lg_weights = weights_unscaled * np.pi
+
+        # Or use evenly spaced grid
+        #self._theta = np.linspace(0,2*np.pi,self._nth+1)[:-1]
 
         # Center of x variable
         self._xx_center = 0.5
@@ -147,6 +190,9 @@ class KelpScenario(object):
 
         # Loop through i, j and k in specified order
         for ind1 in range(self._var_lengths[var_order[0]]):
+            # Report status
+            pcnt = (ind1+1) / self._var_lengths[var_order[0]]
+            print("ind1 = {}/{}: {:.1f}%".format(ind1+1,self._var_lengths[var_order[0]],100*pcnt))
             for ind2 in range(self._var_lengths[var_order[1]]):
                 for ind3 in range(self._var_lengths[var_order[2]]):
                     # Extract ii, jj, and kk
@@ -160,10 +206,11 @@ class KelpScenario(object):
                     ## Cases for y derivative ##
 
                     # Surface BC affects downwelling radiance
-                    # theta < pi (use kk <= nth/2 since theta[nth/2] < pi)
+                    # theta < pi (use kk < nth/2 since first endpoint
+                    # is included, last is excluded
                     if jj == 0:
                         # Surface boundary condition
-                        if kk <= self._nth/2:
+                        if kk < self._nth/2:
                             mat[row,row] = 1
                             rhs[row] = self._surf_bc_fun(self._theta[kk])
                             pde_flag = False
@@ -176,7 +223,7 @@ class KelpScenario(object):
                     # Bottom BC: no upwelling radiance
                     # theta >= pi
                     elif jj == self._ny-1:
-                        if kk > self._nth/2:
+                        if kk >= self._nth/2:
                             # Bottom BC
                             mat[row,row] = 1
                             rhs[row] = 0
@@ -222,17 +269,17 @@ class KelpScenario(object):
                             # Theta prime - integration variable
                             thp = self._theta[ll]
 
-                            # Shortest distance in periodic var.
+                            # Take minimum distance when comparing
+                            # thp and the image of thp in
+                            # [2pi,4pi) and [-2pi,0)
                             # See: http://stackoverflow.com/questions/9505862/shortest-distance-between-two-degree-marks-on-a-circle
                             angle_diff = np.pi - np.abs(np.abs(
                                 th - thp) - np.pi)
 
-                            # Take minimum distance when comparing
-                            # thp and the image of thp in
-                            # [2pi,4pi) and [-2pi,0)
+                            # Set scattering coefficient
                             mat[row,indx(ii,jj,ll)] = (
                                   sct_coef 
-                                * self._dth
+                                * self._lg_weights[ll]
                                 * self._vsf(angle_diff))
 
         self._rte_matrix = sparse.csr_matrix(mat)
@@ -315,12 +362,18 @@ class KelpScenario(object):
     def write_rte_matrix_hdf(self,out_file):
         raise NotImplementedError
 
-    def write_rte_system_mat(self,out_file):
+    # Allow for other variables to be stored via **kwargs
+    # Union of two dicts: http://stackoverflow.com/questions/38987/how-to-merge-two-python-dictionaries-in-a-single-expression
+    def write_rte_system_mat(self,out_file,**kwargs):
         io.savemat(out_file,
                 {'A':self._rte_matrix,
-                 'b':self._rte_rhs})
-    
-    def load_rte_system_mat(self,in_file,var_order):
+                 'b':self._rte_rhs,
+                 'x':self._rte_sol,
+                 'rad':self._rad,
+                 'irrad':self._irrad,
+                 **kwargs}) # This trick only works for  Python3.5 +    
+
+    def load_rte_system_mat(self,in_file,var_order=[0,1,2]):
         dct = io.loadmat(in_file)
         self._rte_matrix = dct['A']
         self._rte_rhs = dct['b']
@@ -329,23 +382,24 @@ class KelpScenario(object):
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
         # Solve
-        sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
+        self._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
 
         # Convert to 3D array, maintaining var order
-        sol3d = sol.reshape(self._var_lengths[[self._var_order]])
+        sol3d = self._rte_sol.reshape(self._var_lengths[[self._var_order]])
 
         # Swap axes to order axes as [xx,yy,theta]
         self._rad = sol3d.transpose(np.argsort(self._var_order))
 
     # Integrate radiance over angles to get irradiance
+    # Note: tensordot(*,1) - multiply & sum over last dimension of radiance (theta)
     def calc_irrad(self):
-        self._irrad = self._dth * self._rad.sum(axis=2)
+        self._irrad = np.tensordot(self._rad,self._lg_weights, axes=1)
 
     # Plot irradiance
     def plot_irrad(self,imgfile=None):
         plt.clf()
         plt.imshow(self._irrad.T,extent=[0,1,0,1],
-                interpolation='none')
+                interpolation='none',cmap=cm.viridis)
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Irradiance')
@@ -354,4 +408,6 @@ class KelpScenario(object):
         if imgfile != None:
             plt.savefig(imgfile)
 
+    def get_irrad(self):
+        return self._irrad
 

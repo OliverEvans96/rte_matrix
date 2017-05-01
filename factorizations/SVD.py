@@ -22,33 +22,33 @@ A_Aadj = A@np.transpose(A)
 [w,v] = np.linalg.eig(A_Aadj)
 
 sigma = []
-for ev in np.arange(0,len(w),1):
+for ev in range(len(w)):
     sigma.append(np.sqrt(ev))
 sigma.pop(0) # remove the trivial eval zero
 
-# create sigma as the diagonal matrix of the singular values of A
-Sigma = np.diag(sigma)
+# create SIGMA as the diagonal matrix of the singular values of A
+SIGMA = np.diag(sigma)
 
 # create V with the normalized evecs for the evals of A
 V = np.empty([len(a1),len(sigma)])
 vi_norm = v[:,1]/np.linalg.norm(v[:,1])
 
-for column in np.arange(0,len(sigma)-1,1):
-    for row in np.arange(0,len(sigma)-1,1):
+for column in range(len(sigma)-1):
+    for row in range(len(sigma)-1):
         V[row,column] = vi_norm[row]
     vi_norm = v[:,column+2]/np.linalg.norm(v[:,column+2])
 
 
 U = np.empty([len(a1),len(sigma)])
 
-for column in np.arange(0,len(sigma)-1,1):
+for column in range(len(sigma)-1):
     U[:,column] = (A@V[:,column])/sigma[column]
 
 
 # compute the solution by solving USigmaV*x = b
 
 X1 = np.transpose(U)@b
-X2 = Sigma@X1
+X2 = SIGMA@X1
 X = V@X2
 
 print(X)
