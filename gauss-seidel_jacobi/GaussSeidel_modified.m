@@ -24,7 +24,7 @@ while max(Error_eval) > delta
     end
     Xsolution(:,iteration) = X;
     Error_eval = sqrt((X - Z).^2);
-    max(Error_eval);
+    max(Error_eval)
     if iteration>=max1
         %break if at maximum number of iterations
      break
