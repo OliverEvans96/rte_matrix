@@ -1,4 +1,4 @@
-function [Aprecond,bprecond] = Diagonal_Dominance(A,b,nsv)
+function [Aprecond,bprecond,Vprecond] = Diagonal_Dominance(A,b,nsv)
 % Sources:
 % Yuan, Jin Yun and Plamen Y. Yalamov.  A Method for Contructing Diagonally Dominant Preconditioners based on Jacobi Rotations.
 % This code attempts to implement proposed algorithm to efficiently
@@ -8,11 +8,12 @@ function [Aprecond,bprecond] = Diagonal_Dominance(A,b,nsv)
 
 % nsv = # of singular values to use for SVDS
 tic
-m=50;
+m=30000;
 sigma=0.001;
 A1=A;
 B1=b;
 N = length(B1);
+Vprecond = eye(N);
 for k=1:m
     %Find ai0j0 such that |ai0j0| = maxi6=j |aij |;
     D = diag(diag(A1));
@@ -40,6 +41,7 @@ for k=1:m
     Vk(i1,j1)=V(1,2);
     Vk(j1,i1)=V(2,1);
     Vk(j1,j1)=V(2,2);
+    Vprecond=Vprecond*Vk;
     %A1=Vk*A1;
 	A1=A1*Vk;
     %Compute b = (U(k))T b;

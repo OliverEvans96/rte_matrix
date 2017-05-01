@@ -9,11 +9,11 @@ n = length(b);
 X = zeros(n,1);
 Error_eval = ones(n,1);
 delta = 0.001;
-max1=10;
+max1=100;
 
 iteration = 0;
 while max(Error_eval) > delta
-    iteration = iteration + 1;
+    iteration = iteration + 1
     Z = X;  % save current values to calculate error later
     for i = 1:n
         j = 1:n; % define an array of the coefficients' elements
