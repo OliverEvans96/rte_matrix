@@ -2,7 +2,7 @@
 # Description: Try to solve RTE system with block SOR
 # Author: Oliver Evans
 # Created: Mon Apr 24, 2017 | 03:49pm EDT
-# Last Modified: Tue Apr 25, 2017 | 07:33am EDT
+# Last Modified: Mon May 01, 2017 | 10:22pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -30,20 +30,51 @@ import scipy.linalg as la
 import gen_matrix_2d as gm2
 import IPython
 
-# Load system
-nx = 50
-ny = 50
-nth = 16
+# Grid parameters
+nx = 20
+ny = 20
+nth = 24
+nrows = nx * ny * nth
 
 var_order = [2,1,0]
 var_lengths = [nx,ny,nth]
 
-scenario = gm2.KelpScenario()
-scenario.load_rte_system_mat('../mat/kelp1_50x50x32_210.mat',var_order)
+# IOPs
+def surf_bc_fun(th):
+    return np.sin(th)
+
+# Normalized mock VSF
+def vsf(th):
+    return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
+
+abs_water = 1
+sct_water = 1
+abs_kelp = 5
+sct_kelp = 1
+iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
+
+# Load matrix to test
+scenario = gm2.KelpScenario(surf_bc_fun,iops)
+scenario.set_num_grid_points(nx,ny,nth)
+scenario.load_rte_system_mat('../mat/kelp1_{}x{}x{}_210.mat'
+        .format(nx,ny,nth),var_order)
+
+dx = 1/nx
+dy = 1/ny
+
+# Maximum number density of individuals 
+ind_up = 2
+
+# Max/min abs. coef.
+a_up = abs_kelp * ind_up
+a_dn = abs_water
+# Max/min scat. coef.
+b_up = sct_kelp * ind_up
+b_dn = sct_water
 
 # Hyperparameters
-tol = 1e-3
-maxiter = 10000
+tol = 1e-8
+maxiter = 100
 
 # The 210 structure has a tightly banded diagonal block,
 # and every off-diagonal block is diagonal.
@@ -82,7 +113,7 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
             return aa[sl1]
         else:
             # Slice second dimension
-            sl2 = slice(bl_len*ind2, bl_len*(ind2+2))
+            sl2 = slice(bl_len*ind2, bl_len*(ind2+1))
             return aa[sl1,sl2]
 
     # Set values in a block
@@ -120,6 +151,11 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
 
         return aa_band
 
+    # At each iteration, make the matrix diagonally dominant
+    # by adding mu*u[:,1] to LHS and mu*u[:,0] to RHS.
+    # After many iterations, the two should be approx. equal.
+    mu = 1/dx + 4/dy + b_up * (2*np.pi - 1) - a_dn
+
     # Loop through iterations
     for it in range(maxiter):
 
@@ -127,9 +163,16 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
 
         # Loop through blocks
         for rr in range(nth):
-            print("rr={}".format(rr))
-            rhs = get_block(bb,rr)
+            # Get diagonal block
+            #print("rr={}".format(rr))
+            rhs = get_block(bb,rr).toarray()
             A_diag = get_block(AA,rr,rr).toarray()
+
+            # Create diagonal dominance
+            A_diag += mu * np.eye(nx*ny)
+
+            # Adjust RHS accordingly
+            rhs += mu * np.expand_dims(get_block(uu[:,0],rr),-1)
 
             # Loop over non-diagonal elements to costruct block RHS
             for ss in range(nth):
@@ -144,21 +187,15 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
                         * get_block(uu[:,0],ss))
 
                 # Have to convert to column vector before subtracting
-                # Otherwise, 2D row-column broadcast will occur
+                # Otherwise, 2D row-column broadcast will occur.
+
                 # Append dimension
                 rhs -= np.expand_dims(rhs_r,-1)
-
-            # Row reduce to eliminate diagonal subblock (ny-1,ny-3)
-            # (third from last - one before penultimate)
-            # using (ny-2,ny-3)
-            # Actually, this wouldn't improve sparsity pattern due to 
-            # periodic x bc, so just skip row reduction
 
             # Solve using LAPACK banded solver
             # If rr < nth/2, then kl = 2*nx
             # otherwise ku = 2*nx
-            # other bandwidth is just nx
-
+            # other (ku/kl) bandwidth is just nx
 
             if rr < nth / 2:
                 kl = 2*nx
@@ -181,6 +218,7 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
         # Calculate error (difference from last iteration)
         err = np.sum(abs(uu[:,0]-uu[:,1])) / nn
         print("err = {:.3e}".format(err))
+        print()
 
         # Terminate iteration if error criteria is met
         if err < tol:
@@ -189,5 +227,13 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
         # Update to next iteration
         uu[:,0] = uu[:,1]
 
-block_gs(scenario._rte_matrix,scenario._rte_rhs,var_lengths,tol,maxiter)
+    print("Failed to converge to {} after {} iterations".format(tol,maxiter))
+    return uu[:,1]
+
+#scenario._rte_sol = block_gs(scenario._rte_matrix,scenario._rte_rhs,var_lengths,tol,maxiter)
+scenario.solve_system()
+#scenario.reshape_rad()
+scenario.calc_irrad()
+scenario.plot_irrad('tmp.png')
+gm2.plt.show()
 
