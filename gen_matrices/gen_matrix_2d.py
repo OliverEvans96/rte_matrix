@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Tue Apr 25, 2017 | 07:03am EDT
+# Last Modified: Mon May 01, 2017 | 09:58pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -40,10 +40,10 @@ import IPython
 # x \in [0,1), y \in [0,1)
 # Kelp grows on the rope at x = 0.5 evenly in both directions
 class KelpScenario(object):
-    def __init__(self):
+    def __init__(self,surf_bc_fun,iops):
         self._grid_defined = False
-        #self.set_surf_bc_fun(surf_bc_fun)
-        #self.set_iops(*iops)
+        self.set_surf_bc_fun(surf_bc_fun)
+        self.set_iops(*iops)
 
     def set_kelp(self,kelp_lengths,ind):
         self.set_ind(ind)
@@ -377,13 +377,19 @@ class KelpScenario(object):
         dct = io.loadmat(in_file)
         self._rte_matrix = dct['A']
         self._rte_rhs = dct['b']
+        try:
+            self._rad = dct['rad']
+        except(KeyError):
+            print("Could not load radiance - not saved in mat file")
         self.set_var_order(var_order)
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
         # Solve
         self._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
+        self.reshape_rad()
 
+    def reshape_rad(self):
         # Convert to 3D array, maintaining var order
         sol3d = self._rte_sol.reshape(self._var_lengths[[self._var_order]])
 
