@@ -1,7 +1,7 @@
 # File Name: kelptest.py
 # Description: Generate a few matrices with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Mon Apr 24, 2017 | 10:24pm EDT
+# Last Modified: Sun Apr 30, 2017 | 02:41am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -40,11 +40,11 @@ def surf_bc_fun(th):
 
 # Normalized mock VSF
 def vsf(th):
-    return 2 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
+    return .5 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-nx = 10
-ny = 10
-nth = 16
+nx = 50
+ny = 50
+nth = 32
 
 xx = np.linspace(0,1,nx)
 yy = np.linspace(0,1,ny)
@@ -68,10 +68,10 @@ scenario.set_num_grid_points(nx,ny,nth)
 scenario.calculate_pk()
 
 # What to do
-gen_sparsity_plots = True
-interactive_load_mat = False
+gen_sparsity_plots = False
+interactive_load_mat = True
 plot_kelp = False
-plot_irrad = True
+plot_irrad = False
 
 print("{}x{}x{}".format(nx,ny,nth))
 
@@ -123,6 +123,6 @@ if plot_irrad:
 
 if interactive_load_mat:
     print("Loading matrix")
-    scenario.load_rte_system_mat('mat/kelp1_50x50x32_012.mat',[0,1,2])
+    scenario.load_rte_system_mat('../mat/kelp1_50x50x32_012.mat',[0,1,2])
     print("Finished loading")
     IPython.embed()
