@@ -14,12 +14,10 @@ do
 	# Ignore headers from `free`
 	tail -n +2         | 
 	# Take 4th column
-	awk '{print $4}'   |
+	awk '{print $3}'   |
  	# Print as column & prepend unix time
 	# (seconds since 1/1/1970)	
-	xargs printf '%10d %10d %10d\n' $(date +%s) |\
-	# Write to stdout & mem.txt simultaneously
-	tee mem.txt;
+	xargs printf '%10d %10d %10d\n' $(date +%s)
 	# Short delay
 	sleep 1
 done
