@@ -1,7 +1,7 @@
 # File Name: krylov.py
 # Description: Krylov subspace (non-stationalry iterative) methods
 # Created: Thu May 04, 2017 | 01:18am EDT
-# Last Modified: Thu May 04, 2017 | 01:38am EDT
+# Last Modified: Thu May 04, 2017 | 07:17am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -25,15 +25,30 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 import scipy.sparse.linalg as sla
+import time
+
+# Time function & return beginning & ending time
+def time_func(f):
+    def time_wrapper(*args,**kwargs):
+        t1 = time.time()
+        result = f(*args,**kwargs)
+        t2 = time.time()
+
+        # Return expanded arg list if appropriate
+        if type(result) in (tuple,list):
+            return (*result,t1,t2)
+        else:
+            return (result,t1,t2)
+
+    return time_wrapper
 
 krylov_method = dict(
-        bicg = sla.bicg,
-        bicgstab = sla.bicgstab,
-        cgs = sla.cgs,
-        gmres = sla.gmres,
-        lgmres = sla.lgmres,
-        lmres = sla.lmres,
-        qmr = sla.qmr,
-        lsqr = sla.lsqr,
-        lsmr = sla.lsmr)
+        bicg     = time_func(sla.bicg),
+        bicgstab = time_func(sla.bicgstab),
+        cgs      = time_func(sla.cgs),
+        gmres    = time_func(sla.gmres),
+        lgmres   = time_func(sla.lgmres),
+        qmr      = time_func(sla.qmr),
+        lsqr     = time_func(sla.lsqr),
+        lsmr     = time_func(sla.lsmr))
 
