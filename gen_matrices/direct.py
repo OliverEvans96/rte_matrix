@@ -1,7 +1,7 @@
 # File Name: band.py
 # Description: Direct methods for linear system
 # Created: Thu May 04, 2017 | 01:54am EDT
-# Last Modified: Thu May 04, 2017 | 05:35am EDT
+# Last Modified: Thu May 04, 2017 | 07:17am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -100,7 +100,7 @@ def SVDsparse(A, b):
 
 # Collect all direct methods into a dictionary
 direct_method = dict(
-    band band_slv,
+    band = band_slv,
     lu = LUsparse,
     svd = SVDsparse)
 

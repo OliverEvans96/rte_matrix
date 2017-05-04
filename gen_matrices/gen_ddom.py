@@ -1,7 +1,7 @@
 # File Name: gen_ddmo.py
 # Description: Generate diagonally dominant matrix with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Thu May 04, 2017 | 05:53am EDT
+# Last Modified: Thu May 04, 2017 | 06:40am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -55,6 +55,12 @@ def gen_mat(nx,ny,nth):
     # Assume that kelp and water scatter the same,
     # but kelp absorbs much more light
     # Choose these to create diagonal dominance
+    # non-DDOM coefs:
+    #sct_water = 5
+    #sct_kelp = 5
+    #abs_water = 1
+    #abs_kelp = 5
+    # DDOM coefs:
     sct_water = 4*nx
     sct_kelp = 4*nx
     abs_water = 2*np.pi * sct_water
@@ -97,7 +103,7 @@ def gen_mat(nx,ny,nth):
             print("Calculating irradiance")
 
             scenario.calc_irrad()
-            scenario.plot_irrad('../img/irrad/ddom_'+name+'.png')
+            scenario.plot_irrad('../img/irrad/irrad_'+name+'.png')
 
             # Save mat file
             scenario.write_rte_system_mat('../mat/'+name)
