@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Mon May 01, 2017 | 09:58pm EDT
+# Last Modified: Wed May 03, 2017 | 10:40pm EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -179,7 +179,7 @@ class KelpScenario(object):
         if imgfile != None:
             plt.savefig(imgfile)
 
-    def calculate_rte_matrix(self,var_order=[0,1,2]):
+    def _calculate_rte_matrix(self,var_order=[2,1,0]):
         # RTE matrix in linked list format
         mat = sparse.lil_matrix((*[np.prod(self._var_lengths)]*2,))
         rhs = sparse.lil_matrix((np.prod(self._var_lengths),1))
@@ -191,7 +191,7 @@ class KelpScenario(object):
         # Loop through i, j and k in specified order
         for ind1 in range(self._var_lengths[var_order[0]]):
             # Report status
-            pcnt = (ind1+1) / self._var_lengths[var_order[0]]
+            pcnt = (ind1) / self._var_lengths[var_order[0]]
             print("ind1 = {}/{}: {:.1f}%".format(ind1+1,self._var_lengths[var_order[0]],100*pcnt))
             for ind2 in range(self._var_lengths[var_order[1]]):
                 for ind3 in range(self._var_lengths[var_order[2]]):
@@ -284,6 +284,122 @@ class KelpScenario(object):
 
         self._rte_matrix = sparse.csr_matrix(mat)
         self._rte_rhs = sparse.csr_matrix(rhs)
+
+    # Same as _calculate_rte_matrix, but optimize for var_order=[2,1,0]
+    def _gen_210_rte_matrix(self):
+        # RTE matrix in linked list format
+        mat = sparse.lil_matrix((*[np.prod(self._var_lengths)]*2,))
+        rhs = sparse.lil_matrix((np.prod(self._var_lengths),1))
+
+        nx, ny, nth = self._nx, self._ny, self._nth
+        
+        # Alias for index function
+        indx210 = lambda ii,jj,kk: kk * nx * ny + jj * nx + ii
+
+        # Loop through kk, then jj, then ii
+        for kk in range(nth):
+            # Report status
+            pcnt = kk / nth
+            print("kk = {}/{}: {:.1f}%".format(kk+1,nth,100*pcnt))
+
+            th = self._theta[kk]
+
+            for jj in range(ny):
+
+                for ii in range(nx):
+                    # Equation row number for this point
+                    row = indx210(ii,jj,kk)
+
+                    ## Cases for y derivative ##
+
+                    # Surface BC affects downwelling radiance
+                    # theta < pi (use kk <= nth/2 since theta[nth/2] < pi)
+                    if jj == 0:
+                        # Surface boundary condition
+                        if kk <= self._nth/2:
+                            mat[row,row] = 1
+                            rhs[row] = self._surf_bc_fun(th)
+                            pde_flag = False
+                        else:
+                            # FD2 for 1st derivative in y
+                            mat[row,row] = -3*np.sin(th)/(2*self._dy)
+                            mat[row,indx210(ii,jj+1,kk)] = 2*np.sin(th)/(self._dy)
+                            mat[row,indx210(ii,jj+2,kk)] = -np.sin(th)/(2*self._dy)
+                            pde_flag = True
+                    # Bottom BC: no upwelling radiance
+                    # theta >= pi
+                    elif jj == self._ny-1:
+                        if kk > self._nth/2:
+                            # Bottom BC
+                            mat[row,row] = 1
+                            rhs[row] = 0
+                            pde_flag = False
+                        else:
+                            # BD2 for 1st derivative in y
+                            mat[row,indx210(ii,jj-2,kk)] = np.sin(th)/(2*self._dy)
+                            mat[row,indx210(ii,jj-1,kk)] = -2*np.sin(th)/(self._dy)
+                            mat[row,row] = 3*np.sin(th)/(2*self._dy)
+                            pde_flag = True
+
+                    # Interior of domain
+                    # CD2 for y derivative
+                    else:
+                        # Modulus for periodic x BC
+                        ip1 = np.mod(ii+1,self._nx)
+                        im1 = np.mod(ii-1,self._nx)
+
+                        # x derivative
+                        mat[row,indx210(ip1,jj,kk)] = np.cos(th)/(2*self._dx)
+                        mat[row,indx210(im1,jj,kk)] = -np.cos(th)/(2*self._dx)
+                        # y derivative
+                        mat[row,indx210(ii,jj+1,kk)] = np.sin(th)/(2*self._dy)
+                        mat[row,indx210(ii,jj-1,kk)] = -np.sin(th)/(2*self._dy)
+
+                        pde_flag = True
+
+                    # Apply PDE when appropriate
+                    # atten. & x derivative & scattering
+                    if pde_flag:
+                        atn_coef = (self._atn_kelp * self._p_k[ii,jj]
+                                + self._atn_water * (1 - self._p_k[ii,jj]))
+                        sct_coef = (self._sct_kelp * self._p_k[ii,jj]
+                                + self._sct_water * (1 - self._p_k[ii,jj]))
+                        # attenuation
+                        mat[row,row] = atn_coef
+                        # scattering
+                        
+                        for ll in range(self._nth):
+                            # Only consider ll != kk
+                            if(ll == kk):
+                                continue
+
+                            # Theta prime - integration variable
+                            thp = self._theta[ll]
+
+                            # Take minimum distance when comparing
+                            # thp and the image of thp in
+                            # [2pi,4pi) and [-2pi,0)
+                            # See: http://stackoverflow.com/questions/9505862/shortest-distance-between-two-degree-marks-on-a-circle
+                            angle_diff = np.pi - np.abs(np.abs(
+                                th - thp) - np.pi)
+
+                            # Set scattering coefficient
+                            mat[row,indx210(ii,jj,ll)] = (
+                                  sct_coef 
+                                * self._lg_weights[ll]
+                                * self._vsf(angle_diff))
+
+        self._rte_matrix = sparse.csr_matrix(mat)
+        self._rte_rhs = sparse.csr_matrix(rhs)
+
+    def gen_rte_matrix(self,var_order=[2,1,0]):
+        if var_order == [2,1,0]:
+            print("Using 210")
+            self.set_var_order(var_order)
+            self._gen_210_rte_matrix()
+        else:
+            self._calculate_rte_matrix(var_order)
+
 
     # Given the order of variables in the matrix from outer to inner,
     # convert ii, jj, kk to matrix row/column #.
@@ -385,9 +501,12 @@ class KelpScenario(object):
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
-        # Solve
-        self._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
-        self.reshape_rad()
+        self._rte_sol,solve_fail = sparse.linalg.bicgstab(self._rte_matrix,self._rte_rhs.toarray())
+
+        if False: #solve_fail:
+            print("BICGSTAB failed w/ '{}' - using spsolve".format(solve_fail))
+            IPython.embed()
+            self._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
 
     def reshape_rad(self):
         # Convert to 3D array, maintaining var order
