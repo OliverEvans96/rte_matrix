@@ -26,8 +26,8 @@
 
 import numpy as np
 import numpy.polynomial.legendre as leg
-import matplotlib
-matplotlib.use('Qt5Agg')
+#import matplotlib
+#matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from scipy import sparse, misc, io
@@ -508,11 +508,11 @@ class KelpScenario(object):
 
     # Solve matrix equation using scipy's sparse solver.
     def solve_system(self):
-        self._rte_sol,solve_fail = sparse.linalg.bicgstab(self._rte_matrix,self._rte_rhs.toarray())
+        #self._rte_sol,solve_fail = sparse.linalg.bicgstab(self._rte_matrix,self._rte_rhs.toarray())
+        self._rte_sol = sparse.linalg.spsolve(self._rte_matrix.tocsc(),self._rte_rhs.tocsc())
 
         if False: #solve_fail:
             print("BICGSTAB failed w/ '{}' - using spsolve".format(solve_fail))
-            IPython.embed()
             self._rte_sol = sparse.linalg.spsolve(self._rte_matrix,self._rte_rhs)
 
     def reshape_rad(self):

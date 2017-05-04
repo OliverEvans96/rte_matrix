@@ -76,7 +76,8 @@ def gen_mat(nx,ny,nth):
 
     if gen_sparsity_plots:
         # Loop through all possible variable orderings
-        for ii,var_order in enumerate(it.permutations(range(3))):
+        # Only generate 210 matrices for now
+        for ii,var_order in ([0,[2,1,0]],): #enumerate(it.permutations(range(3))):
             print()
             print("ii={}: {}".format(ii,var_order))
 
@@ -86,42 +87,53 @@ def gen_mat(nx,ny,nth):
                     .format(nx,ny,nth,*var_order))
 
             print("Creating matrix")
-            scenario.calculate_rte_matrix(var_order)
+            scenario.gen_rte_matrix(var_order)
 
             print("Saving files")
             # Solve system & plot result
             print("Solving system")
             scenario.solve_system()
+            scenario.reshape_rad()
             print("Calculating irradiance")
 
             scenario.calc_irrad()
-            scenario.plot_irrad('../img/irrad/irrad_'+name+'.png')
+            scenario.plot_irrad('../img/irrad/ddom_'+name+'.png')
 
             # Save mat file
             scenario.write_rte_system_mat('../mat/'+name)
             # Save sparsity plots - one coarse (spy) & one precise (int)
-            scenario.write_int_matrix_png('../img/sparsity/int_'+name+'.png')
-            scenario.plot_rte_matrix('../img/sparsity/spy_'+name+'.png')
+            #scenario.write_int_matrix_png('../img/sparsity/int_'+name+'.png')
+            #scenario.plot_rte_matrix('../img/sparsity/spy_'+name+'.png')
 
-if plot_kelp:
-    print("Plotting kelp")
-    plt.figure(1)
-    scenario.plot_kelp('../img/solve/kelp.png')
+    if plot_kelp:
+        print("Plotting kelp")
+        plt.figure(1)
+        scenario.plot_kelp('../img/solve/kelp.png')
 
-if plot_irrad:
-    print("Creating matrix")
-    plt.figure(2)
-    scenario.calculate_rte_matrix()
-    #scenario.write_int_matrix_png('solve/sparsity.png')
-    print("Solving system")
-    scenario.solve_system()
-    print("Calculating irradiance")
-    scenario.calc_irrad()
-    scenario.plot_irrad('../img/solve/irrad.png')
-    print("Done!")
+    if plot_irrad:
+        print("Creating matrix")
+        plt.figure(2)
+        scenario.calculate_rte_matrix()
+        #scenario.write_int_matrix_png('solve/sparsity.png')
+        print("Solving system")
+        scenario.solve_system()
+        print("Calculating irradiance")
+        scenario.calc_irrad()
+        scenario.plot_irrad('../img/solve/irrad.png')
+        print("Done!")
 
-if interactive_load_mat:
-    print("Loading matrix")
-    scenario.load_rte_system_mat('../mat/kelp1_50x50x32_012.mat',[0,1,2])
-    print("Finished loading")
-    IPython.embed()
+    if interactive_load_mat:
+        print("Loading matrix")
+        scenario.load_rte_system_mat('../mat/kelp1_50x50x32_012.mat',[0,1,2])
+        print("Finished loading")
+        IPython.embed()
+
+# If file is executed as a script, not imported as a function:
+if __name__ == '__main__':
+    # Generate several matrices, nx = ny = 10,20,...,50, nth = 12,24
+    for nx in range(10,60,10):
+        for nth in [12,24]:
+            print()
+            print("nx = {}, nth = {}".format(nx,nth))
+            gen_mat(nx,nx,nth)
+
