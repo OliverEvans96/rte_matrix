@@ -29,6 +29,9 @@ import numpy as np
 import scipy.linalg as la
 import gen_matrix_2d as gm2
 import IPython
+import matplotlib.pyplot as plt
+
+plt.ion()
 
 # Grid parameters
 nx = 20
@@ -74,7 +77,7 @@ b_dn = sct_water
 
 # Hyperparameters
 tol = 1e-8
-maxiter = 100
+maxiter = 500
 
 # The 210 structure has a tightly banded diagonal block,
 # and every off-diagonal block is diagonal.
@@ -93,10 +96,17 @@ maxiter = 100
 # which are previous and current iteration respectively
 
 # Block form of Gauss-Seidel iteration
-def block_gs(AA,bb,var_lengths,tol,maxiter):
+def block_gs(AA,bb,var_lengths,tol,maxiter,x0=None,true_sol=None):
     nx, ny, nth = var_lengths
     nn = AA.shape[0]
+
+    # Initialize error
+    err = np.zeros(maxiter)
+
     uu = np.zeros([nn,2])
+    # Initial guess f provided
+    if x0 is not None:
+        uu[:,0] = x0
 
     # Given 1 or 2 theta block indices, return slice of aa
     # in first 1 or 2 dimensions
@@ -216,24 +226,58 @@ def block_gs(AA,bb,var_lengths,tol,maxiter):
             set_block(uu[:,1],xx[:,0],rr)
 
         # Calculate error (difference from last iteration)
-        err = np.sum(abs(uu[:,0]-uu[:,1])) / nn
-        print("err = {:.3e}".format(err))
+        if true_sol is None:
+            err[it] = np.sum(abs(uu[:,0]-uu[:,1])) / nn
+        else:
+            err[it] = np.sum(abs(true_sol-uu[:,1])) / nn
+        print("err = {:.3e}".format(err[it]))
         print()
 
         # Terminate iteration if error criteria is met
-        if err < tol:
-            return uu[:,1]
+        if err[it] < tol:
+            return (uu[:,1],err[:it+1])
 
         # Update to next iteration
         uu[:,0] = uu[:,1]
 
     print("Failed to converge to {} after {} iterations".format(tol,maxiter))
-    return uu[:,1]
+    return (uu[:,1],err)
 
+# Plot direct solution
 #scenario._rte_sol = block_gs(scenario._rte_matrix,scenario._rte_rhs,var_lengths,tol,maxiter)
 scenario.solve_system()
-#scenario.reshape_rad()
+scenario.reshape_rad()
 scenario.calc_irrad()
 scenario.plot_irrad('tmp.png')
+true_sol = scenario._rte_sol
 gm2.plt.show()
+
+# Plot iterative solution every np iterations up to maxiter
+maxiter = 200
+nstep = 50
+nplots = maxiter // nstep
+err = np.zeros(maxiter)
+
+x1 = np.zeros(nx*ny*nth)
+for it in range(nplots):
+    scenario._rte_sol,tmperr = block_gs(scenario._rte_matrix,scenario._rte_rhs,var_lengths,tol,nstep,x0=x1,true_sol=true_sol)
+
+    # Update initial guess
+    x1 = scenario._rte_sol
+
+    # Append error
+    err[it*nstep:(it+1)*nstep] = tmperr
+
+    plt.figure(2*it+1)
+    # Plot error 
+    plt.plot(err)
+    plt.title('error')
+
+    # Plot 
+    scenario.reshape_rad()
+    scenario.calc_irrad()
+    plt.figure(2*it+2)
+    scenario.plot_irrad('tmp.png')
+
+    plt.show()
 

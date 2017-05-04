@@ -42,9 +42,9 @@ def surf_bc_fun(th):
 def vsf(th):
     return .5 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-nx = 50
-ny = 50
-nth = 32
+nx = 20
+ny = 20
+nth = 24
 
 xx = np.linspace(0,1,nx)
 yy = np.linspace(0,1,ny)
@@ -68,8 +68,8 @@ scenario.set_num_grid_points(nx,ny,nth)
 scenario.calculate_pk()
 
 # What to do
-gen_sparsity_plots = False
-interactive_load_mat = True
+gen_sparsity_plots = True
+interactive_load_mat = False
 plot_kelp = False
 plot_irrad = False
 
@@ -77,7 +77,7 @@ print("{}x{}x{}".format(nx,ny,nth))
 
 if gen_sparsity_plots:
     # Loop through all possible variable orderings
-    for ii,var_order in enumerate(it.permutations(range(3))):
+    for ii,var_order in [[0,[2,1,0]]]:#enumerate(it.permutations(range(3))):
         print()
         print("ii={}: {}".format(ii,var_order))
 
@@ -87,12 +87,13 @@ if gen_sparsity_plots:
                 .format(nx,ny,nth,*var_order))
 
         print("Creating matrix")
-        scenario.calculate_rte_matrix(var_order)
+        scenario.gen_rte_matrix(var_order)
 
         print("Saving files")
         # Solve system & plot result
         print("Solving system")
         scenario.solve_system()
+        scenario.reshape_rad()
         print("Calculating irradiance")
 
         scenario.calc_irrad()
