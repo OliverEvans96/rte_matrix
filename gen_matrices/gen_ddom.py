@@ -1,7 +1,7 @@
 # File Name: gen_ddmo.py
 # Description: Generate diagonally dominant matrix with gen_matrix_2d.py
 # Created: Mon Apr 10, 2017 | 10:00am EDT
-# Last Modified: Wed May 03, 2017 | 12:43pm EDT
+# Last Modified: Thu May 04, 2017 | 05:53am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -40,71 +40,68 @@ def surf_bc_fun(th):
 def vsf(th):
     return .5 * np.exp(-th/2) / (1 - np.exp(-np.pi/2))
 
-nx = 20
-ny = 20
-nth = 24
+def gen_mat(nx,ny,nth):
+    dx = 1/nx
+    dy = 1/ny
 
-dx = 1/nx
-dy = 1/ny
+    xx = np.linspace(0,1,nx)
+    yy = np.linspace(0,1,ny)
 
-xx = np.linspace(0,1,nx)
-yy = np.linspace(0,1,ny)
+    # Made up shape. Little kelp on top, bulge near middle, zero at bottom.
+    kelp_lengths = 5 * (1 - yy) ** 2 * np.exp(5 * yy - 4)
+    # Number of individual kelps in each depth layer - more towards the top
+    ind = 2 - yy
 
-# Made up shape. Little kelp on top, bulge near middle, zero at bottom.
-kelp_lengths = 5 * (1 - yy) ** 2 * np.exp(5 * yy - 4)
-# Number of individual kelps in each depth layer - more towards the top
-ind = 2 - yy
+    # Assume that kelp and water scatter the same,
+    # but kelp absorbs much more light
+    # Choose these to create diagonal dominance
+    sct_water = 4*nx
+    sct_kelp = 4*nx
+    abs_water = 2*np.pi * sct_water
+    abs_kelp = 2 * abs_water
+    iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
 
-# Assume that kelp and water scatter the same,
-# but kelp absorbs much more light
-# Choose these to create diagonal dominance
-sct_water = 4*nx
-sct_kelp = 4*nx
-abs_water = 2*np.pi * sct_water
-abs_kelp = 2 * abs_water
-iops = [vsf,abs_water,sct_water,abs_kelp,sct_kelp]
+    scenario = gm2.KelpScenario(surf_bc_fun,iops)
+    scenario.set_kelp(kelp_lengths,ind)
+    scenario.set_num_grid_points(nx,ny,nth)
+    scenario.calculate_pk()
 
-scenario = gm2.KelpScenario(surf_bc_fun,iops)
-scenario.set_kelp(kelp_lengths,ind)
-scenario.set_num_grid_points(nx,ny,nth)
-scenario.calculate_pk()
+    # What to do
+    gen_sparsity_plots = True
+    interactive_load_mat = False
+    plot_kelp = False
+    plot_irrad = False
 
-# What to do
-gen_sparsity_plots = True
-interactive_load_mat = False
-plot_kelp = False
-plot_irrad = False
+    print("{}x{}x{}".format(nx,ny,nth))
 
-print("{}x{}x{}".format(nx,ny,nth))
+    if gen_sparsity_plots:
+        # Loop through all possible variable orderings
+        for ii,var_order in enumerate(it.permutations(range(3))):
+            print()
+            print("ii={}: {}".format(ii,var_order))
 
-if gen_sparsity_plots:
-    # Loop through all possible variable orderings
-    for ii,var_order in enumerate(it.permutations(range(3))):
-        print()
-        print("ii={}: {}".format(ii,var_order))
+            # Determine common name for files
+            # kelp1_[variable dimensions]_[variable order]
+            name = ('ddom_{}x{}x{}_{}{}{}'
+                    .format(nx,ny,nth,*var_order))
 
-        # Determine common name for files
-        # kelp1_[variable dimensions]_[variable order]
-        name = ('ddom_{}x{}x{}_{}{}{}'
-                .format(nx,ny,nth,*var_order))
+            print("Creating matrix")
+            scenario.calculate_rte_matrix(var_order)
 
-        print("Creating matrix")
-        scenario.calculate_rte_matrix(var_order)
+            print("Saving files")
+            # Solve system & plot result
+            print("Solving system")
+            scenario.solve_system()
+            print("Calculating irradiance")
 
-        print("Saving files")
-        # Solve system & plot result
-        print("Solving system")
-        scenario.solve_system()
-        print("Calculating irradiance")
+            scenario.calc_irrad()
+            scenario.plot_irrad('../img/irrad/irrad_'+name+'.png')
 
-        scenario.calc_irrad()
-        scenario.plot_irrad('../img/irrad/irrad_'+name+'.png')
-
-        # Save mat file
-        scenario.write_rte_system_mat('../mat/'+name)
-        # Save sparsity plots - one coarse (spy) & one precise (int)
-        scenario.write_int_matrix_png('../img/sparsity/int_'+name+'.png')
-        scenario.plot_rte_matrix('../img/sparsity/spy_'+name+'.png')
+            # Save mat file
+            scenario.write_rte_system_mat('../mat/'+name)
+            # Save sparsity plots - one coarse (spy) & one precise (int)
+            scenario.write_int_matrix_png('../img/sparsity/int_'+name+'.png')
+            scenario.plot_rte_matrix('../img/sparsity/spy_'+name+'.png')
 
 if plot_kelp:
     print("Plotting kelp")

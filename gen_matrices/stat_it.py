@@ -2,7 +2,7 @@
 # Description: Stationary iterative methods
 # Author: Oliver Evans
 # Created: Wed May 03, 2017 | 10:14am EDT
-# Last Modified: Wed May 03, 2017 | 04:28pm EDT
+# Last Modified: Thu May 04, 2017 | 05:36am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -185,7 +185,7 @@ N_funs = dict(
     rich = lambda D, L, U, p: -1/p * sp.eye(D.shape[0]) )
 
 # Define callable iterative solvers
-it_method = {}
+stat_method = {}
 for method in N_funs.keys():
     # i=i forces "early binding"
     # global variable i is saved on definition
@@ -197,5 +197,5 @@ for method in N_funs.keys():
         return st_itr_tmpl(AA,bb,N_funs[method],method=method,*args,**kwargs)
 
     # Save function to dictionary w/ appropriate name
-    it_method[method] = tmpf
+    stat_method[method] = tmpf
 

@@ -1,7 +1,7 @@
 # File Name: gen_matrix.py
 # Description: Generate matrix from RTE & create image to show structure
 # Created: Sun Apr 09, 2017 | 01:57pm EDT
-# Last Modified: Wed May 03, 2017 | 10:40pm EDT
+# Last Modified: Thu May 04, 2017 | 05:44am EDT
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 #                           GNU GPL LICENSE                            #
@@ -481,13 +481,20 @@ class KelpScenario(object):
     # Allow for other variables to be stored via **kwargs
     # Union of two dicts: http://stackoverflow.com/questions/38987/how-to-merge-two-python-dictionaries-in-a-single-expression
     def write_rte_system_mat(self,out_file,**kwargs):
-        io.savemat(out_file,
-                {'A':self._rte_matrix,
-                 'b':self._rte_rhs,
-                 'x':self._rte_sol,
-                 'rad':self._rad,
-                 'irrad':self._irrad,
-                 **kwargs}) # This trick only works for  Python3.5 +    
+        # Save x, rad, & irrad only if they have been calculated
+        try:
+            io.savemat(out_file,
+                    {'A':self._rte_matrix,
+                     'b':self._rte_rhs,
+                     'x':self._rte_sol,
+                     'rad':self._rad,
+                     'irrad':self._irrad,
+                     **kwargs}) # This trick only works for  Python3.5 +    
+        except(NameError):
+            io.savemat(out_file,
+                    {'A':self._rte_matrix,
+                     'b':self._rte_rhs,
+                     **kwargs}) # This trick only works for  Python3.5 +    
 
     def load_rte_system_mat(self,in_file,var_order=[0,1,2]):
         dct = io.loadmat(in_file)
