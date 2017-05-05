@@ -47,45 +47,89 @@ solvers = dict(
 # List of matrices
 matrices = glob.glob('../mat/ddom_*_210.mat')
 
+# Maximum matrix size
+maxdim = 30
+
+# Relaxation parameter for SOR/JOR
+omega = .9
+# p for Richardson
+p_rich = .9
+
+# Error tol for all iterative methods
+tol = 1e-4
+
 # Extract matrix sizes
 names = [mat.split('_')[1] for mat in matrices]
 dims = np.array([[int(dim) for dim in name.split('x')] for name in names])
 sizes = np.prod(dims, axis=1)
 
-# Loop through matrices for krylov methods
-slv_class='krylov'
-nmatrices = len(matrices)
-nmethods = len(solvers[slv_class].keys())
-start_times = np.zeros([nmatrices,nmethods])
-end_times = np.zeros([len(matrices),len(solvers[slv_class].keys())])
-
-# Pandas DataFrame for each class of methods
-# Row for each trial
-# 3 columns: start_time, end_time, info (failed to converge?)
+# Setup pd DataFrame structure
 data = {}
-data[slv_class] = pd.DataFrame(
-    np.zeros([nmatrices*nmethods,7]),
-    columns=['method','mat_name','mat_size','info','start_time','end_time','dt'])
+columns = ['method','mat_name','mat_size','info','start_time','end_time','dt']
+class_list = ['stat_it','direct','krylov']
 
-### These solvers have a callback method if we want to calculate errors ###
+# Loop through matrices for krylov methods
+#slv_class='krylov'
+for slv_class in class_list:
+    ### Krylov solvers have a callback method if we want to calculate errors ###
+    
+    slv_keys = list(solvers[slv_class].keys())
+    nmatrices = len(matrices)
+    nmethods = len(slv_keys)
 
-slv_keys = list(solvers[slv_class].keys())
+    # Pandas DataFrame for each class of methods
+    # Row for each trial
+    # 3 columns: start_time, end_time, info (failed to converge?)
+    data[slv_class] = pd.DataFrame(
+        np.zeros([nmatrices*nmethods,len(columns)]),
+        columns=columns)
+    
+    for ii,matrix in enumerate(matrices):
 
-for ii,matrix in enumerate(matrices):
-    mat_dct = io.loadmat(matrix)
-    A = mat_dct['A']
-    b = mat_dct['b'].toarray()
-    for jj, method in enumerate(slv_keys):
-        print("i={}, j={}".format(ii,jj))
-        kk = ii * nmethods + jj
-        out = solvers[slv_class][method](A,b)
+        # Optional cap on matrix size
+        if (dims[ii,:] > maxdim).any():
+            continue
 
-        data[slv_class].loc[kk,'method'] = slv_keys[jj]
-        data[slv_class].loc[kk,'mat_name'] = names[ii]
-        data[slv_class].loc[kk,'mat_size'] = sizes[ii]
-        data[slv_class].loc[kk,'info'] = out[1]
-        data[slv_class].loc[kk,'start_time'] = out[2]
-        data[slv_class].loc[kk,'end_time'] = out[3]
-        data[slv_class].loc[kk,'dt'] = out[3] - out[2]
+        # Extract problem dimensions
+        nx, ny, nth = dims[ii,:]
 
-io.savemat('../data/{}'.format(slv_class),data)
+        mat_dct = io.loadmat(matrix)
+        A = mat_dct['A']
+        b = mat_dct['b'].toarray()
+
+        for jj, method in enumerate(slv_keys):
+            print("{}: i={}, j={}".format(slv_class,ii,jj))
+            print(names[ii])
+            print(method)
+            print()
+
+            kk = ii * nmethods + jj
+
+            # Banded solver requires number of bands above & below
+            if slv_class == 'direct':
+                if method == 'band':
+                    out = solvers[slv_class][method](A,b,2*nx*ny,2*nx*ny)
+                else:
+                    out = solvers[slv_class][method](A,b)
+            elif slv_class == 'stat_it' and method in ['sor','jor','rich']:
+                if method == 'rich':
+                    out = solvers[slv_class][method](A,b,p=p_rich)
+                else:
+                    out = solvers[slv_class][method](A,b,w=omega)
+            else:
+                out = solvers[slv_class][method](A,b,tol=tol)
+    
+            data[slv_class].loc[kk,'method'] = slv_keys[jj]
+            data[slv_class].loc[kk,'mat_name'] = names[ii]
+            data[slv_class].loc[kk,'mat_size'] = sizes[ii]
+            data[slv_class].loc[kk,'info'] = out[1]
+            data[slv_class].loc[kk,'start_time'] = out[2]
+            data[slv_class].loc[kk,'end_time'] = out[3]
+            data[slv_class].loc[kk,'dt'] = out[3] - out[2]
+    
+    # Remove zero rows from DataFrame, which happens if maxdim is set
+    tmp = data[slv_class]
+    data[slv_class] = tmp[(tmp.T != 0).any()]
+
+    # Write to HDF for later
+    data[slv_class].to_hdf('../data/{}.hdf'.format(slv_class),key=slv_class)

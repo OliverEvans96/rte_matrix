@@ -26,6 +26,7 @@
 
 import numpy as np
 import scipy.sparse.linalg as sla
+import scipy.linalg as la
 import time
 
 # Banded
@@ -54,14 +55,18 @@ def band_slv(A,b,kl,ku):
     sol = la.solve_banded(arr2band(A,kl,ku),b)
     t2 = time.time()
 
-    return (sol, t1, t2)
+    # Always converges
+    info = 0
+    return (sol, info, t1, t2)
 
 def spsolve(A,b):
     t1 = time.time()
     sol = sla.spsolve(A,b)
     t2 = time.time()
 
-    return (sol, t1, t2)
+    # Always converges
+    info = 0
+    return (sol, info, t1, t2)
 
 def LUsparse(A, b):
     # start timing computations
@@ -76,14 +81,16 @@ def LUsparse(A, b):
     end_time = time.time()
     comp_time = end_time - start_time
 
-    return (sol, start_time, end_time)
+    # Always converges
+    info = 0
+    return (X, info, start_time, end_time)
 
 def SVDsparse(A, b):
     # start timing computations
     start_time = time.time()
     
     # compute singular values and their corresponding vectors using scipy.sparse.linalg
-    [U,sigma,Vt] = sla.svds(A,A.shape[0])
+    [U,sigma,Vt] = sla.svds(A,int(np.floor(A.shape[0]-1)/10))
     SIGMA = np.diag(sigma)
     
     X1 = np.transpose(U)@b
@@ -95,12 +102,16 @@ def SVDsparse(A, b):
     comp_time = end_time - start_time
     
     X_and_comptime = [X, comp_time]
+
+    # Always converges
+    info = 0
     
-    return(X_and_comptime)
+    return (X, info, start_time, end_time)
 
 # Collect all direct methods into a dictionary
 direct_method = dict(
-    band = band_slv,
-    lu = LUsparse,
-    svd = SVDsparse)
+    sps = spsolve,
+    lu = LUsparse)
+#    svd = SVDsparse,
+#    band = band_slv)
 

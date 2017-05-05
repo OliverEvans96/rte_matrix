@@ -138,7 +138,7 @@ def gen_mat(nx,ny,nth):
 if __name__ == '__main__':
     # Generate several matrices, nx = ny = 10,20,...,50, nth = 12,24
     for nx in range(10,60,10):
-        for nth in [12,24]:
+        for nth in [12,24,36,48]:
             print()
             print("nx = {}, nth = {}".format(nx,nth))
             gen_mat(nx,nx,nth)

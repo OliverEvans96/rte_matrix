@@ -48,7 +48,7 @@ krylov_method = dict(
         cgs      = time_func(sla.cgs),
         gmres    = time_func(sla.gmres),
         lgmres   = time_func(sla.lgmres),
-        qmr      = time_func(sla.qmr),
-        lsqr     = time_func(sla.lsqr),
-        lsmr     = time_func(sla.lsmr))
+        qmr      = time_func(sla.qmr))
+#        lsqr     = time_func(sla.lsqr),
+#        lsmr     = time_func(sla.lsmr))
 

@@ -37,6 +37,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
 import gershgorin as gg
+from krylov import time_func
 
 def st_itr_tmpl(AA, bb, N_fun,
         tol=1e-4, maxiter=1000,
@@ -169,7 +170,8 @@ def st_itr_tmpl(AA, bb, N_fun,
         # Update
         xx[:,0] = xx[:,1]
 
-    return (xx, err[:niter+1], status)
+    #return (xx, err[:niter+1], status)
+    return (xx, status)
 
 # Define particular N_fun for iterative methods
 N_funs = dict(
@@ -191,6 +193,8 @@ for method in N_funs.keys():
     # global variable i is saved on definition
     # Default behavior is to lookup i on function call
     # http://stackoverflow.com/questions/3431676/creating-functions-in-a-loop/
+
+    @time_func
     def tmpf(AA,bb,method=method,*args,**kwargs):
         "Callable iterative solver for specified method"
 
