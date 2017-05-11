@@ -1,0 +1,30 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+
+% Set latex arrowheads by default
+\tikzset{>=latex}
+
+% arara: pdflatex
+\begin{document}
+\tdplotsetmaincoords{180}{0}
+\begin{tikzpicture}[tdplot_main_coords,scale=1.5]
+	% Margin
+	\clip (-.25,-.25) rectangle (3.5,3.5);
+
+	% Axes
+	\draw[thick,->] (0,0) -- (3,0) node[anchor=north east]{$x$};
+	\draw[thick,->] (0,0) -- (0,3) node[anchor=north west]{$y$};
+	%\draw[thick,->] (0,0,0) -- (0,0,3) node[anchor=south west]{$z$};
+
+	% Theta arc (azimuth)
+	\tdplotdrawarc{(0,0,0)}{1}{0}{26.5646}{anchor=west,xshift=3,yshift=-4}{$\theta$};
+
+	% Line from origin (r)
+	\draw[->] (0,0) -- (2,1);
+
+	% Right angle
+	%\draw (0,0,1-0.1) -- ({0.1*2/sqrt(3)},{0.1/sqrt(3)},1-0.1) -- ({0.1*2/sqrt(3)},{0.1/sqrt(3)},1);
+
+\end{tikzpicture}
+\end{document}

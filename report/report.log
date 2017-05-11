@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.5)  11 MAY 2017 09:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.5)  11 MAY 2017 19:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -113,16 +113,6 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
 )
-(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
-Package: amssymb 2013/01/14 v3.01 AMS font symbols
-
-(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
-Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\symAMSa=\mathgroup4
-\symAMSb=\mathgroup5
-LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
-(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-))
 (/usr/share/texmf-dist/tex/latex/was/gensymb.sty
 Package: gensymb 2003/07/02 v1.0 (WaS)
 )
@@ -183,9 +173,19 @@ Package: booktabs 2016/04/27 v1.618033 publication quality tables
 \@lastruleclass=\count108
 \@thisrulewidth=\dimen135
 )
+(/usr/share/texmf-dist/tex/latex/parskip/parskip.sty
+Package: parskip 2001/04/09 non-zero parskip adjustments
+)
+(/usr/share/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip50
+\bibsep=\skip51
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count109
+)
 (/usr/share/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count109
+\c@float@type=\count110
 \float@exts=\toks20
 \float@box=\box28
 \@float@everytoks=\toks21
@@ -204,9 +204,9 @@ Package ifvtex Info: VTeX not detected.
 (/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count110
-\Gm@cntv=\count111
-\c@Gm@tempcnt=\count112
+\Gm@cnth=\count111
+\Gm@cntv=\count112
+\c@Gm@tempcnt=\count113
 \Gm@bindingoffset=\dimen136
 \Gm@wd@mp=\dimen137
 \Gm@odd@mp=\dimen138
@@ -219,20 +219,20 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 (/usr/share/texmf-dist/tex/latex/tools/multicol.sty
 Package: multicol 2016/04/07 v1.8p multicolumn formatting (FMi)
-\c@tracingmulticols=\count113
+\c@tracingmulticols=\count114
 \mult@box=\box30
 \multicol@leftmargin=\dimen144
-\c@unbalance=\count114
-\c@collectmore=\count115
-\doublecol@number=\count116
-\multicoltolerance=\count117
-\multicolpretolerance=\count118
+\c@unbalance=\count115
+\c@collectmore=\count116
+\doublecol@number=\count117
+\multicoltolerance=\count118
+\multicolpretolerance=\count119
 \full@width=\dimen145
 \page@free=\dimen146
 \premulticols=\dimen147
 \postmulticols=\dimen148
-\multicolsep=\skip50
-\multicolbaselineskip=\skip51
+\multicolsep=\skip52
+\multicolbaselineskip=\skip53
 \partial@page=\box31
 \last@line=\box32
 \maxbalancingoverflow=\dimen149
@@ -257,14 +257,14 @@ Package: multicol 2016/04/07 v1.8p multicolumn formatting (FMi)
 \@tempa=\box51
 \@tempa=\box52
 \@tempa=\box53
-\c@columnbadness=\count119
-\c@finalcolumnbadness=\count120
+\c@columnbadness=\count120
+\c@finalcolumnbadness=\count121
 \last@try=\dimen150
 \multicolovershoot=\dimen151
 \multicolundershoot=\dimen152
 \mult@nat@firstbox=\box54
 \colbreak@box=\box55
-\mc@col@check@num=\count121
+\mc@col@check@num=\count122
 )
 (/usr/share/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
@@ -280,7 +280,7 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 \caption@parindent=\dimen158
 \caption@hangindent=\dimen159
 )
-\c@ContinuedFloat=\count122
+\c@ContinuedFloat=\count123
 Package caption Info: float package is loaded.
 )
 (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf.sty
@@ -331,44 +331,48 @@ G,.JBIG2,.JB2,.eps]
 (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
-))) (./report.aux)
+))) (./report.aux
+
+LaTeX Warning: Label `eq:surf_bc' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+ (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count123
+\scratchcounter=\count124
 \scratchdimen=\dimen160
 \scratchbox=\box56
-\nofMPsegments=\count124
-\nofMParguments=\count125
+\nofMPsegments=\count125
+\nofMParguments=\count126
 \everyMPshowfont=\toks23
-\MPscratchCnt=\count126
+\MPscratchCnt=\count127
 \MPscratchDim=\dimen161
-\MPnumerator=\count127
-\makeMPintoPDFobject=\count128
+\MPnumerator=\count128
+\makeMPintoPDFobject=\count129
 \everyMPtoPDFconversion=\toks24
 )
-LaTeX Info: Redefining \celsius on input line 75.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 75.
+LaTeX Info: Redefining \celsius on input line 80.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 80.
 
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 75.
-Package gensymb Info: Using \Omega for \ohm on input line 75.
+LaTeX Info: Redefining \ohm on input line 80.
+Package gensymb Info: Using \Omega for \ohm on input line 80.
 
 Package gensymb Warning: Not defining \micro.
 
@@ -411,55 +415,81 @@ Package caption Info: End \AtBeginDocument code.
 [0
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for U+msa on input line 126.
-
-(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 126.
-
-(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-<../img/sparsity/int_kelp1_10x10x16_012.png, id=7, 1606.0pt x 1606.0pt>
+<2d_coords.pdf, id=7, 160.04694pt x 160.04694pt>
+File: 2d_coords.pdf Graphic file (type pdf)
+ <use 2d_coords.pdf>
+Package pdftex.def Info: 2d_coords.pdf used on input line 174.
+(pdftex.def)             Requested size: 144.54pt x 144.55374pt.
+ [1 <./2d_coords.pdf>]
+<../img/sparsity/int_kelp1_10x10x16_012.png, id=27, 1606.0pt x 1606.0pt>
 File: ../img/sparsity/int_kelp1_10x10x16_012.png Graphic file (type png)
 
 <use ../img/sparsity/int_kelp1_10x10x16_012.png>
 Package pdftex.def Info: ../img/sparsity/int_kelp1_10x10x16_012.png used on inp
-ut line 144.
-(pdftex.def)             Requested size: 289.07999pt x 289.06754pt.
+ut line 232.
+(pdftex.def)             Requested size: 216.81pt x 216.80064pt.
 
-<../img/sparsity/int_kelp1_10x10x16_210.png, id=8, 1606.0pt x 1606.0pt>
+<../img/sparsity/int_kelp1_10x10x16_210.png, id=28, 1606.0pt x 1606.0pt>
 File: ../img/sparsity/int_kelp1_10x10x16_210.png Graphic file (type png)
 
 <use ../img/sparsity/int_kelp1_10x10x16_210.png>
 Package pdftex.def Info: ../img/sparsity/int_kelp1_10x10x16_210.png used on inp
-ut line 150.
-(pdftex.def)             Requested size: 289.07999pt x 289.06754pt.
- [1 <../img/sparsity/int_kelp1_10x10x16_012.png (PNG copy)>] [2 <../img/sparsit
-y/int_kelp1_10x10x16_210.png (PNG copy)>] (./report.aux) ) 
+ut line 238.
+(pdftex.def)             Requested size: 216.81pt x 216.80064pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--253
+[]\OT1/cmr/bx/n/14.4 Nonstationary It-er-a-tive Meth-
+ []
+
+(./report.bbl
+Overfull \hbox (20.06854pt too wide) in paragraph at lines 9--17
+\OT1/cmtt/m/n/10 http://epubs.siam.org/doi/10.1137/S0895479803422014\OT1/cmr/m/
+n/10 . 
+ []
+
+
+Underfull \hbox (badness 5316) in paragraph at lines 31--39
+\OT1/cmr/m/it/10 En-cy-clo-pe-dia of Ocean Sci-ences\OT1/cmr/m/n/10 , pages 232
+1--2330.
+ []
+
+
+Overfull \hbox (72.56808pt too wide) in paragraph at lines 31--39
+\OT1/cmtt/m/n/10 http://linkinghub.elsevier.com/retrieve/pii/B012227430X004694\
+OT1/cmr/m/n/10 .
+ []
+
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no © in font cmr10!
+[2 <../img/sparsity/int_kelp1_10x10x16_012.png (PNG copy)> <../img/sparsity/int
+_kelp1_10x10x16_210.png (PNG copy)>]) [3] (./report.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5063 strings out of 493013
- 74138 string characters out of 6139317
- 150464 words of memory out of 5000000
- 8533 multiletter control sequences out of 15000+600000
- 8684 words of font info for 33 fonts, out of 8000000 for 9000
+ 5154 strings out of 493013
+ 75819 string characters out of 6139317
+ 166175 words of memory out of 5000000
+ 8630 multiletter control sequences out of 15000+600000
+ 7607 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,5n,39p,792b,273s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
-b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/
-share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on report.pdf (3 pages, 160610 bytes).
+ 42i,8n,39p,792b,367s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi5.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
+/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on report.pdf (4 pages, 207748 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 77 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

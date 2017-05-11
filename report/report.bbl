@@ -1,0 +1,49 @@
+\begin{thebibliography}{5}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Baker et~al.(2005)Baker, Jessup, and Manteuffel]{baker_technique_2005}
+A.~H. Baker, E.~R. Jessup, and T.~Manteuffel.
+\newblock A {Technique} for {Accelerating} the {Convergence} of {Restarted}
+  {GMRES}.
+\newblock \emph{SIAM Journal on Matrix Analysis and Applications}, 26\penalty0
+  (4):\penalty0 962--984, Jan. 2005.
+\newblock ISSN 0895-4798, 1095-7162.
+\newblock \doi{10.1137/S0895479803422014}.
+\newblock URL \url{http://epubs.siam.org/doi/10.1137/S0895479803422014}.
+
+\bibitem[Chandrasekhar(1960)]{chandrasekhar_radiative_1960}
+S.~Chandrasekhar.
+\newblock \emph{Radiative {Transfer}}.
+\newblock Dover, 1960.
+\newblock URL \url{https://archive.org/details/RadiativeTransfer}.
+
+\bibitem[Jones et~al.(2001)Jones, Oliphant, Peterson, and
+  {others}]{jones_scipy:_2001}
+E.~Jones, T.~Oliphant, P.~Peterson, and {others}.
+\newblock {SciPy}: {Open} source scientific tools for {Python}, 2001.
+\newblock URL \url{http://www.scipy.org}.
+
+\bibitem[Mobley(2001)]{mobley_radiative_2001}
+C.~Mobley.
+\newblock Radiative {Transfer} in the {Ocean}.
+\newblock In \emph{Encyclopedia of {Ocean} {Sciences}}, pages 2321--2330.
+  Elsevier, 2001.
+\newblock ISBN 978-0-12-227430-5.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/B012227430X004694}.
+\newblock DOI: 10.1006/rwos.2001.0469.
+
+\bibitem[Pérez and Granger(2007)]{perez_ipython:_2007}
+F.~Pérez and B.~E. Granger.
+\newblock {IPython}: a system for interactive scientific computing.
+\newblock \emph{Computing in Science \& Engineering}, 9\penalty0 (3):\penalty0
+  21--29, May 2007.
+\newblock ISSN 1521-9615.
+\newblock \doi{10.1109/MCSE.2007.53}.
+\newblock URL \url{http://ipython.org}.
+
+\end{thebibliography}
