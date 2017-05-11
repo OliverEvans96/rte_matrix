@@ -1,0 +1,186 @@
+\documentclass[10pt]{article}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{systeme}
+\usepackage{listings}
+\usepackage{empheq}
+\usepackage{float}
+\usepackage{tikz}
+
+% Set latex arrowheads by default
+\tikzset{>=latex}
+
+\newcommand\mgin{1in}
+\geometry{
+	left=\mgin,
+	right=\mgin,
+	bottom=\mgin,
+	top=\mgin
+}
+
+% Natural numbers
+\newcommand\N{\mathbb{N}}
+% Real numbers
+\newcommand\R{\mathbb{R}}
+% Complex numbers
+\newcommand\C{\mathbb{C}}
+% Curly B for basis
+\newcommand\BB{\mathcal{B}}
+% Curly R for range (not real numbers)
+\newcommand\RR{\mathcal{R}}
+% Curly N for null space
+\newcommand\NN{\mathcal{N}}
+% Norm
+\newcommand\norm[1]{\left\lVert #1 \right\rVert}
+% Uniform Norm
+\newcommand\unorm[1]{\left\lVert #1 \right\rVert_\infty}
+% Inner Product
+\newcommand\ip[1]{\left\langle #1 \right\rangle}
+% Absolute value
+\newcommand\abs[1]{\left| #1 \right|}
+% Complex Conjugate
+\newcommand\conj\overline
+% Disable paragraph indentation
+\setlength{\parindent}{0pt}
+% Space after question
+\newcommand\qspace{-0.1in}
+% Line after question
+\newcommand\ql{\centerline{\rule{3in}{0.5pt}}\vspace{1em}}
+% End of proof
+\newcommand\qed{\hfill$\blacksquare$\hspace{0.5in}}
+
+% Number this equation
+\newcommand\eqnum{\addtocounter{equation}{1}\tag{\theequation}}
+
+% Section labels
+\renewcommand\thesubsection{(\alph{subsection})}
+
+% Code input settings
+\lstset{
+	basicstyle=\ttfamily,
+	commentstyle=\rmfamily,
+	showstringspaces=false,
+	numbers=left, 
+	breaklines=true,
+	numbersep=1em,
+	frame=leftline,
+	tabsize=4,
+	xleftmargin=.5in,
+	xrightmargin=.5in} 
+
+% arara: pdflatex
+\begin{document}
+
+%%fakesection Title
+\null
+
+\thispagestyle{empty}
+\addtocounter{page}{-1}
+
+\begin{center}
+    \begin{sffamily}
+	\begin{bfseries}
+	    \null
+	    \vfill
+	    \Huge{Methods of Applied Math I} \\
+
+	    \vspace{10pt}
+		\huge{Homework 9} \\
+	    \vspace{20pt}
+    \begin{LARGE}
+		Oliver Evans \\
+		Dr. Pat Wilber \\[.5em]
+	\vspace{20pt}
+	\today
+    \end{LARGE}
+	\end{bfseries}
+    \end{sffamily}
+    \vspace{30pt}
+
+    \null
+    \vfill
+    \vfill
+    \null
+\end{center}
+\pagebreak
+
+\section{}
+Consider the boundary-value problem
+\begin{equation}
+	Lu = f, \quad B_1u = \gamma_1, \quad B_2u = \gamma_2
+\end{equation}
+
+where
+\begin{equation}
+	Lu = a_2(x)\frac{d^2u}{dx^2} + a_1(x)\frac{du}{dx} + a_0(x) u \mbox{ for } a<x<b
+\end{equation}
+\begin{equation}
+	B_1u = \alpha_{11}u(a) + \alpha_{12}\frac{du}{dx}(a) \beta_{11}u(b) + \beta_{12}\frac{du}{dx}(b),
+\end{equation}
+\begin{equation}
+	B_2u = \alpha_{21}u(a) + \alpha_{22}\frac{du}{dx}(a) \beta_{21}u(b) + \beta_{22}\frac{du}{dx}(b),
+\end{equation}
+
+Note that in (1)-(4), the boundary conditions are note separated.
+
+The Green's function $g(x,t)$ for (1) is defined as the solution to
+\begin{equation}
+	\begin{split}
+		&Lg = 0\, a<x<t, \, t<x<b; \quad B_1g = 0, \, B_2g = 0, \\
+		&g \mbox{ continuous at } x=t, \quad \frac{\partial g}{\partial x}\Big|_{x=t^-}^{x=t^+} = \frac{1}{a_2(t)}.
+	\end{split}
+\end{equation}
+
+To write down a formula for $g$, we let
+\begin{enumerate}[(i)]
+	\item $u_i(x,t)$ be the solution to
+		\begin{equation}
+			Lu_i = 0,\, a<x<t,\, t<x<b; \quad u_i(t,t) = 0, \quad \frac{\partial u_i(t,t)}{\partial x} = \frac{1}{a_2(t)}
+		\end{equation}
+%
+	\item $u_1(x,t)$ be the solution to
+		\begin{equation}
+			Lu_1 = 0,\, a<x<t,\, t<x<b; \qquad B_1 u_1 = 0,
+		\end{equation}
+%
+	\item $u_2(x,t)$ be the solution to
+		\begin{equation}
+			Lu_2 = 0,\, a<x<t,\, t<x<b; \qquad B_2 u_2 = 0.
+		\end{equation}
+\end{enumerate}
+
+Now set
+\begin{equation}
+	g(x,t) = H(x-t)u_i(x,t) + A_1 u_1(x,t) + A_2 u_2(x,t).
+\end{equation}
+
+It can be shown that (9) is the solution to (5). (You do not have to show this.)
+Hence (9) is the Green's function for (1).
+
+Show that $A_1$ and $A_2$ can be picked so that (9) satisfies the boundary conditions $B_1g = 0$, $B_2g = 0$.
+Hence you are checking part of what one would have to check to show that (9) is the solution to (5)
+
+\ql
+
+\section{}
+Construct Green's functions (if they exist) for the following equations.
+
+\subsection{Keener 4.2.3}
+\begin{equation*}
+	u'' + \alpha^2 u = f(x), u(0) = u(1), u'(0) = u'(1)
+\end{equation*}
+
+For what values of $\alpha$ does the Green's function fail to exists?
+
+\ql
+
+\subsection{Keener 4.2.4}
+\begin{equation*}
+	u'' = f(x), u(0) = 0, \int_0^1 u(x)\,dx = 0
+\end{equation*}
+
+\ql
+
+\end{document}
