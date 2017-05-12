@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.5)  11 MAY 2017 20:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.5)  11 MAY 2017 21:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -414,26 +414,59 @@ Package caption Info: End \AtBeginDocument code.
 <2d_coords.pdf, id=7, 160.04694pt x 160.04694pt>
 File: 2d_coords.pdf Graphic file (type pdf)
  <use 2d_coords.pdf>
-Package pdftex.def Info: 2d_coords.pdf used on input line 170.
+Package pdftex.def Info: 2d_coords.pdf used on input line 171.
 (pdftex.def)             Requested size: 144.54pt x 144.55374pt.
- [1 <./2d_coords.pdf>]
-<../img/sparsity/int_small_4x4x4_012.png, id=27, 64.24pt x 64.24pt>
-File: ../img/sparsity/int_small_4x4x4_012.png Graphic file (type png)
+ [1 <./2d_coords.pdf>] <../img/sparsity/int_hq_6x6x6_012.png, id=27, 2168.1pt x
+ 2168.1pt>
+File: ../img/sparsity/int_hq_6x6x6_012.png Graphic file (type png)
 
-<use ../img/sparsity/int_small_4x4x4_012.png>
-Package pdftex.def Info: ../img/sparsity/int_small_4x4x4_012.png used on input 
-line 228.
-(pdftex.def)             Requested size: 216.81pt x 216.82806pt.
+<use ../img/sparsity/int_hq_6x6x6_012.png>
+Package pdftex.def Info: ../img/sparsity/int_hq_6x6x6_012.png used on input lin
+e 256.
+(pdftex.def)             Requested size: 180.67499pt x 180.66353pt.
 
-<../img/sparsity/int_small_4x4x4_210.png, id=28, 64.24pt x 64.24pt>
-File: ../img/sparsity/int_small_4x4x4_210.png Graphic file (type png)
+<../img/sparsity/int_hq_6x6x6_021.png, id=28, 2168.1pt x 2168.1pt>
+File: ../img/sparsity/int_hq_6x6x6_021.png Graphic file (type png)
 
-<use ../img/sparsity/int_small_4x4x4_210.png>
-Package pdftex.def Info: ../img/sparsity/int_small_4x4x4_210.png used on input 
-line 234.
-(pdftex.def)             Requested size: 216.81pt x 216.82806pt.
+<use ../img/sparsity/int_hq_6x6x6_021.png>
+Package pdftex.def Info: ../img/sparsity/int_hq_6x6x6_021.png used on input lin
+e 262.
+(pdftex.def)             Requested size: 180.67499pt x 180.66353pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 249--249
+<../img/sparsity/int_hq_6x6x6_102.png, id=29, 2168.1pt x 2168.1pt>
+File: ../img/sparsity/int_hq_6x6x6_102.png Graphic file (type png)
+
+<use ../img/sparsity/int_hq_6x6x6_102.png>
+Package pdftex.def Info: ../img/sparsity/int_hq_6x6x6_102.png used on input lin
+e 268.
+(pdftex.def)             Requested size: 180.67499pt x 180.66353pt.
+
+<../img/sparsity/int_hq_6x6x6_120.png, id=30, 2168.1pt x 2168.1pt>
+File: ../img/sparsity/int_hq_6x6x6_120.png Graphic file (type png)
+
+<use ../img/sparsity/int_hq_6x6x6_120.png>
+Package pdftex.def Info: ../img/sparsity/int_hq_6x6x6_120.png used on input lin
+e 274.
+(pdftex.def)             Requested size: 180.67499pt x 180.66353pt.
+
+<../img/sparsity/int_hq_6x6x6_201.png, id=31, 2168.1pt x 2168.1pt>
+File: ../img/sparsity/int_hq_6x6x6_201.png Graphic file (type png)
+
+<use ../img/sparsity/int_hq_6x6x6_201.png>
+Package pdftex.def Info: ../img/sparsity/int_hq_6x6x6_201.png used on input lin
+e 280.
+(pdftex.def)             Requested size: 180.67499pt x 180.66353pt.
+ [2 <../img/sparsity/int_hq_6x6x6_012.png> <../img/sparsity/int_hq_6x6x6_021.pn
+g> <../img/sparsity/int_hq_6x6x6_102.png>] <../img/sparsity/int_hq_6x6x6_210.pn
+g, id=36, 2168.1pt x 2168.1pt>
+File: ../img/sparsity/int_hq_6x6x6_210.png Graphic file (type png)
+
+<use ../img/sparsity/int_hq_6x6x6_210.png>
+Package pdftex.def Info: ../img/sparsity/int_hq_6x6x6_210.png used on input lin
+e 286.
+(pdftex.def)             Requested size: 180.67499pt x 180.66353pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--302
 []\OT1/cmr/bx/n/14.4 Nonstationary It-er-a-tive Meth-
  []
 
@@ -457,32 +490,32 @@ OT1/cmr/m/n/10 .
 
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
-[2 <../img/sparsity/int_small_4x4x4_012.png (PNG copy)> <../img/sparsity/int_sm
-all_4x4x4_210.png (PNG copy)>]) [3] (./report.aux) ) 
+) [3 <../img/sparsity/int_hq_6x6x6_120.png> <../img/sparsity/int_hq_6x6x6_201.p
+ng> <../img/sparsity/int_hq_6x6x6_210.png>] [4] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5154 strings out of 493013
- 75794 string characters out of 6139317
- 166139 words of memory out of 5000000
- 8630 multiletter control sequences out of 15000+600000
+ 5175 strings out of 493013
+ 76503 string characters out of 6139317
+ 166143 words of memory out of 5000000
+ 8647 multiletter control sequences out of 15000+600000
  7607 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,8n,39p,792b,367s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/font
-s/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pf
-b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/font
-s/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (4 pages, 167165 bytes).
+ 42i,8n,39p,792b,368s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/s
+hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on report.pdf (5 pages, 328089 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 84 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

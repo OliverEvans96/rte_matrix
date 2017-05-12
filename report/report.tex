@@ -148,6 +148,7 @@ Let $\beta(\Delta\theta)$ denote the normalized \textit{volume scattering functi
 
 Then, the Monochromatic Radiative Transfer Equation (RTE) is
 \begin{equation}
+	\tag{RTE}
 	\label{eq:rte}
 	\begin{aligned}
 		\omega \cdot \nabla_x L(x,\omega) &= -(a(x) + b(x)) L(x,\omega) \\
@@ -210,7 +211,7 @@ In the horizontal direction, we assume periodic boundary conditions.
 Assuming that a single discrete group of plants is being simulated, adjusting the width of the domain effectively modifies the spacing between adjacent groups of plants.
 
 \section{Discretization}
-In order to solve \eqref{eq:rte2d} numerically, we discretize the spatial derivatives using 2nd order central finite difference approximations (CD2), and we discretize the integral according to the Legendre-Gauss quadrature, as described in chapter 2 of \citet{chandrasekhar_radiative_1960}.
+In order to solve \eqref{eq:rte2d} numerically, we discretize the spatial derivatives using 2nd order finite difference approximations, and we discretize the integral according to the Legendre-Gauss quadrature, as described in chapter 2 of \citet{chandrasekhar_radiative_1960}.
 With this in mind, in order to create a spatial-angular grid with $n_x,n_y$, and $n_\theta$ discrete values for $x, y$, and $\theta$ respectively, we use a uniform square spatial discretization with spacing $dx, dy$, and a non-uniform angular discretization according to the roots of the Legendre Polynomial of degree $n_\theta$, denoted $P_{n_\theta}(\theta)$.
 In each variable, we discard the uppermost grid point, as indicated by the half-open intervals in the previous sections.
 
@@ -222,18 +223,70 @@ Then, we have the grid
 	&P_{n_\theta}(\theta_k) = 0, &\quad k=1,\ldots,n_\theta
 \end{align}
 
+For the spatial interior of the domain, we use the 2nd order central difference formula (CD2) to approximate the derivatives, which is
+\begin{equation}
+	\tag{CD2}
+	f'(x) = \frac{f(x+dx)-f(x-dx)}{2dx} + \mathcal{O}(dx^3).
+\end{equation}
+
+When applying the PDE on the upper or lower boundary, we use the forward and backward difference (FD2 and BD2) formulas respectively.
+Omitting $\mathcal{O}(dx^3)$, we have
+\begin{equation}
+	\tag{FD2}
+	f'(x) = \frac{-3f(x)+2f(x+dx)-f(x+2dx)}{2dx}
+\end{equation}
+\begin{equation}
+	\tag{BD2}
+	f'(x) = \frac{3f(x)-2f(x-dx)+f(x-2dx)}{2dx}
+\end{equation}
+
+As for the angular integral, we substitute a weighted finite sum of the function evaluated at the angular grid points.
+For each $k$, let $a_k$ be the appropriate Legendre-Gauss weight according to \citet[Chapter 2]{chandrasekhar_radiative_1960}.
+Then, applying the change of variables theorem to transform from the standard quadrature interval $[0,1]$ to the correct angular interval $[0,2\pi]$, we have
+\begin{equation}
+	\tag{LG}
+	\int_0^{2\pi} f(\theta)\,d\theta \approx \pi\sum_k=1^n a_k f(\theta_k)
+\end{equation}
+
 \subsection{Sparsity Plots}
+
+\newcommand{\spwidth}{2.5in}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=3in]{../img/sparsity/int_small_4x4x4_012.png}
-	\caption{Sparsity plot: 10x10x16, ordering 012}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_012.png}
+	\caption{Sparsity plot: 6x6x6, ordering 012 }
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=3in]{../img/sparsity/int_small_4x4x4_210.png}
-	\caption{Sparsity plot: 10x10x16, ordering 210}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_021.png}
+	\caption{Sparsity plot: 6x6x6, ordering 021 }
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_102.png}
+	\caption{Sparsity plot: 6x6x6, ordering 102 }
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_120.png}
+	\caption{Sparsity plot: 6x6x6, ordering 120 }
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_201.png}
+	\caption{Sparsity plot: 6x6x6, ordering 201 }
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_210.png}
+	\caption{Sparsity plot: 6x6x6, ordering 210 }
+\end{figure}
+
 \subsection{Matrix Properties}
 \subsubsection{Diagonal Dominance}
 \subsubsection{Spectral Radius}
