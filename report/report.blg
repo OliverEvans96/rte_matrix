@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: abbrvnat.bst
 Database file #1: rte_matrix_report.bib
-You've used 5 entries,
+You've used 10 entries,
             2773 wiz_defined-function locations,
-            632 strings with 5575 characters,
-and the built_in function-call counts, 2427 in all, are:
-= -- 236
-> -- 110
-< -- 4
-+ -- 38
-- -- 33
-* -- 189
-:= -- 374
-add.period$ -- 26
-call.type$ -- 5
-change.case$ -- 25
-chr.to.int$ -- 5
-cite$ -- 10
-duplicate$ -- 112
-empty$ -- 201
-format.name$ -- 40
-if$ -- 516
+            673 strings with 6840 characters,
+and the built_in function-call counts, 5058 in all, are:
+= -- 480
+> -- 281
+< -- 8
++ -- 97
+- -- 87
+* -- 411
+:= -- 795
+add.period$ -- 48
+call.type$ -- 10
+change.case$ -- 57
+chr.to.int$ -- 10
+cite$ -- 20
+duplicate$ -- 222
+empty$ -- 386
+format.name$ -- 99
+if$ -- 1061
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 5
-newline$ -- 43
-num.names$ -- 20
-pop$ -- 49
+missing$ -- 10
+newline$ -- 74
+num.names$ -- 40
+pop$ -- 106
 preamble$ -- 1
-purify$ -- 21
+purify$ -- 49
 quote$ -- 0
-skip$ -- 86
+skip$ -- 174
 stack$ -- 0
-substring$ -- 94
-swap$ -- 18
-text.length$ -- 1
+substring$ -- 180
+swap$ -- 32
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 50
+type$ -- 100
 warning$ -- 0
-while$ -- 22
+while$ -- 44
 width$ -- 0
-write$ -- 91
+write$ -- 172

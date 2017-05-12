@@ -1,9 +1,37 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Amestoy et~al.(2001)Amestoy, Duff, L'Excellent, and
+  Koster]{amestoy_mumps:_2001}
+P.~Amestoy, I.~S. Duff, J.-Y. L'Excellent, and J.~Koster.
+\newblock {MUMPS}: {A} {General} {Purpose} {Distributed} {Memory} {Sparse}
+  {Solver}.
+\newblock In \emph{Proceedings of the 5th {International} {Workshop} on
+  {Applied} {Parallel} {Computing}, {New} {Paradigms} for {HPC} in {Industry}
+  and {Academia}}, {PARA} '00, pages 121--130, London, UK, UK, 2001.
+  Springer-Verlag.
+\newblock ISBN 3-540-41729-X.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=645782.666826}.
+
+\bibitem[Anderson(2012)]{anderson_analysis_2012}
+C.~J. Anderson.
+\newblock \emph{Analysis of {Controlled} {Over}-{Relaxation}}.
+\newblock PhD thesis, University of Akron, 2012.
+\newblock URL \url{http://rave.ohiolink.edu/etdc/view?acc_num=akron1342456200}.
+
+\bibitem[Anderson et~al.(1999)Anderson, Bai, Bischof, Blackford, Demmel,
+  Dongarra, Du~Croz, Greenbaum, Hammarling, McKenney, and
+  Sorensen]{anderson_lapack_1999}
+E.~Anderson, Z.~Bai, C.~Bischof, S.~Blackford, J.~Demmel, J.~Dongarra,
+  J.~Du~Croz, A.~Greenbaum, S.~Hammarling, A.~McKenney, and D.~Sorensen.
+\newblock \emph{{LAPACK} {Users}' {Guide}}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  third edition, 1999.
+\newblock ISBN 0-89871-447-8 (paperback).
 
 \bibitem[Baker et~al.(2005)Baker, Jessup, and Manteuffel]{baker_technique_2005}
 A.~H. Baker, E.~R. Jessup, and T.~Manteuffel.
@@ -20,6 +48,21 @@ S.~Chandrasekhar.
 \newblock \emph{Radiative {Transfer}}.
 \newblock Dover, 1960.
 \newblock URL \url{https://archive.org/details/RadiativeTransfer}.
+
+\bibitem[Davis(2004)]{davis_algorithm_2004}
+T.~A. Davis.
+\newblock Algorithm 832: {UMFPACK} {V}4. 3—an unsymmetric-pattern
+  multifrontal method.
+\newblock \emph{ACM Transactions on Mathematical Software (TOMS)}, 30\penalty0
+  (2):\penalty0 196--199, 2004.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=992206}.
+
+\bibitem[Jacobs(2009)]{jacobs_pathologies_2009}
+A.~Jacobs.
+\newblock The pathologies of big data.
+\newblock \emph{Communications of the ACM}, 52\penalty0 (8):\penalty0 36--44,
+  2009.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=1536632}.
 
 \bibitem[Jones et~al.(2001)Jones, Oliphant, Peterson, and
   {others}]{jones_scipy:_2001}
