@@ -38,8 +38,6 @@
 \newcommand{\erf}{\mbox{erf}}
 % Sign function
 \newcommand{\sign}{\mbox{sign}}
-<<<<<<< Updated upstream
-=======
 % Natural numbers
 \newcommand\N{\mathbb{N}}
 % Real numbers
@@ -72,8 +70,6 @@
 % Number this equation
 \newcommand\eqnum{\addtocounter{equation}{1}\tag{\theequation}}
 
->>>>>>> Stashed changes
-
 % arara: pdflatex
 % arara: bibtex
 % arara: pdflatex
@@ -91,11 +87,7 @@
 	\begin{bfseries}
 	    \null
 	    \vfill
-<<<<<<< Updated upstream
-	    \Huge{A Kelp Farming Approach to Sustainable Wastewater Nutrient Removal and Bioenergy Production at Wastewater Treatment Plants with Ocean Outfalls} \\
-=======
 		\Huge{Survey of Solution Techniques for Linear Systems from Finite Difference Methods in 2D Numerical Radiative Transfer}
->>>>>>> Stashed changes
 
 	    \vspace{20pt}
 	    \LARGE{Project Summary} \\
@@ -103,18 +95,11 @@
 	    \vspace{20pt}
     \begin{Large}
 		Oliver Evans \\
-<<<<<<< Updated upstream
-                Fred Weiss \\
-                Christopher Parker \\
-                Emmanuel Arkoh \\[1em]
-                Dr. Malena Espa\~nol
-=======
 		Fred Weiss \\
 		Christopher Parker \\
 		Emmanuel Arkoh \\[1em]
 
 		Dr. Malena Espa\~nol \\
->>>>>>> Stashed changes
 	\vspace{20pt}
 	\today
     \end{Large}
@@ -136,20 +121,6 @@
 \begin{multicols}{2}
 
 \section{Introduction}
-The impetus for this project was as follows: Dr. Rogers was approached by the operator of a wastewater treatment plant in Boothbay Harbor, Maine, who is facing increasingly demanding EPA regulations limiting the concentration of certain nutrients that is permissible to release into the ocean via wastewater treatment outfalls.
-In order to adhere to these stricter requirements using conventional nutrient remediation, a significant quantity of specialized equipment would be necessary, which is not currently present in the Boothbay Harbor plant.
-Being surrounded on all sides by water and private property, the treatment plant has no capacity for the additional necessary equipment, and would therefore need to move their entire operations to a new location in order to conform to these new nutrient regulations.
-	As an alternative to conventional processing, Dr. Rogers has proposed the cultivation of the macroalgae \textit{Saccharina Latissima} (sugar kelp) near the outfall site.
-The purpose of such an undertaking would be twofold: to sequester the nutrients in question and prevent eutrophication of the surrounding ecosystem, and to reduce one of the primary expenses in macroalgae cultivation: nutrient input.
-Once grown, a variety of products can be derived from macroalgae, including biofuel, fish/cattle feedstock, and high value chemical materials such as alginate and agar.
-Food for human consumption is also a common product of kelp farming, but it may not be ideal for a wastewater treatment application.
-Thus, we seek to investigate the feasibility, potential, and optimal implementation of kelp farming in wastewater treatment operations. 
-Specifically, I seek to develop a sophisticated model of the light field in a kelp farming environment as a function of both the spacing and depth of the kelp plants, and of the quality of the water itself.
-Ole Jacob Broch is a mathematician at SINTEF, a research organization in Trondheim, Norway, who has been working to model the growth of \textit{Saccharina Latissima} via SINMOD, a large-scale 3D hydrodynamical ocean model developed at SINTEF.
-My aim is to develop a light model which can be used both independently and in conjunction with Dr. Broch's SINMOD model.
-
-<<<<<<< Updated upstream
-=======
 We use monochromatic radiative transfer in order to model the light field in an aqueous environment populated by vegetation.
 The vegetation (kelp) is modeled by a spatial probability distribution, which we assume to be given.
 The two quantities we seek to compute are \textit{radiance} and \textit{irradiance}.
@@ -230,7 +201,7 @@ At $y=1$, we assume no upwelling light.
 That is,
 \begin{equation}
 	L(x,0,\theta) = 0, \quad \mbox{for} \quad \theta \in [\pi,2\pi).
-	\label{eq:surf_bc}
+	\label{eq:bottom_bc}
 \end{equation}
 
 As with the upper $y$-boundary, we apply the PDE for $\theta \in [0,\pi)$ so as not to prohibit downwelling light.
@@ -254,13 +225,13 @@ Then, we have the grid
 \subsection{Sparsity Plots}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=3in]{../img/sparsity/int_kelp1_10x10x16_012.png}
+	\includegraphics[width=3in]{../img/sparsity/int_small_4x4x4_012.png}
 	\caption{Sparsity plot: 10x10x16, ordering 012}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=3in]{../img/sparsity/int_kelp1_10x10x16_210.png}
+	\includegraphics[width=3in]{../img/sparsity/int_small_4x4x4_210.png}
 	\caption{Sparsity plot: 10x10x16, ordering 210}
 \end{figure}
 \subsection{Matrix Properties}
