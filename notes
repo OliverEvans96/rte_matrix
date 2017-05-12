@@ -1,0 +1,9 @@
+To convert small png to vector graphic to avoid rasterization:
+
+for f in int_small_6*png;
+do 
+	pixel2svg.py $f;
+	name=${f%.png};
+	inkscape ${name}.svg -E ${name}.eps --export-ignore-filters --export-ps-level=3;
+done
+

@@ -23,7 +23,7 @@
 }
 
 % Set path to import figures from
-\graphicspath{{../figures/}}
+\graphicspath{{../../img/sparsity/}}
 
 % Place converted graphics in current directory
 \usepackage[outdir=./]{epstopdf}
@@ -210,18 +210,30 @@ As with the upper $y$-boundary, we apply the PDE for $\theta \in [0,\pi)$ so as 
 In the horizontal direction, we assume periodic boundary conditions.
 Assuming that a single discrete group of plants is being simulated, adjusting the width of the domain effectively modifies the spacing between adjacent groups of plants.
 
-\section{Discretization}
+\section{System of Linear Equations}
+
+\subsection{Discretization}
 In order to solve \eqref{eq:rte2d} numerically, we discretize the spatial derivatives using 2nd order finite difference approximations, and we discretize the integral according to the Legendre-Gauss quadrature, as described in chapter 2 of \citet{chandrasekhar_radiative_1960}.
 With this in mind, in order to create a spatial-angular grid with $n_x,n_y$, and $n_\theta$ discrete values for $x, y$, and $\theta$ respectively, we use a uniform square spatial discretization with spacing $dx, dy$, and a non-uniform angular discretization according to the roots of the Legendre Polynomial of degree $n_\theta$, denoted $P_{n_\theta}(\theta)$.
 In each variable, we discard the uppermost grid point, as indicated by the half-open intervals in the previous sections.
 
 Then, we have the grid
 \begin{align}
-	x_i &= i\,dx, &\quad i=1,\ldots,n_x \\
-	y_j &= j\,dy, &\quad j=1,\ldots,n_y \\
+	x_i &= (i-1)\,dx, &\quad i=1,\ldots,n_x \\
+	y_j &= (j-1)\,dy, &\quad j=1,\ldots,n_y \\
 	\theta_k \,\, \mbox{s.t.}\,\, 
-	&P_{n_\theta}(\theta_k) = 0, &\quad k=1,\ldots,n_\theta
+	&P_{n_\theta}(\theta_k/2\pi) = 0, &\quad k=1,\ldots,n_\theta
 \end{align}
+
+In the same notational vein, let \\[-1em]
+\begin{align}
+	L_{ij}^k &= L(x_i,y_j,\theta_k), \\
+	\beta_{kl} &= \beta(\abs{\theta_k-\theta_l}), \\
+	a_{ij} &= a(x,y) \\
+	b_{ij} &= b(x,y)
+\end{align}
+
+where $\abs{\cdot}$ is periodic as in \eqref{eq:rte2d}.
 
 For the spatial interior of the domain, we use the 2nd order central difference formula (CD2) to approximate the derivatives, which is
 \begin{equation}
@@ -233,10 +245,12 @@ When applying the PDE on the upper or lower boundary, we use the forward and bac
 Omitting $\mathcal{O}(dx^3)$, we have
 \begin{equation}
 	\tag{FD2}
+	\label{eq:FD2}
 	f'(x) = \frac{-3f(x)+2f(x+dx)-f(x+2dx)}{2dx}
 \end{equation}
 \begin{equation}
 	\tag{BD2}
+	\label{eq:BD2}
 	f'(x) = \frac{3f(x)-2f(x-dx)+f(x-2dx)}{2dx}
 \end{equation}
 
@@ -245,47 +259,91 @@ For each $k$, let $a_k$ be the appropriate Legendre-Gauss weight according to \c
 Then, applying the change of variables theorem to transform from the standard quadrature interval $[0,1]$ to the correct angular interval $[0,2\pi]$, we have
 \begin{equation}
 	\tag{LG}
-	\int_0^{2\pi} f(\theta)\,d\theta \approx \pi\sum_k=1^n a_k f(\theta_k)
+	\int_0^{2\pi} f(\theta)\,d\theta \approx \pi\sum_{k=1}^n a_k f(\theta_k)
 \end{equation}
+
+\subsection{Difference Equation}
+Given the above discrete approximations, the difference equation for \eqref{eq:rte} is
+\begin{align}
+	\label{eq:diffeq}
+	\begin{split}
+	&\quad\frac{1}{2dx}\left(L_{i+1,j}^k - L_{i-1,j}^k\right) \cos\theta_k 
+	- \pi b \sum_{\substack{l=1\\ l\neq k}}^{n_\theta} a_l\beta_{kl}L_{ij}^l \\
+	&+ \frac{1}{2dy}\left(L_{i,j+1}^k - L_{i,j+1}^k\right) \sin\theta_k 
+	- (a_{ij} + b_{ij})L_{ij}^k
+	=0
+	\end{split}
+\end{align}
+
+Similarly, we discretize using \eqref{eq:FD2} and \eqref{eq:BD2} at the boundaries.
+
+\subsection{Structure of Linear System}
+For each $i,j,k$, we have a distinct equation with $4+n_\theta$ variables.
+This corresponds to a sparse matrix equation $Ax=b$, each row having $4+n_\theta$ nonzero entries.
+Note that $b$ is zero at each row except those which correspond to boundary conditions in $y$.
+
+Each element in $x$ and $b$ correspond to a particular triple $(i,j,k)$, as are each row and column of the coefficient matrix, $A$.
+In some sense, when we create this linear system, we are unwrapping a 3-dimensional quantity (radiance) into a 1-dimensional vector (the solution, $x$).
+Different orders in which the equations are listed can be chosen to generate equivalent systems, so long as the ordering is consistent in $A,b$, and $x$.
+
+The most obvious way to order the equations is to do so via a triple \texttt{for} loop, which has the effect of creating blocks in the matrix corresponding to planes in $(x,y,\theta)$ space.
+For example, if the equations are ordered such that the outer \texttt{for} loop is over $x$, and the inner two are over $y$ and $\theta$, then the first $(n_y n_\theta)$ rows of the matrix correspond to the equations for $i=1$.
+
+By switching the order of the \texttt{for} loops, we can generate 6 equivalent matrix systems, each of which can be identified with a permutation of the triple $(0,1,2)$, where 0 corresponds to $x$, 1 corresponds to $y$, and 2 corresponds to $\theta$, and the order of the numbers indicates the order in which the loops were nested, from outer to inner.
+
+
+
+\subsection{Diagonal dominance}
+
+\pagebreak
 
 \subsection{Sparsity Plots}
 
 \newcommand{\spwidth}{2.5in}
+\newcommand{\spmgin}{.1in}
+
+\begin{center}
+\noindent
+\begin{minipage}[t]{.5\textwidth}%
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_012.png}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_small_6x6x6_012.eps}
 	\caption{Sparsity plot: 6x6x6, ordering 012 }
 \end{figure}
-
+\vspace{\spmgin}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_021.png}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_small_6x6x6_021.eps}
 	\caption{Sparsity plot: 6x6x6, ordering 021 }
 \end{figure}
-
+\vspace{\spmgin}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_102.png}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_small_6x6x6_102.eps}
 	\caption{Sparsity plot: 6x6x6, ordering 102 }
 \end{figure}
-
+\end{minipage}%
+\begin{minipage}[t]{.5\textwidth}%
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_120.png}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_small_6x6x6_120.eps}
 	\caption{Sparsity plot: 6x6x6, ordering 120 }
 \end{figure}
-
+\vspace{\spmgin}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_201.png}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_small_6x6x6_201.eps}
 	\caption{Sparsity plot: 6x6x6, ordering 201 }
 \end{figure}
-
+\vspace{\spmgin}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\spwidth]{../img/sparsity/int_hq_6x6x6_210.png}
+	\includegraphics[width=\spwidth]{../img/sparsity/int_small_6x6x6_210.eps}
 	\caption{Sparsity plot: 6x6x6, ordering 210 }
 \end{figure}
+\end{minipage}%
+\end{center}
+\pagebreak
 
 \subsection{Matrix Properties}
 \subsubsection{Diagonal Dominance}

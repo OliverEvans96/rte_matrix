@@ -17,11 +17,21 @@
 \newlabel{eq:surf_bc}{{2}{1}}
 \newlabel{eq:bottom_bc}{{3}{1}}
 \citation{chandrasekhar_radiative_1960}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Discretization}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Sparsity Plots}{2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Sparsity plot: 6x6x6, ordering 012 \relax }}{2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Sparsity plot: 6x6x6, ordering 021 \relax }}{2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sparsity plot: 6x6x6, ordering 102 \relax }}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}System of Linear Equations}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Discretization}{2}}
+\newlabel{eq:FD2}{{{FD2}}{2}}
+\newlabel{eq:BD2}{{{BD2}}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Difference Equation}{2}}
+\newlabel{eq:diffeq}{{11}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Structure of Linear System}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Diagonal dominance}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Sparsity Plots}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Sparsity plot: 6x6x6, ordering 012 \relax }}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Sparsity plot: 6x6x6, ordering 021 \relax }}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sparsity plot: 6x6x6, ordering 102 \relax }}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Sparsity plot: 6x6x6, ordering 120 \relax }}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Sparsity plot: 6x6x6, ordering 201 \relax }}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Sparsity plot: 6x6x6, ordering 210 \relax }}{3}}
 \citation{*}
 \bibstyle{abbrvnat}
 \bibdata{rte_matrix_report}
@@ -30,20 +40,17 @@
 \bibcite{jones_scipy:_2001}{{3}{2001}{{Jones et~al.}}{{Jones, Oliphant, Peterson, and {others}}}}
 \bibcite{mobley_radiative_2001}{{4}{2001}{{Mobley}}{{}}}
 \bibcite{perez_ipython:_2007}{{5}{2007}{{Pérez and Granger}}{{}}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Sparsity plot: 6x6x6, ordering 120 \relax }}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Sparsity plot: 6x6x6, ordering 201 \relax }}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Sparsity plot: 6x6x6, ordering 210 \relax }}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Matrix Properties}{3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Diagonal Dominance}{3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Spectral Radius}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Direct Methods}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Factorizations}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Software Packages}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Stationary Iterative Methods}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Fixed-Point Iteration}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Convergence and Preconditioning}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Nonstationary Iterative Methods}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Krylov Subspace Methods}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Convergence and Preconditioning}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Numerical Results}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Matrix Properties}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.1}Diagonal Dominance}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.2}Spectral Radius}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Direct Methods}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Factorizations}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Software Packages}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Stationary Iterative Methods}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Fixed-Point Iteration}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Convergence and Preconditioning}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Nonstationary Iterative Methods}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Krylov Subspace Methods}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Convergence and Preconditioning}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Numerical Results}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{4}}
