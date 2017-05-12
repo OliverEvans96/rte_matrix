@@ -3,44 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: abbrvnat.bst
 Database file #1: rte_matrix_report.bib
-You've used 10 entries,
+Warning--empty publisher in jones_scipy:_2001
+You've used 12 entries,
             2773 wiz_defined-function locations,
-            673 strings with 6840 characters,
-and the built_in function-call counts, 5058 in all, are:
-= -- 480
-> -- 281
-< -- 8
-+ -- 97
-- -- 87
-* -- 411
-:= -- 795
-add.period$ -- 48
-call.type$ -- 10
-change.case$ -- 57
-chr.to.int$ -- 10
-cite$ -- 20
-duplicate$ -- 222
-empty$ -- 386
-format.name$ -- 99
-if$ -- 1061
+            686 strings with 7142 characters,
+and the built_in function-call counts, 5763 in all, are:
+= -- 541
+> -- 312
+< -- 10
++ -- 108
+- -- 96
+* -- 459
+:= -- 916
+add.period$ -- 58
+call.type$ -- 12
+change.case$ -- 63
+chr.to.int$ -- 12
+cite$ -- 25
+duplicate$ -- 267
+empty$ -- 450
+format.name$ -- 112
+if$ -- 1209
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 10
-newline$ -- 74
-num.names$ -- 40
-pop$ -- 106
+missing$ -- 16
+newline$ -- 86
+num.names$ -- 48
+pop$ -- 125
 preamble$ -- 1
-purify$ -- 49
+purify$ -- 56
 quote$ -- 0
-skip$ -- 174
+skip$ -- 199
 stack$ -- 0
-substring$ -- 180
-swap$ -- 32
+substring$ -- 184
+swap$ -- 34
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 100
-warning$ -- 0
-while$ -- 44
+type$ -- 107
+warning$ -- 1
+while$ -- 50
 width$ -- 0
-write$ -- 172
+write$ -- 202
+(There was 1 warning)

@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -67,7 +67,8 @@ A.~Jacobs.
 \bibitem[Jones et~al.(2001)Jones, Oliphant, Peterson, and
   {others}]{jones_scipy:_2001}
 E.~Jones, T.~Oliphant, P.~Peterson, and {others}.
-\newblock {SciPy}: {Open} source scientific tools for {Python}, 2001.
+\newblock \emph{{SciPy}: {Open} source scientific tools for {Python}}.
+\newblock 2001.
 \newblock URL \url{http://www.scipy.org}.
 
 \bibitem[Mobley(2001)]{mobley_radiative_2001}
@@ -78,7 +79,12 @@ C.~Mobley.
 \newblock ISBN 978-0-12-227430-5.
 \newblock URL
   \url{http://linkinghub.elsevier.com/retrieve/pii/B012227430X004694}.
-\newblock DOI: 10.1006/rwos.2001.0469.
+
+\bibitem[Nocedal and Wright(1999)]{nocedal_numerical_1999}
+J.~Nocedal and S.~J. Wright.
+\newblock \emph{Numerical optimization}.
+\newblock Springer series in operations research. Springer, New York, 1999.
+\newblock ISBN 978-0-387-98793-4.
 
 \bibitem[Pérez and Granger(2007)]{perez_ipython:_2007}
 F.~Pérez and B.~E. Granger.
@@ -88,5 +94,11 @@ F.~Pérez and B.~E. Granger.
 \newblock ISSN 1521-9615.
 \newblock \doi{10.1109/MCSE.2007.53}.
 \newblock URL \url{http://ipython.org}.
+
+\bibitem[Young(1971)]{young_iterative_1971}
+D.~Young.
+\newblock \emph{Iterative solution of large linear systems}.
+\newblock Computer science and applied mathematics. Academic Press, 1971.
+\newblock URL \url{https://books.google.com/books?id=oALvAAAAMAAJ}.
 
 \end{thebibliography}

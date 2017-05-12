@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.5.11)  12 MAY 2017 00:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.19)  12 MAY 2017 04:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -338,18 +338,18 @@ e
 ))) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count124
@@ -364,15 +364,15 @@ LaTeX Font Info:    ... okay on input line 78.
 \makeMPintoPDFobject=\count129
 \everyMPtoPDFconversion=\toks24
 )
-LaTeX Info: Redefining \celsius on input line 78.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 78.
+LaTeX Info: Redefining \celsius on input line 83.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 83.
 
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 78.
-Package gensymb Info: Using \Omega for \ohm on input line 78.
+LaTeX Info: Redefining \ohm on input line 83.
+Package gensymb Info: Using \Omega for \ohm on input line 83.
 
 Package gensymb Warning: Not defining \micro.
 
@@ -418,42 +418,42 @@ Package caption Info: End \AtBeginDocument code.
 <2d_coords.pdf, id=7, 160.04694pt x 160.04694pt>
 File: 2d_coords.pdf Graphic file (type pdf)
  <use 2d_coords.pdf>
-Package pdftex.def Info: 2d_coords.pdf used on input line 172.
+Package pdftex.def Info: 2d_coords.pdf used on input line 176.
 (pdftex.def)             Requested size: 144.54pt x 144.55374pt.
  [1 <./2d_coords.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 229--230
+Underfull \hbox (badness 10000) in paragraph at lines 233--234
 
  []
 
 [2]
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_012.eps>
-(epstopdf)                    date: 2017-05-11 22:47:24
+(epstopdf)                    date: 2017-05-12 01:05:35
 (epstopdf)                    size: 1110229 bytes
 (epstopdf)             Output file: <./int_small_6x6x6_012-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2017-05-11 22:55:46
+(epstopdf)                    date: 2017-05-12 01:05:36
 (epstopdf)                    size: 134215 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_012-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_012.eps>
-(epstopdf)             \includegraphics on input line 316.
+(epstopdf)             \includegraphics on input line 327.
 Package epstopdf Info: Output file is already uptodate.
  <./int_small_6x6x6_012-eps-converted-to.pdf, id=31, 6504.3pt x 6504.3pt>
 File: ./int_small_6x6x6_012-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_012-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_012-eps-converted-to.pdf used on inp
-ut line 316.
+ut line 327.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_021.eps>
-(epstopdf)                    date: 2017-05-11 22:47:49
+(epstopdf)                    date: 2017-05-12 01:05:35
 (epstopdf)                    size: 1116467 bytes
 (epstopdf)             Output file: <./int_small_6x6x6_021-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2017-05-11 22:55:47
+(epstopdf)                    date: 2017-05-12 01:05:36
 (epstopdf)                    size: 136020 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_021-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_021.eps>
-(epstopdf)             \includegraphics on input line 322.
+(epstopdf)             \includegraphics on input line 333.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_021-eps-converted-to.pdf, id=32, 6504.3pt x 6504.3pt>
@@ -461,18 +461,18 @@ File: ./int_small_6x6x6_021-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_021-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_021-eps-converted-to.pdf used on inp
-ut line 322.
+ut line 333.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_102.eps>
-(epstopdf)                    date: 2017-05-11 22:48:15
+(epstopdf)                    date: 2017-05-12 01:05:35
 (epstopdf)                    size: 1110522 bytes
 (epstopdf)             Output file: <./int_small_6x6x6_102-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2017-05-11 22:55:48
+(epstopdf)                    date: 2017-05-12 01:05:36
 (epstopdf)                    size: 134150 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_102-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_102.eps>
-(epstopdf)             \includegraphics on input line 328.
+(epstopdf)             \includegraphics on input line 339.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_102-eps-converted-to.pdf, id=33, 6504.3pt x 6504.3pt>
@@ -480,18 +480,18 @@ File: ./int_small_6x6x6_102-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_102-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_102-eps-converted-to.pdf used on inp
-ut line 328.
+ut line 339.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_120.eps>
-(epstopdf)                    date: 2017-05-11 22:48:42
+(epstopdf)                    date: 2017-05-12 01:05:35
 (epstopdf)                    size: 1117424 bytes
 (epstopdf)             Output file: <./int_small_6x6x6_120-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2017-05-11 22:55:49
+(epstopdf)                    date: 2017-05-12 01:05:36
 (epstopdf)                    size: 136310 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_120-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_120.eps>
-(epstopdf)             \includegraphics on input line 335.
+(epstopdf)             \includegraphics on input line 346.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_120-eps-converted-to.pdf, id=34, 6504.3pt x 6504.3pt>
@@ -499,18 +499,18 @@ File: ./int_small_6x6x6_120-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_120-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_120-eps-converted-to.pdf used on inp
-ut line 335.
+ut line 346.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_201.eps>
-(epstopdf)                    date: 2017-05-11 22:49:08
+(epstopdf)                    date: 2017-05-12 01:05:35
 (epstopdf)                    size: 1116625 bytes
 (epstopdf)             Output file: <./int_small_6x6x6_201-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2017-05-11 22:55:49
+(epstopdf)                    date: 2017-05-12 01:05:36
 (epstopdf)                    size: 136026 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_201-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_201.eps>
-(epstopdf)             \includegraphics on input line 341.
+(epstopdf)             \includegraphics on input line 352.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_201-eps-converted-to.pdf, id=35, 6504.3pt x 6504.3pt>
@@ -518,18 +518,18 @@ File: ./int_small_6x6x6_201-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_201-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_201-eps-converted-to.pdf used on inp
-ut line 341.
+ut line 352.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_210.eps>
-(epstopdf)                    date: 2017-05-11 22:49:33
+(epstopdf)                    date: 2017-05-12 01:05:35
 (epstopdf)                    size: 1117324 bytes
 (epstopdf)             Output file: <./int_small_6x6x6_210-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2017-05-11 22:55:50
+(epstopdf)                    date: 2017-05-12 01:05:36
 (epstopdf)                    size: 136405 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_210-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_210.eps>
-(epstopdf)             \includegraphics on input line 347.
+(epstopdf)             \includegraphics on input line 358.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_210-eps-converted-to.pdf, id=36, 6504.3pt x 6504.3pt>
@@ -537,10 +537,10 @@ File: ./int_small_6x6x6_210-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_210-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_210-eps-converted-to.pdf used on inp
-ut line 347.
+ut line 358.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 
-Overfull \hbox (276.0125pt too wide) in paragraph at lines 312--351
+Overfull \hbox (276.0125pt too wide) in paragraph at lines 323--362
  [][] 
  []
 
@@ -554,12 +554,19 @@ Overfull \vbox (3.10452pt too high) has occurred while \output is active []
 [3 <./int_small_6x6x6_012-eps-converted-to.pdf> <./int_small_6x6x6_021-eps-conv
 erted-to.pdf> <./int_small_6x6x6_102-eps-converted-to.pdf> <./int_small_6x6x6_1
 20-eps-converted-to.pdf> <./int_small_6x6x6_201-eps-converted-to.pdf> <./int_sm
-all_6x6x6_210-eps-converted-to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 387--387
+all_6x6x6_210-eps-converted-to.pdf>] [4]
+<../img/fred_stat_it/img1.png, id=56, 831.105pt x 457.71pt>
+File: ../img/fred_stat_it/img1.png Graphic file (type png)
+
+<use ../img/fred_stat_it/img1.png>
+Package pdftex.def Info: ../img/fred_stat_it/img1.png used on input line 526.
+(pdftex.def)             Requested size: 252.94499pt x 139.30452pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 540--540
 []\OT1/cmr/bx/n/14.4 Nonstationary It-er-a-tive Meth-
  []
 
-(./report.bbl
+(./report.bbl [5 <../img/fred_stat_it/img1.png>]
 Underfull \hbox (badness 6625) in paragraph at lines 21--25
 \OT1/cmr/m/it/10 Relaxation\OT1/cmr/m/n/10 .  PhD the-sis, Uni-ver-sity of Akro
 n,
@@ -568,24 +575,17 @@ n,
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 74--82
-\OT1/cmtt/m/n/10 elsevier . com / retrieve / pii / B012227430X004694$\OT1/cmr/m
-/n/10 .
- []
-
-[4]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
-) [5] (./report.aux) ) 
+) [6] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5275 strings out of 493013
- 78136 string characters out of 6139317
- 171799 words of memory out of 5000000
- 8742 multiletter control sequences out of 15000+600000
+ 5295 strings out of 493013
+ 78533 string characters out of 6139317
+ 173931 words of memory out of 5000000
+ 8760 multiletter control sequences out of 15000+600000
  7607 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,19n,39p,792b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,19n,42p,792b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
 x10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/
 share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-di
@@ -597,10 +597,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
 i10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (6 pages, 987967 bytes).
+Output written on report.pdf (7 pages, 1002441 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+ 106 PDF objects out of 1000 (max. 8388607)
+ 74 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
