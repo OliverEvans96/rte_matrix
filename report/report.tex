@@ -2,6 +2,7 @@
 
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{gensymb}
 \usepackage{mathtools}
 \usepackage{etoolbox}
@@ -49,7 +50,7 @@
 \newcommand\BB{\mathcal{B}}
 % Curly D for diagonal dominance quantity
 \newcommand\DD{\mathcal{D}}
-\newcommand\QQ{\mathcal{D}}
+\newcommand\QQ{\mathcal{Q}}
 % Curly R for range (not real numbers)
 \newcommand\RR{\mathcal{R}}
 % Curly N for null space
@@ -188,7 +189,7 @@ The 2-dimensional form of \eqref{eq:rte} is given by
     \label{eq:rte2d}
 \end{equation}
 
-where $\abs{\theta-\theta'}$ measures the smallest angular difference between $]thet$ and $\theta'$ considering periodicity.
+where $\abs{\theta-\theta'}$ measures the smallest angular difference between $\theta$ and $\theta'$ considering periodicity.
 
 Note that in Cartesian coordinates, there are only spatial, not angular derivatives in the gradient.
 In other coordinate systems, this is generally not the case.
@@ -482,9 +483,9 @@ The most common methods are listed here, where $D$, $L$, and $U$ represent the d
 %As these methods were described in detail within the scope of the Advanced Numerical Analysis II coursework, these will not be explored in detail.
 %Code was developed to implement these algorithms as discussed in the class.
 
-\subsection{Convergence and Preconditioning}
+\subsection{Convergence (or lack thereof)}
 
-It is a well-known result \citep{anderson_analysis_2012} that the iterative method defined by \eqref{eq:it_g} converges to the exact solution $x$ if and only if $\rho(G) < 1$, where $\rho(G)$ is the \textit{spectral radius} of $G$, defined as the largest modulus of an eigenvalue of $G$.
+It is a well-known result \citep{anderson_analysis_2012} that the iterative method defined by \eqref{eq:it_g} converges to the exact solution $x$ if and only if $\rho(G) < 1$, where $\rho(G)$ is the \textit{spectral radius} of $G$, defined as the largest magnitude of an eigenvalue of $G$.
 A sufficient but unnecessary condition for convergence of \eqref{eq:it_g} is the diagonal dominance of $A$.
 
 As we observed in section \ref{sec:ddom}, $A$ is in general not diagonally dominant for this problem.
@@ -505,48 +506,68 @@ Further, we show that it's eigenvalues need not be bounded in the unit circle.
 % This was a significant cost savings for larger matrices.
 % Unfortunately, the conclusion was that none of the initial matrices would converge through either method under study.
 
-Some modification to precondition the system would be necessary in order to run either of these methods.
-Two feasible options were concluded upon.
-The first option would be to compute the SVD and then use $U$ and $V^T$ to precondition the matrix.
-However, the SVD is an expensive computation and can be used directly to solve the system.
-Since this was being done within the scope of the project, this option was eliminated.
-The other option was to use Jacobi iterations to identify and gradually reduce the off-diagonal terms.
-This serves to make the system increasingly diagonally dominant until it eventually becomes solvable through these Stationary Iterative Methods.
+\subsubsection{Preconditioning}
 
-Code was developed and proven in reducing the off-diagonal terms to where both of the methods would converge.
-The negative was that the initial systems were fairly far from diagonal dominance, determining the number of iterations the algorithm would take to solve.
-As a result, this was actually far slower than a direct SVD computation.
-There might be some value if these computations were to be run over and over again having computed the preconditioner, but generally appears to make these solutions not competitive with other options.
+Although the matrix is not naturally suited for stationary iterative methods, it is possible to precondition the matrix in order to induce diagonal dominance.
+We consider two such preconditioning strategies.
 
-Since this was proven to work, one of the smaller systems were utilized to see what kind of results would be obtained from this point using these methods.
-The systems were both run with a tolerance of \texttt{1e-3} and an initial guess of a zero vector.
+The first option is the computation of the SVD of $A$, using $U$ and $V^T$ as preconditioners.
+However, given the large computational cost of SVD and the lack of readily available efficient sparse algorithms, this was deemed infeasible.
+
+We did, though, explore the method of Jacobi iterations discussed in \citet{yuan_method_2006} to identify and gradually reduce the off-diagonal terms.
+This serves to make the system increasingly diagonally dominant until becoming solvable with Stationary Iterative Methods.
+ 
+Our implementation of the Jacobi iteration algorithm successfully preconditioned the matrix corresponding to a $10\times 16$ spatial-angular grid for diagonal dominance, however the time required for preconditioning was on the order of hours, whereas the time required to solve directly or by a nonstationary iterative method was on the order of seconds.
+Clearly, this is an inappropriate approach for our problem.
+Nonetheless, after preconditioning, both Jacobi and Gauss-Seidel iteration were successfully executed with a tolerance of \texttt{1e-3} and an initial guess of the zero vector.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=3.5in]{../img/fred_stat_it/img1.png}
+	\caption{The Jacobi method ran in 47 iterations, taking a total computation time of 3.85 seconds.}
 \end{figure}
-The Jacobi method ran in 47 iterations, taking a total computation time of 3.85 seconds.
 
-In this case, the Gauss-Seidel method was faster and less expensive.
-It completed in 8 iterations and taking a total time of 0.
-75 seconds.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=3.5in]{../img/fred_stat_it/img2.png}
+	\caption{GS method completed in 8 iterations and taking a total time of 0.75 seconds.}
+\end{figure}
+
+In this case, the Gauss-Seidel method was faster and less expensive than Jacobi.
 It is also worth noting that fewer Jacobi iterations were necessary in the preconditioning process to allow the Gauss-Seidel method to begin to converge, further making this method more effective for this particular system.
 
-In conclusion, the results demonstrated that these methods could be effective and produce useful results in reasonable computation times.
-The major negative was the time and cost involved in preconditioning as a result of the systems not being naturally structured to be convergent through these methods.
-To get an idea of the cost, the iterative methods took on the order of seconds or less as indicated by the sample system above.
-The process to precondition took on the order of tens of minutes into hours even for smaller systems.
+\section{Nonstationary Methods}
+Clearly, both direct methods and Stationary Iterative Methods have significant limitations in their ability to solve large sparse systems arising from general multidimensional PDEs.
+Enter nonstationary methods.
+A nonstationary iterative method is any iterative method which does not have the form \eqref{eq:it_g}.
+Generally, though, the most common nonstationary methods are Krylov Subspace methods, which is a class of methods that have become increasingly popular in recent decades due to their flexibility and speed \citep{gutknecht_brief_2007}.
 
-\section{Nonstationary Iterative Methods}
 \subsection{Krylov Subspace Methods}
+
+The $k^{th}$ Krylov Subspace generated by a matrix $A \in \mathbb{R}^{n\times n}$ and a vector $v \in \mathbb{R}^n$ is defined as
+\begin{equation}
+	K_k(A,v) = \mbox{span}\left\{A^iv\right\}_{i=0}^{i=k-1}
+\end{equation}
+
+The general approach of a Krylov Subspace method is to successively generate Krylov Subspaces by constructing basis vectors for them, and to find the vector contained in each subspace with the minimum residual $r = \norm{Ax-b}$
+These basis vectors are usually generated with either Arnoldi iteration or bi-Lanczos iteration, both of which apply variants of the Gram-Schmidt orthogonalization process \citep{ghai_comparison_2016}.
+
+The Krylov subspace methods we consider are \texttt{GMRES}, \texttt{LGMRES}, \texttt{BiCG}, \texttt{BiCGSTAB}, \texttt{QMR}, and \texttt{CGS}.
+Two other well known Krylov Subspace Methods are \texttt{CG} and \texttt{MINRES}, although they are applicable only to symmetric positive definite systems.
+
 \subsection{Convergence and Preconditioning}
+Unlike nonstationary methods for symmetric positive definite matrices, the convergence properties of GMRES, BiCG and other nonsymmetric nonstationary methods are not well understood.
+Generally, performance tends to worsen with increasing condition number and improve with increasing eigenvalue clustering.
+Preconditioners are very commonly used with Krylov Subspace methods to improve the system in these two regards.
+
+%% Citations??
 \subsubsection{Eigenvalue Clustering}
 
 \section{Numerical Results}
 
 \section{Conclusions}
 
-\nocite{*}
+%\nocite{*}
 \bibliographystyle{abbrvnat}
 \bibliography{rte_matrix_report}
 \end{multicols}

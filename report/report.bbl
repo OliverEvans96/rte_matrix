@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -57,6 +57,22 @@ T.~A. Davis.
   (2):\penalty0 196--199, 2004.
 \newblock URL \url{http://dl.acm.org/citation.cfm?id=992206}.
 
+\bibitem[Ghai et~al.(2016)Ghai, Lu, and Jiao]{ghai_comparison_2016}
+A.~Ghai, C.~Lu, and X.~Jiao.
+\newblock A {Comparison} of {Preconditioned} {Krylov} {Subspace} {Methods} for
+  {Nonsymmetric} {Linear} {Systems}.
+\newblock \emph{arXiv:1607.00351 [math]}, July 2016.
+\newblock URL \url{http://arxiv.org/abs/1607.00351}.
+
+\bibitem[Gutknecht(2007)]{gutknecht_brief_2007}
+M.~H. Gutknecht.
+\newblock A brief introduction to {Krylov} space methods for solving linear
+  systems.
+\newblock In \emph{Frontiers of {Computational} {Science}}, pages 53--62.
+  Springer, 2007.
+\newblock URL
+  \url{http://link.springer.com/content/pdf/10.1007/978-3-540-46375-7_5.pdf}.
+
 \bibitem[Jacobs(2009)]{jacobs_pathologies_2009}
 A.~Jacobs.
 \newblock The pathologies of big data.
@@ -100,5 +116,16 @@ D.~Young.
 \newblock \emph{Iterative solution of large linear systems}.
 \newblock Computer science and applied mathematics. Academic Press, 1971.
 \newblock URL \url{https://books.google.com/books?id=oALvAAAAMAAJ}.
+
+\bibitem[Yuan and Yalamov(2006)]{yuan_method_2006}
+J.~Y. Yuan and P.~Y. Yalamov.
+\newblock A method for constructing diagonally dominant preconditioners based
+  on {Jacobi} rotations.
+\newblock \emph{Applied Mathematics and Computation}, 174\penalty0
+  (1):\penalty0 74--80, Mar. 2006.
+\newblock ISSN 00963003.
+\newblock \doi{10.1016/j.amc.2003.10.070}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S009630030500442X}.
 
 \end{thebibliography}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.19)  12 MAY 2017 04:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.4.19)  12 MAY 2017 06:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -113,6 +113,16 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
 (/usr/share/texmf-dist/tex/latex/was/gensymb.sty
 Package: gensymb 2003/07/02 v1.0 (WaS)
 )
@@ -338,18 +348,18 @@ e
 ))) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count124
@@ -364,15 +374,15 @@ LaTeX Font Info:    ... okay on input line 83.
 \makeMPintoPDFobject=\count129
 \everyMPtoPDFconversion=\toks24
 )
-LaTeX Info: Redefining \celsius on input line 83.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 83.
+LaTeX Info: Redefining \celsius on input line 84.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 84.
 
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 83.
-Package gensymb Info: Using \Omega for \ohm on input line 83.
+LaTeX Info: Redefining \ohm on input line 84.
+Package gensymb Info: Using \Omega for \ohm on input line 84.
 
 Package gensymb Warning: Not defining \micro.
 
@@ -415,13 +425,23 @@ Package caption Info: End \AtBeginDocument code.
 [0
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for U+msa on input line 145.
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 145.
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
 <2d_coords.pdf, id=7, 160.04694pt x 160.04694pt>
 File: 2d_coords.pdf Graphic file (type pdf)
  <use 2d_coords.pdf>
-Package pdftex.def Info: 2d_coords.pdf used on input line 176.
+Package pdftex.def Info: 2d_coords.pdf used on input line 177.
 (pdftex.def)             Requested size: 144.54pt x 144.55374pt.
  [1 <./2d_coords.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 233--234
+Underfull \hbox (badness 10000) in paragraph at lines 234--235
 
  []
 
@@ -435,14 +455,14 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_012.eps>
 (epstopdf)                    size: 134215 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_012-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_012.eps>
-(epstopdf)             \includegraphics on input line 327.
+(epstopdf)             \includegraphics on input line 328.
 Package epstopdf Info: Output file is already uptodate.
  <./int_small_6x6x6_012-eps-converted-to.pdf, id=31, 6504.3pt x 6504.3pt>
 File: ./int_small_6x6x6_012-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_012-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_012-eps-converted-to.pdf used on inp
-ut line 327.
+ut line 328.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_021.eps>
 (epstopdf)                    date: 2017-05-12 01:05:35
@@ -453,7 +473,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_021.eps>
 (epstopdf)                    size: 136020 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_021-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_021.eps>
-(epstopdf)             \includegraphics on input line 333.
+(epstopdf)             \includegraphics on input line 334.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_021-eps-converted-to.pdf, id=32, 6504.3pt x 6504.3pt>
@@ -461,7 +481,7 @@ File: ./int_small_6x6x6_021-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_021-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_021-eps-converted-to.pdf used on inp
-ut line 333.
+ut line 334.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_102.eps>
 (epstopdf)                    date: 2017-05-12 01:05:35
@@ -472,7 +492,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_102.eps>
 (epstopdf)                    size: 134150 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_102-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_102.eps>
-(epstopdf)             \includegraphics on input line 339.
+(epstopdf)             \includegraphics on input line 340.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_102-eps-converted-to.pdf, id=33, 6504.3pt x 6504.3pt>
@@ -480,7 +500,7 @@ File: ./int_small_6x6x6_102-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_102-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_102-eps-converted-to.pdf used on inp
-ut line 339.
+ut line 340.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_120.eps>
 (epstopdf)                    date: 2017-05-12 01:05:35
@@ -491,7 +511,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_120.eps>
 (epstopdf)                    size: 136310 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_120-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_120.eps>
-(epstopdf)             \includegraphics on input line 346.
+(epstopdf)             \includegraphics on input line 347.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_120-eps-converted-to.pdf, id=34, 6504.3pt x 6504.3pt>
@@ -499,7 +519,7 @@ File: ./int_small_6x6x6_120-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_120-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_120-eps-converted-to.pdf used on inp
-ut line 346.
+ut line 347.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_201.eps>
 (epstopdf)                    date: 2017-05-12 01:05:35
@@ -510,7 +530,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_201.eps>
 (epstopdf)                    size: 136026 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_201-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_201.eps>
-(epstopdf)             \includegraphics on input line 352.
+(epstopdf)             \includegraphics on input line 353.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_201-eps-converted-to.pdf, id=35, 6504.3pt x 6504.3pt>
@@ -518,7 +538,7 @@ File: ./int_small_6x6x6_201-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_201-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_201-eps-converted-to.pdf used on inp
-ut line 352.
+ut line 353.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_210.eps>
 (epstopdf)                    date: 2017-05-12 01:05:35
@@ -529,7 +549,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_210.eps>
 (epstopdf)                    size: 136405 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_210-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_210.eps>
-(epstopdf)             \includegraphics on input line 358.
+(epstopdf)             \includegraphics on input line 359.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_210-eps-converted-to.pdf, id=36, 6504.3pt x 6504.3pt>
@@ -537,10 +557,10 @@ File: ./int_small_6x6x6_210-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_210-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_210-eps-converted-to.pdf used on inp
-ut line 358.
+ut line 359.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 
-Overfull \hbox (276.0125pt too wide) in paragraph at lines 323--362
+Overfull \hbox (276.0125pt too wide) in paragraph at lines 324--363
  [][] 
  []
 
@@ -562,11 +582,14 @@ File: ../img/fred_stat_it/img1.png Graphic file (type png)
 Package pdftex.def Info: ../img/fred_stat_it/img1.png used on input line 526.
 (pdftex.def)             Requested size: 252.94499pt x 139.30452pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 540--540
-[]\OT1/cmr/bx/n/14.4 Nonstationary It-er-a-tive Meth-
- []
+<../img/fred_stat_it/img2.png, id=57, 831.105pt x 457.71pt>
+File: ../img/fred_stat_it/img2.png Graphic file (type png)
 
-(./report.bbl [5 <../img/fred_stat_it/img1.png>]
+<use ../img/fred_stat_it/img2.png>
+Package pdftex.def Info: ../img/fred_stat_it/img2.png used on input line 532.
+(pdftex.def)             Requested size: 252.94499pt x 139.30452pt.
+ [5 <../img/fred_stat_it/img1.png> <../img/fred_stat_it/img2.png>] (./report.bb
+l
 Underfull \hbox (badness 6625) in paragraph at lines 21--25
 \OT1/cmr/m/it/10 Relaxation\OT1/cmr/m/n/10 .  PhD the-sis, Uni-ver-sity of Akro
 n,
@@ -579,11 +602,11 @@ Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
 ) [6] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5295 strings out of 493013
- 78533 string characters out of 6139317
- 173931 words of memory out of 5000000
- 8760 multiletter control sequences out of 15000+600000
- 7607 words of font info for 28 fonts, out of 8000000 for 9000
+ 5590 strings out of 493013
+ 81948 string characters out of 6139317
+ 187318 words of memory out of 5000000
+ 9035 multiletter control sequences out of 15000+600000
+ 8852 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,19n,42p,792b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
@@ -596,11 +619,12 @@ s/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
 f-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
-i10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (7 pages, 1002441 bytes).
+i10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/
+share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on report.pdf (7 pages, 1018188 bytes).
 PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
+ 112 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
