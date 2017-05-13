@@ -102,8 +102,8 @@ J.~Nocedal and S.~J. Wright.
 \newblock Springer series in operations research. Springer, New York, 1999.
 \newblock ISBN 978-0-387-98793-4.
 
-\bibitem[Pérez and Granger(2007)]{perez_ipython:_2007}
-F.~Pérez and B.~E. Granger.
+\bibitem[P\'erez and Granger(2007)]{perez_ipython:_2007}
+F.~P\'erez and B.~E. Granger.
 \newblock {IPython}: a system for interactive scientific computing.
 \newblock \emph{Computing in Science \& Engineering}, 9\penalty0 (3):\penalty0
   21--29, May 2007.

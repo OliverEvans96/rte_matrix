@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{gensymb}
+%\usepackage{gensymb}
 \usepackage{mathtools}
 \usepackage{etoolbox}
 \usepackage{booktabs}
@@ -275,7 +275,7 @@ Given the above discrete approximations, the difference equation for \eqref{eq:r
     \begin{split}
     0 &= \frac{1}{2dx}\left(L_{i+1,j}^k - L_{i-1,j}^k\right) \cos\theta_k
     - \pi b \sum_{\substack{l=1\\ l\neq k}}^{n_\theta} a_l\beta_{kl}L_{ij}^l \\
-    &+ \frac{1}{2dy}\left(L_{i,j+1}^k - L_{i,j+1}^k\right) \sin\theta_k
+    &+ \frac{1}{2dy}\left(L_{i,j+1}^k - L_{i,j-1}^k\right) \sin\theta_k
     + (a_{ij} + b_{ij})L_{ij}^k
     \end{split}
 \end{align}
@@ -373,7 +373,7 @@ Another important property is diagonal dominance.
 \subsubsection{Diagonal Dominance}
 \label{sec:ddom}
 
-A matrix $A=(a_ij)$ is said to be diagonally dominant if
+A matrix $A=(a_{ij})$ is said to be diagonally dominant if
 \begin{equation}
 	\abs{a_{jj}} > \sum_{i\neq j}\abs{a_{ij}} \,\, \mbox{for all}\,\, i \\
 \end{equation}

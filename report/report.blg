@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2016/Arch Linux)
+This is BibTeX, Version 0.99d (TeX Live 2013)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: abbrvnat.bst
@@ -6,7 +6,7 @@ Database file #1: rte_matrix_report.bib
 Warning--empty publisher in jones_scipy:_2001
 You've used 15 entries,
             2773 wiz_defined-function locations,
-            708 strings with 7872 characters,
+            708 strings with 7873 characters,
 and the built_in function-call counts, 7171 in all, are:
 = -- 682
 > -- 373
