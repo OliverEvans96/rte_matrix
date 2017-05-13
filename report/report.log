@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.5.11)  13 MAY 2017 11:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.5.11)  13 MAY 2017 19:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -423,10 +423,10 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <2d_coords.pdf, id=7, 160.04694pt x 160.04694pt>
 File: 2d_coords.pdf Graphic file (type pdf)
  <use 2d_coords.pdf>
-Package pdftex.def Info: 2d_coords.pdf used on input line 177.
+Package pdftex.def Info: 2d_coords.pdf used on input line 183.
 (pdftex.def)             Requested size: 144.54pt x 144.55374pt.
  [1 <./2d_coords.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 234--235
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 
  []
 
@@ -440,14 +440,14 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_012.eps>
 (epstopdf)                    size: 134215 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_012-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_012.eps>
-(epstopdf)             \includegraphics on input line 328.
+(epstopdf)             \includegraphics on input line 335.
 Package epstopdf Info: Output file is already uptodate.
  <./int_small_6x6x6_012-eps-converted-to.pdf, id=31, 6504.3pt x 6504.3pt>
 File: ./int_small_6x6x6_012-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_012-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_012-eps-converted-to.pdf used on inp
-ut line 328.
+ut line 335.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_021.eps>
 (epstopdf)                    date: 2017-05-11 22:47:49
@@ -458,7 +458,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_021.eps>
 (epstopdf)                    size: 136020 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_021-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_021.eps>
-(epstopdf)             \includegraphics on input line 334.
+(epstopdf)             \includegraphics on input line 341.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_021-eps-converted-to.pdf, id=32, 6504.3pt x 6504.3pt>
@@ -466,7 +466,7 @@ File: ./int_small_6x6x6_021-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_021-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_021-eps-converted-to.pdf used on inp
-ut line 334.
+ut line 341.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_102.eps>
 (epstopdf)                    date: 2017-05-11 22:48:15
@@ -477,7 +477,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_102.eps>
 (epstopdf)                    size: 134150 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_102-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_102.eps>
-(epstopdf)             \includegraphics on input line 340.
+(epstopdf)             \includegraphics on input line 347.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_102-eps-converted-to.pdf, id=33, 6504.3pt x 6504.3pt>
@@ -485,7 +485,7 @@ File: ./int_small_6x6x6_102-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_102-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_102-eps-converted-to.pdf used on inp
-ut line 340.
+ut line 347.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_120.eps>
 (epstopdf)                    date: 2017-05-11 22:48:42
@@ -496,7 +496,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_120.eps>
 (epstopdf)                    size: 136310 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_120-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_120.eps>
-(epstopdf)             \includegraphics on input line 347.
+(epstopdf)             \includegraphics on input line 354.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_120-eps-converted-to.pdf, id=34, 6504.3pt x 6504.3pt>
@@ -504,7 +504,7 @@ File: ./int_small_6x6x6_120-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_120-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_120-eps-converted-to.pdf used on inp
-ut line 347.
+ut line 354.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_201.eps>
 (epstopdf)                    date: 2017-05-11 22:49:08
@@ -515,7 +515,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_201.eps>
 (epstopdf)                    size: 136026 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_201-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_201.eps>
-(epstopdf)             \includegraphics on input line 353.
+(epstopdf)             \includegraphics on input line 360.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_201-eps-converted-to.pdf, id=35, 6504.3pt x 6504.3pt>
@@ -523,7 +523,7 @@ File: ./int_small_6x6x6_201-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_201-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_201-eps-converted-to.pdf used on inp
-ut line 353.
+ut line 360.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_210.eps>
 (epstopdf)                    date: 2017-05-11 22:49:33
@@ -534,7 +534,7 @@ Package epstopdf Info: Source file: <../img/sparsity/int_small_6x6x6_210.eps>
 (epstopdf)                    size: 136405 bytes
 (epstopdf)             Command: <repstopdf --outfile=./int_small_6x6x6_210-eps-
 converted-to.pdf ../img/sparsity/int_small_6x6x6_210.eps>
-(epstopdf)             \includegraphics on input line 359.
+(epstopdf)             \includegraphics on input line 366.
 Package epstopdf Info: Output file is already uptodate.
 
 <./int_small_6x6x6_210-eps-converted-to.pdf, id=36, 6504.3pt x 6504.3pt>
@@ -542,10 +542,10 @@ File: ./int_small_6x6x6_210-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./int_small_6x6x6_210-eps-converted-to.pdf>
 Package pdftex.def Info: ./int_small_6x6x6_210-eps-converted-to.pdf used on inp
-ut line 359.
+ut line 366.
 (pdftex.def)             Requested size: 180.67499pt x 180.63045pt.
 
-Overfull \hbox (276.0125pt too wide) in paragraph at lines 324--363
+Overfull \hbox (276.0125pt too wide) in paragraph at lines 331--370
  [][] 
  []
 
@@ -559,22 +559,139 @@ Overfull \vbox (3.10452pt too high) has occurred while \output is active []
 [3 <./int_small_6x6x6_012-eps-converted-to.pdf> <./int_small_6x6x6_021-eps-conv
 erted-to.pdf> <./int_small_6x6x6_102-eps-converted-to.pdf> <./int_small_6x6x6_1
 20-eps-converted-to.pdf> <./int_small_6x6x6_201-eps-converted-to.pdf> <./int_sm
-all_6x6x6_210-eps-converted-to.pdf>] [4]
-<../img/fred_stat_it/img1.png, id=56, 831.105pt x 457.71pt>
+all_6x6x6_210-eps-converted-to.pdf>] <img/pk.png, id=52, 361.35pt x 289.08pt>
+File: img/pk.png Graphic file (type png)
+
+<use img/pk.png>
+Package pdftex.def Info: img/pk.png used on input line 400.
+(pdftex.def)             Requested size: 289.07999pt x 231.2643pt.
+ <img/lgmres_best.pdf, id=54, 361.35pt x 289.08pt>
+File: img/lgmres_best.pdf Graphic file (type pdf)
+
+<use img/lgmres_best.pdf>
+Package pdftex.def Info: img/lgmres_best.pdf used on input line 405.
+(pdftex.def)             Requested size: 289.07999pt x 231.2643pt.
+
+Overfull \hbox (23.06749pt too wide) in paragraph at lines 405--406
+ [][] 
+ []
+
+[4 <./img/pk.png> <./img/lgmres_best.pdf>]
+<img/ddom.png, id=86, 462.528pt x 346.896pt>
+File: img/ddom.png Graphic file (type png)
+ <use img/ddom.png>
+Package pdftex.def Info: img/ddom.png used on input line 496.
+(pdftex.def)             Requested size: 289.07999pt x 216.82004pt.
+
+Overfull \hbox (23.06749pt too wide) in paragraph at lines 496--497
+ [][] 
+ []
+
+[5 <./img/ddom.png>] <img/comp.png, id=92, 551.81157pt x 403.5075pt>
+File: img/comp.png Graphic file (type png)
+
+<use img/comp.png>
+Package pdftex.def Info: img/comp.png used on input line 531.
+(pdftex.def)             Requested size: 252.94499pt x 184.96306pt.
+ <img/spsvd.png, id=93, 548.80031pt x 403.5075pt>
+File: img/spsvd.png Graphic file (type png)
+
+<use img/spsvd.png>
+Package pdftex.def Info: img/spsvd.png used on input line 536.
+(pdftex.def)             Requested size: 252.94499pt x 185.97896pt.
+ <img/splu.png, id=94, 566.115pt x 439.6425pt>
+File: img/splu.png Graphic file (type png)
+
+<use img/splu.png>
+Package pdftex.def Info: img/splu.png used on input line 541.
+(pdftex.def)             Requested size: 252.94499pt x 196.43524pt.
+ [6 <./img/comp.png (PNG copy)> <./img/spsvd.png (PNG copy)> <./img/splu.png (P
+NG copy)>]
+<../img/fred_stat_it/img1.png, id=99, 831.105pt x 457.71pt>
 File: ../img/fred_stat_it/img1.png Graphic file (type png)
 
 <use ../img/fred_stat_it/img1.png>
-Package pdftex.def Info: ../img/fred_stat_it/img1.png used on input line 539.
+Package pdftex.def Info: ../img/fred_stat_it/img1.png used on input line 654.
 (pdftex.def)             Requested size: 252.94499pt x 139.30452pt.
 
-<../img/fred_stat_it/img2.png, id=57, 831.105pt x 457.71pt>
+<../img/fred_stat_it/img2.png, id=100, 831.105pt x 457.71pt>
 File: ../img/fred_stat_it/img2.png Graphic file (type png)
 
 <use ../img/fred_stat_it/img2.png>
-Package pdftex.def Info: ../img/fred_stat_it/img2.png used on input line 545.
+Package pdftex.def Info: ../img/fred_stat_it/img2.png used on input line 660.
 (pdftex.def)             Requested size: 252.94499pt x 139.30452pt.
- [5 <../img/fred_stat_it/img1.png> <../img/fred_stat_it/img2.png>] (./report.bb
-l
+ [7 <../img/fred_stat_it/img1.png> <../img/fred_stat_it/img2.png>] <img/both_dt
+_log.pdf, id=106, 505.89pt x 433.62pt>
+File: img/both_dt_log.pdf Graphic file (type pdf)
+
+<use img/both_dt_log.pdf>
+Package pdftex.def Info: img/both_dt_log.pdf used on input line 697.
+(pdftex.def)             Requested size: 289.07999pt x 247.78792pt.
+
+Overfull \hbox (23.06749pt too wide) in paragraph at lines 697--698
+ [][] 
+ []
+
+<img/lgmres_time.pdf, id=107, 505.89pt x 433.62pt>
+File: img/lgmres_time.pdf Graphic file (type pdf)
+ <use img/lgmres_time.pdf>
+Package pdftex.def Info: img/lgmres_time.pdf used on input line 702.
+(pdftex.def)             Requested size: 289.07999pt x 247.78792pt.
+
+Overfull \hbox (23.06749pt too wide) in paragraph at lines 702--703
+ [][] 
+ []
+
+<img/lgmres_time_3d.png, id=108, 733.74126pt x 502.87875pt>
+File: img/lgmres_time_3d.png Graphic file (type png)
+
+<use img/lgmres_time_3d.png>
+Package pdftex.def Info: img/lgmres_time_3d.png used on input line 708.
+(pdftex.def)             Requested size: 289.07999pt x 198.12465pt.
+
+Overfull \hbox (23.06749pt too wide) in paragraph at lines 708--709
+ [][] 
+ []
+
+
+Overfull \vbox (73.03917pt too high) has occurred while \output is active []
+
+
+[8 <./img/both_dt_log.pdf> <./img/lgmres_time.pdf
+
+pdfTeX warning: pdflatex (file ./img/lgmres_time.pdf): PDF inclusion: multiple 
+pdfs with page group included in a single page
+>] [9 <./img/lgmres_time_3d.png>]
+<img/lgmres_conv.pdf, id=203, 975.645pt x 867.24pt>
+File: img/lgmres_conv.pdf Graphic file (type pdf)
+ <use img/lgmres_conv.pdf>
+Package pdftex.def Info: img/lgmres_conv.pdf used on input line 718.
+(pdftex.def)             Requested size: 542.02501pt x 481.8003pt.
+
+[10 <./img/lgmres_conv.pdf>] <img/diffgrid.pdf, id=261, 975.645pt x 867.24pt>
+File: img/diffgrid.pdf Graphic file (type pdf)
+
+<use img/diffgrid.pdf>
+Package pdftex.def Info: img/diffgrid.pdf used on input line 729.
+(pdftex.def)             Requested size: 542.02501pt x 481.8003pt.
+ [11 <./img/diffgrid.pdf>]
+<img/avgerr.pdf, id=325, 505.89pt x 433.62pt>
+File: img/avgerr.pdf Graphic file (type pdf)
+ <use img/avgerr.pdf>
+Package pdftex.def Info: img/avgerr.pdf used on input line 742.
+(pdftex.def)             Requested size: 289.07999pt x 247.78792pt.
+
+<img/avgerr_3d.png, id=326, 667.49374pt x 498.86375pt>
+File: img/avgerr_3d.png Graphic file (type png)
+ <use img/avgerr_3d.png>
+Package pdftex.def Info: img/avgerr_3d.png used on input line 749.
+(pdftex.def)             Requested size: 289.07999pt x 216.05247pt.
+
+Overfull \hbox (1.25061pt too wide) in paragraph at lines 755--755
+[]\OT1/cmr/bx/n/14.4 Conclusions and Fur-ther Work 
+ []
+
+(./report.bbl
 Underfull \hbox (badness 6625) in paragraph at lines 21--25
 \OT1/cmr/m/it/10 Relaxation\OT1/cmr/m/n/10 .  PhD the-sis, Uni-ver-sity of Akro
 n,
@@ -583,31 +700,52 @@ n,
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[6]) [7] (./report.aux) ) 
+[12 <./img/avgerr.pdf> <./img/avgerr_3d.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 100--105
+[]\OT1/cmr/m/n/10 C. Mob-ley.  The Vol-ume Scat-ter-ing Func-tion
+ []
+
+
+Underfull \hbox (badness 6510) in paragraph at lines 100--105
+\OT1/cmr/m/n/10 and Mod-els for Scat-ter-ing, July 2013.  URL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--105
+\OT1/cmtt/m/n/10 ftp : / / misclab . umeoce . maine . edu / users / optics /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--127
+\OT1/cmtt/m/n/10 verb = getRecord & metadataPrefix = html & identifier =
+ []
+
+) [13] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5543 strings out of 493013
- 81353 string characters out of 6139317
- 173117 words of memory out of 5000000
- 8992 multiletter control sequences out of 15000+600000
+ 5618 strings out of 493013
+ 82758 string characters out of 6139317
+ 174196 words of memory out of 5000000
+ 9053 multiletter control sequences out of 15000+600000
  8852 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,19n,42p,792b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></u
-sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
-fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></u
-sr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (8 pages, 1020022 bytes).
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+bx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
+/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
+/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on report.pdf (14 pages, 1488433 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 423 PDF objects out of 1000 (max. 8388607)
+ 154 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 111 words of extra memory for PDF output out of 10000 (max. 10000000)
 

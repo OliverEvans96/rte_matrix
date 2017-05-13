@@ -4,45 +4,45 @@ The top-level auxiliary file: report.aux
 The style file: abbrvnat.bst
 Database file #1: rte_matrix_report.bib
 Warning--empty publisher in jones_scipy:_2001
-You've used 15 entries,
+You've used 17 entries,
             2773 wiz_defined-function locations,
-            708 strings with 7873 characters,
-and the built_in function-call counts, 7171 in all, are:
-= -- 682
-> -- 373
-< -- 13
-+ -- 129
-- -- 114
-* -- 567
-:= -- 1130
-add.period$ -- 73
-call.type$ -- 15
-change.case$ -- 78
-chr.to.int$ -- 15
-cite$ -- 31
-duplicate$ -- 338
-empty$ -- 569
-format.name$ -- 135
-if$ -- 1514
+            721 strings with 8298 characters,
+and the built_in function-call counts, 7760 in all, are:
+= -- 738
+> -- 393
+< -- 15
++ -- 137
+- -- 120
+* -- 600
+:= -- 1228
+add.period$ -- 80
+call.type$ -- 17
+change.case$ -- 87
+chr.to.int$ -- 17
+cite$ -- 35
+duplicate$ -- 368
+empty$ -- 624
+format.name$ -- 143
+if$ -- 1636
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 19
-newline$ -- 106
-num.names$ -- 60
-pop$ -- 152
+newline$ -- 117
+num.names$ -- 68
+pop$ -- 169
 preamble$ -- 1
-purify$ -- 68
+purify$ -- 74
 quote$ -- 0
-skip$ -- 249
+skip$ -- 273
 stack$ -- 0
-substring$ -- 233
-swap$ -- 46
+substring$ -- 237
+swap$ -- 48
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 140
+type$ -- 162
 warning$ -- 1
-while$ -- 64
+while$ -- 70
 width$ -- 0
-write$ -- 251
+write$ -- 278
 (There was 1 warning)

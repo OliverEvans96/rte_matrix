@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -96,6 +96,13 @@ C.~Mobley.
 \newblock URL
   \url{http://linkinghub.elsevier.com/retrieve/pii/B012227430X004694}.
 
+\bibitem[Mobley(2013)]{mobley_volume_2013}
+C.~Mobley.
+\newblock The {Volume} {Scattering} {Function} and {Models} for {Scattering},
+  July 2013.
+\newblock URL
+  \url{ftp://misclab.umeoce.maine.edu/users/optics/classFTP2013/Lectures/Lec6_VSF_ScatModels.pdf}.
+
 \bibitem[Nocedal and Wright(1999)]{nocedal_numerical_1999}
 J.~Nocedal and S.~J. Wright.
 \newblock \emph{Numerical optimization}.
@@ -110,6 +117,13 @@ F.~P\'erez and B.~E. Granger.
 \newblock ISSN 1521-9615.
 \newblock \doi{10.1109/MCSE.2007.53}.
 \newblock URL \url{http://ipython.org}.
+
+\bibitem[Petzold(1972)]{petzold_volume_1972}
+T.~J. Petzold.
+\newblock Volume {Scattering} {Function} for {Selected} {Ocean} {Waters}.
+\newblock Technical report, DTIC Document, 1972.
+\newblock URL
+  \url{http://oai.dtic.mil/oai/oai?verb=getRecord&metadataPrefix=html&identifier=AD0753474}.
 
 \bibitem[Young(1971)]{young_iterative_1971}
 D.~Young.

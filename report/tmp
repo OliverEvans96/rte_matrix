@@ -149,15 +149,9 @@ Let $\omega \in \Omega$ be a unit vector in $\RR^n$.
 Let $L(x,\omega)$ denote \textit{radiance} position $x$ in the direction $\omega$.
 Let $I(x)$ denote \textit{irradiance} at position $x$.
 Let $P_k(x)$ be the probability density of kelp at position $x$.
-Let $a_w$ and $a_k$ be the absorption coefficients of water and kelp respectively.
-Let $b_w$ and $b_k$ be the scattering coefficients of water and kelp respectively.
-Then we define the effective absorption and scattering coefficients as
-\begin{align}
-	\label{eq:abs}
-	a(x) &= P_k(x) a_k + (1-P_k(x)) a_w \\
-	\label{eq:sct}
-	b(x) &= P_k(x) b_k + (1-P_k(x)) b_w
-\end{align}
+Let $a(x)$ and $b(x)$ denote the absorption and scattering coefficients respectively of the medium, which are both functions of $P_k$.
+Let $\beta(\Delta\theta)$ denote the normalized \textit{volume scattering function} or \textit{phase function}, which defines the probability of light scattering at an angle $\Delta\theta$ from it's initial direction in a scattering event.
+
 Then, the Monochromatic Time-Independent Radiative Transfer Equation (RTE) is
 \begin{equation}
     \tag{RTE}
@@ -171,7 +165,7 @@ Then, the Monochromatic Time-Independent Radiative Transfer Equation (RTE) is
 Note that in 2 spatial dimensions, this is a 3-dimensional problem ($x,y,\theta$).
 Likewise, in 3 spatial dimensions, it is a 5-dimensional problem ($x,y,z,\theta,\phi$).
 
-In this paper, we consider only the 2-dimensional problem, with the hope that sufficiently robust solution techniques for the 2-dimensional problem will be effective in the solution of the 3-dimensional problem as well.
+In this paper, we consider only the 2-dimensional problem, with the hope that sufficiently robust solution techniques for the 2-dimensional problem will be effective in the solution of the 3-dimensional problem, as well.
 
 \subsection{2D Problem}
 \label{sec:2d}
@@ -227,7 +221,6 @@ Assuming that a single discrete group of plants is being simulated, adjusting th
 \subsection{Discretization}
 In order to solve \eqref{eq:rte2d} numerically, we discretize the spatial derivatives using 2nd order finite difference approximations, and we discretize the integral according to the Legendre-Gauss quadrature, as described in \citet[Chapter 2]{chandrasekhar_radiative_1960}.
 With this in mind, in order to create a spatial-angular grid with $n_x,n_y$, and $n_\theta$ discrete values for $x, y$, and $\theta$ respectively, we use a uniform square spatial discretization with spacing $dx, dy$, and a non-uniform angular discretization according to the roots of the Legendre Polynomial of degree $n_\theta$, denoted $P_{n_\theta}(\theta)$.
-When considering square spatial grids, we denote the number of spatial grid points in each dimension by $n_s=n_x=n_y$ and the number of angular grid points by $n_a=n_\theta$.
 In each variable, we discard the uppermost grid point, as indicated by the half-open intervals in the previous sections.
 
 Then, we have the grid
@@ -372,8 +365,7 @@ Each black square represents a nonzero entry, whereas gray lines are purely for 
 
 
 \subsection{Physical Setup}
-\label{sec:setup}
-In the upcoming sections, all numerical experiments are based on the following parameters.
+In the following sections, numerical experiments are based on the following parameters.
 
 We define the probability density of kelp as 
 \begin{equation}
@@ -384,30 +376,14 @@ We define the probability density of kelp as
 	\end{cases}
 \end{equation}
 
-We use the normalized volume scattering function defined by
-\begin{equation}
-	\beta(\theta) = \frac{\exp(-\theta/2)}{2\left(1-\exp(-\theta/2)\right)}
-\end{equation}
-
-While this captures the general shape of the VSF of highly scattering water, in practice, we should either model the VSF as a function of parameters, perhaps using Mie Scattering Theory \citep{mobley_volume_2013}, or else interpolate field data from water similar to the water in the region of interest, such as \citet{petzold_volume_1972}.
-
-As a surface boundary condition, we use $L(x,0,\theta) = \sin(\theta)$ for $\theta \in [0,\pi)$, which represents a wide angular distribution of incoming light, centered in the downward direction.
-
-For this set of parameters, the kelp distribution $P_k$ and the highest resolution solution obtained using the methods described below is shown.
-\begin{figure}[H]
-	\hspace{-.5in}
+\begin{figure}
 	\centering
-	\includegraphics[width=4in]{img/pk.png}
-	\caption{Kelp density $P_k$ for numerical experiments}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=4in]{img/lgmres_best.pdf}
-	\caption{Irradiance plot for $n_s=80, n_a=80$ using \texttt{LGMRES}}
+	\includegraphics[width=4in]{img/pk}
+	\caption{Kelp density for numerical experiments}
 \end{figure}
 
-\subsection{Matrix Properties}
 There are several properties which a real matrix can have which simplify or accelerate the solution procedure.
+The first is symmetry.
 Simply from the sparsity patters, we see that none of the above matrices are symmetric.
 A symmetric matrix can additionally be positive definite, in which case numerous highly efficient algorithms exist for solving the system, such as the Conjugate Gradient method \citep{nocedal_numerical_1999}.
 Another important property is diagonal dominance.
@@ -417,87 +393,20 @@ Another important property is diagonal dominance.
 
 A matrix $A=(a_{ij})$ is said to be diagonally dominant if
 \begin{equation}
-	\abs{a_{ii}} > \sum_{j\neq i}\abs{a_{ij}} \,\, \mbox{for all}\,\, i \\
+	\abs{a_{jj}} > \sum_{i\neq j}\abs{a_{ij}} \,\, \mbox{for all}\,\, i \\
 \end{equation}
 
-For each row $i$ of the matrix, define the quantity
+For each $i$, define the quantities
 \begin{align}
-	\DD_i &= \abs{a_{ii} - \sum_{i\neq j}\abs{a_{ij}}}
+	\DD_i &= \abs{a_{jj}} \\
+	\NN_i &= \sum_{i\neq j}\abs{a_{ij}} \\
+	\QQ_i &= \DD_i - \NN_i
 \end{align}
 
 Then, $A$ is diagonally dominant if and only if
 \begin{equation}
-	\min_{1\leq i \leq n} \DD_i > 0.
+	\min_{1\leq i \leq n} \QQ_i > 0
 \end{equation}
-
-Consider the row of the matrix corresponding to an arbitrary interior point, from \eqref{eq:diffeq}.
-Then, we have
-\begin{align}
-	D &= a_{ij} + b_{ij} - \frac{\cos\theta_k}{dx} - \frac{\sin\theta_k}{dy}
-	- \pi b_{ij} \sum_{\substack{l=1\\ l\neq k}}^{n_\theta} a_l\beta_{kl}L_{ij}^l
-\end{align}
-
-Hence, we wonder whether we can reasonably restrict ourselves to values for $a$ and $b$ which generate diagonal dominance.
-We attempt to bound $D$ from below.
-First, we must state that 
-\begin{align*}
-	\sum_{\substack{l=1\\ l\neq k}}^{n_\theta} a_l\beta_{kl}
-	&\leq
-	\sum_{l=1}^{n_\theta} a_l\beta_{kl}
-	\shortintertext{$\because \beta,a_i \geq 0$}
-	&\approx \int_0^{2\pi} \beta(\abs{\theta-\theta_k})\, d\theta
-	\shortintertext{by Legendre-Gauss quadrature}
-	&= \int_{0}^{2\pi} \beta(\abs{\theta})\, d\theta
-	\shortintertext{$\because \beta(\abs\cdot)$ is $\pi$-periodic}
-	&= 2 \int_{0}^{\pi} \beta(\theta)\, d\theta
-	\shortintertext{$\because \beta(\cdot)$ is even}
-	&= 2
-	\shortintertext{$\because \beta$ is normalized on $[0,\pi]$}
-\end{align*}
-
-% As further evidence, we include this numerical plot due to the use of $\approx$ above.
-% \begin{figure}[H]
-% 	\centering
-% 	\hspace{-.5in}
-% 	\includegraphics[width=4in]{img/bnd.pdf}
-% 	\caption{Numerical evidence that the above sum is bounded above by 2. The lowest line represents $n_\theta=10$, while the uppermost is $n_\theta=160$.}
-% \end{figure}
-
-Then, we can bound $D$ from below as follows.
-
-\begin{align}
-	D &\geq a_{ij} + b_{ij} - \frac{1}{dx} - \frac{1}{dy}
-	- 2\pi b_{ij} \\
-	&= a_{ij} - (2\pi - 1)b_{ij} - \frac{1}{dx} - \frac{1}{dy} \\
-	&= a_w - (2\pi - 1)b_k - \frac{1}{dx} - \frac{1}{dy} \\
-	&\coloneqq \QQ 
-\end{align}
-since, by \eqref{eq:abs} and \eqref{eq:sct}, $a_{ij} \geq a_w$ and $b_{ij} \leq b_k \, \forall i,j$, assuming that $a_k \geq a_w$ and $b_k \geq b_k$.
-
-If we assume that $dx=dy=ds$, then $\QQ \geq 0$ is equivalent to
-\begin{align*}
-	a_w - (2\pi - 1)b_k &\geq \frac{2}{ds} = 2n_s.
-\end{align*}
-
-For simplicity, we take $a_w=2\pi b_k$. Then, we can be sure that $D \geq 0$ if we take
-\begin{equation}
-	b_k = 4n_s.
-\end{equation}
-
-Then, for example, with $n_s=20$, we take $b_k = 80$, and $a_w = 160\pi$.
-For simplicity, we choose $b_w = 80$, and $a_k=2a_w = 320\pi$.
-Clearly, these coefficients are orders of magnitude higher than the ones we chose in section \ref{sec:setup}.
-
-We verify, however, that the system \textit{is}, in fact, diagonally dominant under these conditions, and iterative methods are successful.
-However, obtaining a numerical solution and plotting the irradiance, we have the following disappointing picture.
-\vspace{-1em}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=4in]{img/ddom.png}
-	\caption{Diagonally dominant systems are very dark.}
-\end{figure}
-
-As we can see, we are not interested in the small subset of cases for which the coefficient matrix is diagonally dominant, as they require huge absorption and scattering coefficients, far beyond what one would expect from a realistic system.
 
 \section{Direct Methods}
 \subsection{Factorizations}
@@ -514,7 +423,7 @@ However, since we are considering the time-independent RTE, that appeal is lost 
 Another major limitation of factorizations is the large amount of memory they require.
 Fundamentally, factorizations require the storage of multiple factors, which need not necessarily preserve the sparsity pattern of the original matrix.
 This limitation is somewhat avoidable with out-of-core computations, whereby matrices are stored directly on the hard drive rather than in memory.
-Computations directly on disk, however, are anywhere from six times to $10^5$ times slower than computations in memory \citep{jacobs_pathologies_2009}.
+Computations directly on disk, however, are anywhere from 6 to $10^5$ times slower than computations in memory \citep{jacobs_pathologies_2009}.
 
 \subsection{Software Packages}
 Many implementations of direct methods exist for particular circumstances.
@@ -522,25 +431,6 @@ Many implementations of direct methods exist for particular circumstances.
 Of those, the banded solver is potentially applicable to the system we consider.
 A variety of more sophisticated free and open source packages for solving sparse systems directly exist, such as \texttt{UMFPACK} \citep{davis_algorithm_2004} and \texttt{MUMPS} \citep{amestoy_mumps:_2001}.
 Both of these algorithms in particular are \textit{multi-frontal}, which is to say that they only keep small slices (fronts) of the matrix in memory at any given time, and perform computations on several fronts in parallel, drastically reducing solution time.
-
-\subsection{Numerical comparison}
-We briefly compare computational time between standard LU, QR, and SVD factorization algorithms, and then show the dramatic speed increase achieved by sparse algorithms.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=3.5in]{img/comp.png}
-	\caption{Standard factorization algorithms applied to sparse matrices are slow.}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=3.5in]{img/spsvd.png}
-	\caption{Sparse-specific algorithms perform much better.}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=3.5in]{img/splu.png}
-	\caption{Note that sparse LU is two orders of magnitude faster than sparse QR.}
-\end{figure}
 
 \section{Stationary Iterative Methods}
 \subsection{Fixed-Point Iteration}
@@ -677,7 +567,7 @@ The $k^{th}$ Krylov Subspace generated by a matrix $A \in \mathbb{R}^{n\times n}
 	K_k(A,v) = \mbox{span}\left\{A^iv\right\}_{i=0}^{i=k-1}
 \end{equation}
 
-The general approach of a Krylov Subspace method is to successively generate Krylov Subspaces by constructing basis vectors for them, and to find the vector contained in each subspace with the minimum residual $r = \norm{Ax-b}$.
+The general approach of a Krylov Subspace method is to successively generate Krylov Subspaces by constructing basis vectors for them, and to find the vector contained in each subspace with the minimum residual $r = \norm{Ax-b}$
 These basis vectors are usually generated with either Arnoldi iteration or bi-Lanczos iteration, both of which apply variants of the Gram-Schmidt orthogonalization process \citep{ghai_comparison_2016}.
 
 The Krylov subspace methods we consider are \texttt{GMRES}, \texttt{LGMRES}, \texttt{BiCG}, \texttt{BiCGSTAB}, \texttt{QMR}, and \texttt{CGS}.
@@ -686,83 +576,14 @@ Two other well known Krylov Subspace Methods are \texttt{CG} and \texttt{MINRES}
 \subsection{Convergence and Preconditioning}
 Unlike nonstationary methods for symmetric positive definite matrices, the convergence properties of \texttt{GMRES}, \texttt{BiCG} and other nonsymmetric nonstationary methods are not well understood.
 Generally, performance tends to worsen with increasing condition number and improve with increasing eigenvalue clustering.
-Preconditioners are very commonly used with Krylov Subspace methods to improve the conditioning of the system in these two regards.
-Common preconditioners are Gauss-Seidel, incomplete LU factorization (ILU), and Algebraic Multigrid (AMG), which are fully explored in \citet{ghai_comparison_2016}
+Preconditioners are very commonly used with Krylov Subspace methods to improve the system in these two regards.
+
+%% Citations??
+\subsubsection{Eigenvalue Clustering}
 
 \section{Numerical Results}
 
-\subsection{Convergence time}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=4in]{img/both_dt_log.pdf}
-	\caption{Comparison of computation time versus matrix dimension for LU and LGMRES. Note that matrix size depends on both $n_s$ and $n_a$, which clearly affect CPU time independently, since a single matrix sizes corresponds to multiple times in the plot}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=4in]{img/lgmres_time.pdf}
-	\caption{Convergence using LGMRES (seconds)}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=4in]{img/lgmres_time_3d.png}
-	\caption{Irradiance plots for several values of $n_s$ and $n_a$, using \texttt{LGMRES}.}
-\end{figure}
-
-
-\end{multicols}
-\pagebreak
-\subsection{Convergence Study}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{img/lgmres_conv.pdf}
-	\caption{Difference between \texttt{LU} and \texttt{LGMRES}. All values are less than \texttt{5e-5}, indicating nearly identical results.}
-\end{figure}
-\begin{multicols}{2}
-
-Note that in the cases with lower angular resolution (e.g. $na=20,ns=100$), the paths along which light can travel are clearly visible as discontinuities occurring along straight lines.
-
-\pagebreak
-\end{multicols}{2}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{img/diffgrid.pdf}
-	\caption{Convergence using LGMRES}
-\end{figure}
-\begin{multicols}{2}
-
-Note
-\pagebreak
-
-
-We show
-\begin{figure}[H]
-	\centering
-	\hspace{-.5in}
-	\includegraphics[width=4in]{img/avgerr.pdf}
-	\caption{Average error per grid point v.s. $80 \times 80$.}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\hspace{-.5in}
-	\includegraphics[width=4in]{img/avgerr_3d.png}
-	\caption{Average error per grid point v.s. $80 \times 80$.}
-\end{figure}
-
-
-
-\section{Conclusions and Further Work}
-
-We explore a variety of numerical solution techniques for the linear system generated by discretizing the Monochromatic Time-Independent Radiative Transfer Equation using finite differences.
-We find that in general, the system fails to be diagonally dominant, and thus stationary iterative methods fail to converge.
-While direct methods are simple and effective for small systems, for large spatial and angular resolutions, they are both slow and require prohibitively large amounts of memory.
-Hence, Krylov subspace methods are found to be the only feasible solution, although their convergence can not be guaranteed.
-In particular, \texttt{LGMRES} was consistently convergent for the set of parameters used in the numerical experiments in this paper.
-It is not certain whether the method would continue to converge upon varying parameters.
-Further, the numerical experiments were carried out using the 210 ordering for the coefficient matrix.
-It may be the case that some methods may converge for other orderings which failed to converge for this one.
-
+\section{Conclusions}
 
 %\nocite{*}
 \bibliographystyle{abbrvnat}
