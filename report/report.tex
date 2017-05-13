@@ -138,7 +138,7 @@ In particular, we consider direct methods, stationary iterative methods, and non
 Numerical experiments are performed using Python's \texttt{scipy.sparse} \citep{jones_scipy:_2001} package for sparse linear algebra.
 \texttt{IPython} \citep{perez_ipython:_2007} was used for interactive numerical experimentation.
 
-Among those implemented, the nonstationary LGMRES \citep{baker_technique_2005} algorithm is the only algorithm determined to be suitable for this application without further work.
+Among those implemented, the nonstationary \texttt{LGMRES} \citep{baker_technique_2005} algorithm is the only algorithm determined to be suitable for this application without further work.
 We discuss limitations and potential improvements, including preconditioning, alternative discretization, and reformulation of the RTE.
 
 \subsection{Radiative Transfer}
@@ -569,7 +569,7 @@ The Krylov subspace methods we consider are \texttt{GMRES}, \texttt{LGMRES}, \te
 Two other well known Krylov Subspace Methods are \texttt{CG} and \texttt{MINRES}, although they are applicable only to symmetric positive definite systems.
 
 \subsection{Convergence and Preconditioning}
-Unlike nonstationary methods for symmetric positive definite matrices, the convergence properties of GMRES, BiCG and other nonsymmetric nonstationary methods are not well understood.
+Unlike nonstationary methods for symmetric positive definite matrices, the convergence properties of \texttt{GMRES}, \texttt{BiCG} and other nonsymmetric nonstationary methods are not well understood.
 Generally, performance tends to worsen with increasing condition number and improve with increasing eigenvalue clustering.
 Preconditioners are very commonly used with Krylov Subspace methods to improve the system in these two regards.
 
