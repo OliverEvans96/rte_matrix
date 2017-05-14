@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -56,6 +56,12 @@ T.~A. Davis.
 \newblock \emph{ACM Transactions on Mathematical Software (TOMS)}, 30\penalty0
   (2):\penalty0 196--199, 2004.
 \newblock URL \url{http://dl.acm.org/citation.cfm?id=992206}.
+
+\bibitem[Gershgorin(1931)]{gershgorin_uber_1931}
+S.~A. Gershgorin.
+\newblock Uber die abgrenzung der eigenwerte einer matrix.
+\newblock \penalty0 (6):\penalty0 749--754, 1931.
+\newblock URL \url{http://www.mathnet.ru/rus/im5235}.
 
 \bibitem[Ghai et~al.(2016)Ghai, Lu, and Jiao]{ghai_comparison_2016}
 A.~Ghai, C.~Lu, and X.~Jiao.

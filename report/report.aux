@@ -65,27 +65,34 @@
 \citation{young_iterative_1971}
 \citation{young_iterative_1971}
 \citation{anderson_analysis_2012}
+\citation{gershgorin_uber_1931}
 \citation{yuan_method_2006}
-\citation{gutknecht_brief_2007}
 \@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Basic Linear Stationary Iterative Methods \citep  {young_iterative_1971}\relax }}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Convergence (or lack thereof)}{7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Gershgorin Disks}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Gershgorin disks for Jacobi method for standard system\relax }}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Gershgorin disks for Jacobi method for diagonally dominant system\relax }}{7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Preconditioning}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces The Jacobi method ran in 47 iterations, taking a total computation time of 3.85 seconds.\relax }}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces GS method completed in 8 iterations and taking a total time of 0.75 seconds.\relax }}{7}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Nonstationary Methods}{7}}
+\citation{gutknecht_brief_2007}
 \citation{ghai_comparison_2016}
 \citation{ghai_comparison_2016}
+\citation{ghai_comparison_2016}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces The Jacobi method ran in 47 iterations, taking a total computation time of 3.85 seconds.\relax }}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces GS method completed in 8 iterations and taking a total time of 0.75 seconds.\relax }}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Nonstationary Methods}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Krylov Subspace Methods}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Convergence and Preconditioning}{8}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Numerical Results}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Convergence time}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Comparison of computation time versus matrix dimension for LU and LGMRES. Note that matrix size depends on both $n_s$ and $n_a$, which clearly affect CPU time independently, since a single matrix sizes corresponds to multiple times in the plot\relax }}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Convergence using LGMRES (seconds)\relax }}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Irradiance plots for several values of $n_s$ and $n_a$, using \texttt  {LGMRES}.\relax }}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Convergence Study}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Difference between \texttt  {LU} and \texttt  {LGMRES}. All values are less than \texttt  {5e-5}, indicating nearly identical results.\relax }}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Convergence using LGMRES\relax }}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Numerical Results}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Computational time for \texttt  {LU} and \texttt  {GMRES}\relax }}{9}}
+\newlabel{fig:conv_time}{{19}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Convergence using \texttt  {LGMRES} (seconds)\relax }}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Irradiance plots for several values of $n_s$ and $n_a$, using \texttt  {LGMRES}.\relax }}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Convergence Study}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Irradiance plots for several spatial and angular resolutions.\relax }}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Difference between \texttt  {LU} and \texttt  {LGMRES}. All values are less than \texttt  {5e-5}, indicating nearly identical results.\relax }}{11}}
+\newlabel{fig:diff}{{23}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Average error per grid point v.s. $100 \times 100$.\relax }}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Average error per grid point v.s. $100 \times 100$.\relax }}{11}}
 \bibstyle{abbrvnat}
 \bibdata{rte_matrix_report}
 \bibcite{amestoy_mumps:_2001}{{1}{2001}{{Amestoy et~al.}}{{Amestoy, Duff, L'Excellent, and Koster}}}
@@ -94,17 +101,16 @@
 \bibcite{baker_technique_2005}{{4}{2005}{{Baker et~al.}}{{Baker, Jessup, and Manteuffel}}}
 \bibcite{chandrasekhar_radiative_1960}{{5}{1960}{{Chandrasekhar}}{{}}}
 \bibcite{davis_algorithm_2004}{{6}{2004}{{Davis}}{{}}}
-\bibcite{ghai_comparison_2016}{{7}{2016}{{Ghai et~al.}}{{Ghai, Lu, and Jiao}}}
-\bibcite{gutknecht_brief_2007}{{8}{2007}{{Gutknecht}}{{}}}
-\bibcite{jacobs_pathologies_2009}{{9}{2009}{{Jacobs}}{{}}}
-\bibcite{jones_scipy:_2001}{{10}{2001}{{Jones et~al.}}{{Jones, Oliphant, Peterson, and {others}}}}
-\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Average error per grid point v.s. $80 \times 80$.\relax }}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Average error per grid point v.s. $80 \times 80$.\relax }}{12}}
+\bibcite{gershgorin_uber_1931}{{7}{1931}{{Gershgorin}}{{}}}
+\bibcite{ghai_comparison_2016}{{8}{2016}{{Ghai et~al.}}{{Ghai, Lu, and Jiao}}}
+\bibcite{gutknecht_brief_2007}{{9}{2007}{{Gutknecht}}{{}}}
+\bibcite{jacobs_pathologies_2009}{{10}{2009}{{Jacobs}}{{}}}
+\bibcite{jones_scipy:_2001}{{11}{2001}{{Jones et~al.}}{{Jones, Oliphant, Peterson, and {others}}}}
+\bibcite{mobley_radiative_2001}{{12}{2001}{{Mobley}}{{}}}
+\bibcite{mobley_volume_2013}{{13}{2013}{{Mobley}}{{}}}
+\bibcite{nocedal_numerical_1999}{{14}{1999}{{Nocedal and Wright}}{{}}}
+\bibcite{perez_ipython:_2007}{{15}{2007}{{P\'erez and Granger}}{{}}}
+\bibcite{petzold_volume_1972}{{16}{1972}{{Petzold}}{{}}}
+\bibcite{young_iterative_1971}{{17}{1971}{{Young}}{{}}}
+\bibcite{yuan_method_2006}{{18}{2006}{{Yuan and Yalamov}}{{}}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions and Further Work}{12}}
-\bibcite{mobley_radiative_2001}{{11}{2001}{{Mobley}}{{}}}
-\bibcite{mobley_volume_2013}{{12}{2013}{{Mobley}}{{}}}
-\bibcite{nocedal_numerical_1999}{{13}{1999}{{Nocedal and Wright}}{{}}}
-\bibcite{perez_ipython:_2007}{{14}{2007}{{P\'erez and Granger}}{{}}}
-\bibcite{petzold_volume_1972}{{15}{1972}{{Petzold}}{{}}}
-\bibcite{young_iterative_1971}{{16}{1971}{{Young}}{{}}}
-\bibcite{yuan_method_2006}{{17}{2006}{{Yuan and Yalamov}}{{}}}
